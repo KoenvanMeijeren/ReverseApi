@@ -201,6 +201,12 @@ namespace ReverseApi.Model
             return row is >= 0 and < BoardSize && column is >= 0 and < BoardSize;
         }
         
+        /// <summary>
+        /// Determines if the position is not filled.
+        /// </summary>
+        /// <param name="row">The row to move to.</param>
+        /// <param name="column">The column of the row.</param>
+        /// <returns>True when the position is not filled.</returns>
         private bool PositionIsNotFilled(int row, int column)
         {
             return this.Board[row, column] == Color.None;
@@ -209,9 +215,9 @@ namespace ReverseApi.Model
         /// <summary>
         /// Checks if the move is inside the board and not already filled.
         /// </summary>
-        /// <param name="row">The row of the move.</param>
-        /// <param name="column">The column of the move.</param>
-        /// <returns></returns>
+        /// <param name="row">The row to move to.</param>
+        /// <param name="column">The column of the row.</param>
+        /// <returns>True when the move is possible.</returns>
         private bool MoveInsideBoardAndFree(int row, int column)
         {
             return Game.PositionInsideBoardBoundaries(row, column) && this.PositionIsNotFilled(row, column);
