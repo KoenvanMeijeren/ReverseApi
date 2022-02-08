@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ReverseApi.Model
 {
@@ -186,13 +182,9 @@ namespace ReverseApi.Model
         {
             for (int delta = 0; delta < BoardSize; delta++)
             {
+                if (this.CanFlipOpponentStones(row, column, color, this._direction[delta, 0], this._direction[delta, 1]))
                 {
-                    if (this.CanFlipOpponentStones(
-                            row, column, color, 
-                            this._direction[delta, 0], this._direction[delta, 1]))
-                    {
-                        return true;
-                    }
+                    return true;
                 }
             }
             
