@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ReverseApi.Model
+﻿namespace ReverseApi.Model
 {
     public enum Color
     {
@@ -22,7 +16,7 @@ namespace ReverseApi.Model
         string TokenPlayerOne { get; set; }
         string TokenPlayerTwo { get; set; }
         Color[,] Board { get; set; }
-        Color HasTurn { get; set; }
+        Color CurrentPlayer { get; set; }
         
         /// <summary>
         /// Allows the player to skip his turn, if possible. Otherwise throws an exception if there are moves possible. 
