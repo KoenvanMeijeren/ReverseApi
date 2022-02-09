@@ -1,6 +1,6 @@
+using System;
 using NUnit.Framework;
 using ReverseApi.Model;
-using System;
 
 namespace Tests
 {
@@ -11,6 +11,90 @@ namespace Tests
         // White = 1
         // Black = 2
 
+        [Test]
+        public void IntialiseerGame()
+        {
+            // Arrange
+            Game game = new Game();
+            //     0 1 2 3 4 5 6 7
+            //                     v
+            // 0   0 0 0 0 0 0 0 0  
+            // 1   0 0 0 0 0 0 0 0
+            // 2   0 0 0 0 0 0 0 0
+            // 3   0 0 0 1 2 0 0 0
+            // 4   0 0 0 2 1 0 0 0
+            // 5   0 0 0 0 0 0 0 0
+            // 6   0 0 0 0 0 0 0 0
+            // 7   0 0 0 0 0 0 0 0
+            //                     1 <
+            // Act
+            game.CurrentPlayer = Color.White;
+            // Assert
+            Assert.AreEqual(Color.White, game.CurrentPlayer);
+            Assert.AreEqual(0, game.Id);
+            Assert.IsNull(game.Description);
+            Assert.IsNull(game.TokenPlayerOne);
+            Assert.IsNull(game.TokenPlayerTwo);
+        }
+        
+        [Test]
+        public void IntialiseerGame_Token_IsUnqiue()
+        {
+            // Arrange
+            Game game = new Game();
+            Game gameTwo = new Game();
+            
+            // Assert
+            Assert.AreNotEqual(game.Token, gameTwo.Token);
+        }
+        
+        [Test]
+        public void AreMovesPossible_ColorNone_SkipTurn_ThrowsException()
+        {
+            // Arrange
+            Game game = new Game();
+            //     0 1 2 3 4 5 6 7
+            //                     v
+            // 0   0 0 0 0 0 0 0 0  
+            // 1   0 0 0 0 0 0 0 0
+            // 2   0 0 0 0 0 0 0 0
+            // 3   0 0 0 1 2 0 0 0
+            // 4   0 0 0 2 1 0 0 0
+            // 5   0 0 0 0 0 0 0 0
+            // 6   0 0 0 0 0 0 0 0
+            // 7   0 0 0 0 0 0 0 0
+            //                     1 <
+            // Act
+            game.CurrentPlayer = Color.None;
+            // Assert
+            Exception ex = Assert.Throws<Exception>(delegate { game.SkipTurn(); });
+            Assert.That(ex.Message, Is.EqualTo("Kleur mag niet gelijk aan Geen zijn!"));
+        }
+        
+        [Test]
+        public void AreMovesPossible_ColorNone_ThrowsException()
+        {
+            // Arrange
+            Game game = new Game();
+            //     0 1 2 3 4 5 6 7
+            //                     v
+            // 0   0 0 0 0 0 0 0 0  
+            // 1   0 0 0 0 0 0 0 0
+            // 2   0 0 0 0 0 0 0 0
+            // 3   0 0 0 1 2 0 0 0
+            // 4   0 0 0 2 1 0 0 0
+            // 5   0 0 0 0 0 0 0 0
+            // 6   0 0 0 0 0 0 0 0
+            // 7   0 0 0 0 0 0 0 0
+            //                     1 <
+            // Act
+            game.CurrentPlayer = Color.None;
+            // Assert
+            Assert.IsFalse(game.IsMovePossible(3, 5));
+            Assert.IsFalse(game.IsMovePossible(3, 3));
+            Assert.IsFalse(game.IsMovePossible(3, 4));
+        }
+        
         [Test]
         public void ZetMogelijk__BuitenBord_Exception()
         {
@@ -28,7 +112,7 @@ namespace Tests
             // 7   0 0 0 0 0 0 0 0
             //                     1 <
             // Act
-            game.HasTurn = Color.White;
+            game.CurrentPlayer = Color.White;
             //var actual = spel.ZetMogelijk(8, 8);
             Exception ex = Assert.Throws<Exception>(delegate { game.IsMovePossible(8, 8); });
             Assert.That(ex.Message, Is.EqualTo("Zet (8,8) ligt buiten het bord!"));
@@ -53,7 +137,7 @@ namespace Tests
             // 7   0 0 0 0 0 0 0 0
 
             // Act
-            game.HasTurn = Color.Black;
+            game.CurrentPlayer = Color.Black;
             var actual = game.IsMovePossible(2, 3);
             // Assert
             Assert.IsTrue(actual);
@@ -76,7 +160,7 @@ namespace Tests
             // 7   0 0 0 0 0 0 0 0
 
             // Act
-            game.HasTurn = Color.White;
+            game.CurrentPlayer = Color.White;
             var actual = game.IsMovePossible(2, 3);
             // Assert
             Assert.IsFalse(actual);
@@ -101,7 +185,7 @@ namespace Tests
             // 6   0 0 0 0 0 0 0 0
             // 7   0 0 0 0 0 0 0 0
             // Act
-            game.HasTurn = Color.Black;
+            game.CurrentPlayer = Color.Black;
             var actual = game.IsMovePossible(0, 3);
             // Assert
             Assert.IsTrue(actual);
@@ -126,7 +210,7 @@ namespace Tests
             // 7   0 0 0 0 0 0 0 0
 
             // Act
-            game.HasTurn = Color.White;
+            game.CurrentPlayer = Color.White;
             var actual = game.IsMovePossible(0, 3);
             // Assert
             Assert.IsFalse(actual);
@@ -156,7 +240,7 @@ namespace Tests
             // 7   0 0 0 2 0 0 0 0
 
             // Act
-            game.HasTurn = Color.Black;
+            game.CurrentPlayer = Color.Black;
             var actual = game.IsMovePossible(0, 3);
             // Assert
             Assert.IsTrue(actual);
@@ -186,7 +270,7 @@ namespace Tests
             // 7   0 0 0 1 0 0 0 0
 
             // Act
-            game.HasTurn = Color.Black;
+            game.CurrentPlayer = Color.Black;
             var actual = game.IsMovePossible(0, 3);
             // Assert
             Assert.IsFalse(actual);
@@ -215,7 +299,7 @@ namespace Tests
             // 6   0 0 0 0 0 0 0 0
             // 7   0 0 0 0 0 0 0 0
             // Act
-            game.HasTurn = Color.Black;
+            game.CurrentPlayer = Color.Black;
             var actual = game.IsMovePossible(4, 7);
             // Assert
             Assert.IsTrue(actual);
@@ -240,7 +324,7 @@ namespace Tests
             // 7   0 0 0 0 0 0 0 0
 
             // Act
-            game.HasTurn = Color.White;
+            game.CurrentPlayer = Color.White;
             var actual = game.IsMovePossible(4, 7);
             // Assert
             Assert.IsFalse(actual);
@@ -270,7 +354,7 @@ namespace Tests
             // 7   0 0 0 0 0 0 0 0
 
             // Act
-            game.HasTurn = Color.Black;
+            game.CurrentPlayer = Color.Black;
             var actual = game.IsMovePossible(4, 7);
             // Assert
             Assert.IsTrue(actual);
@@ -301,7 +385,7 @@ namespace Tests
             // 7   0 0 0 0 0 0 0 0
 
             // Act
-            game.HasTurn = Color.White;
+            game.CurrentPlayer = Color.White;
             var actual = game.IsMovePossible(4, 7);
             // Assert
             Assert.IsFalse(actual);
@@ -338,7 +422,7 @@ namespace Tests
             // 7   0 0 0 0 0 0 0 0
 
             // Act
-            game.HasTurn = Color.White;
+            game.CurrentPlayer = Color.White;
             var actual = game.IsMovePossible(2, 2);
             // Assert
             Assert.IsFalse(actual);
@@ -360,7 +444,7 @@ namespace Tests
             // 7   0 0 0 0 0 0 0 0
 
             // Act
-            game.HasTurn = Color.Black;
+            game.CurrentPlayer = Color.Black;
             var actual = game.IsMovePossible(2, 2);
             // Assert
             Assert.IsFalse(actual);
@@ -386,7 +470,7 @@ namespace Tests
             // 6   0 0 0 0 0 0 0 0
             // 7   0 0 0 0 0 0 0 0
             // Act
-            game.HasTurn = Color.White;
+            game.CurrentPlayer = Color.White;
             var actual = game.IsMovePossible(0, 7);
             // Assert
             Assert.IsTrue(actual);
@@ -411,7 +495,7 @@ namespace Tests
             // 6   0 0 0 0 0 0 0 0
             // 7   0 0 0 0 0 0 0 0
             // Act
-            game.HasTurn = Color.Black;
+            game.CurrentPlayer = Color.Black;
             var actual = game.IsMovePossible(0, 7);
             // Assert
             Assert.IsFalse(actual);
@@ -436,7 +520,7 @@ namespace Tests
             // 6   0 0 0 0 0 0 1 0
             // 7   0 0 0 0 0 0 0 2 <
             // Act
-            game.HasTurn = Color.Black;
+            game.CurrentPlayer = Color.Black;
             var actual = game.IsMovePossible(7, 7);
             // Assert
             Assert.IsTrue(actual);
@@ -461,7 +545,7 @@ namespace Tests
             // 6   0 0 0 0 0 0 1 0
             // 7   0 0 0 0 0 0 0 1
             // Act
-            game.HasTurn = Color.White;
+            game.CurrentPlayer = Color.White;
             var actual = game.IsMovePossible(7, 7);
             // Assert
             Assert.IsFalse(actual);
@@ -486,7 +570,7 @@ namespace Tests
             // 6   0 0 0 0 0 0 0 0
             // 7   0 0 0 0 0 0 0 0 
             // Act
-            game.HasTurn = Color.Black;
+            game.CurrentPlayer = Color.Black;
             var actual = game.IsMovePossible(0, 0);
             // Assert
             Assert.IsTrue(actual);
@@ -511,7 +595,7 @@ namespace Tests
             // 6   0 0 0 0 0 0 0 0
             // 7   0 0 0 0 0 0 0 0          
             // Act
-            game.HasTurn = Color.White;
+            game.CurrentPlayer = Color.White;
             var actual = game.IsMovePossible(0, 0);
             // Assert
             Assert.IsFalse(actual);
@@ -536,7 +620,7 @@ namespace Tests
             // 6   0 2 0 0 0 0 0 0
             // 7   1 0 0 0 0 0 0 0 <
             // Act
-            game.HasTurn = Color.White;
+            game.CurrentPlayer = Color.White;
             var actual = game.IsMovePossible(7, 0);
             // Assert
             Assert.IsTrue(actual);
@@ -561,7 +645,7 @@ namespace Tests
             // 6   0 2 0 0 0 0 0 0
             // 7   2 0 0 0 0 0 0 0
             // Act
-            game.HasTurn = Color.Black;
+            game.CurrentPlayer = Color.Black;
             var actual = game.IsMovePossible(7, 0);
             // Assert
             Assert.IsFalse(actual);
@@ -586,7 +670,7 @@ namespace Tests
             // 7   0 0 0 0 0 0 0 0
             //                     1 <
             // Act
-            game.HasTurn = Color.White;
+            game.CurrentPlayer = Color.White;
             //spel.DoeZet(8, 8);
             Exception ex = Assert.Throws<Exception>(delegate { game.DoMove(8, 8); });
             Assert.That(ex.Message, Is.EqualTo("Zet (8,8) ligt buiten het bord!"));
@@ -597,7 +681,7 @@ namespace Tests
             Assert.AreEqual(Color.Black, game.Board[3, 4]);
             Assert.AreEqual(Color.Black, game.Board[4, 3]);
 
-            Assert.AreEqual(Color.White, game.HasTurn);
+            Assert.AreEqual(Color.White, game.CurrentPlayer);
         }
 
         [Test]
@@ -617,14 +701,14 @@ namespace Tests
             // 7   0 0 0 0 0 0 0 0
 
             // Act
-            game.HasTurn = Color.Black;
+            game.CurrentPlayer = Color.Black;
             game.DoMove(2, 3);
             // Assert
             Assert.AreEqual(Color.Black, game.Board[2, 3]);
             Assert.AreEqual(Color.Black, game.Board[3, 3]);
             Assert.AreEqual(Color.Black, game.Board[4, 3]);
 
-            Assert.AreEqual(Color.White, game.HasTurn);
+            Assert.AreEqual(Color.White, game.CurrentPlayer);
         }
 
         [Test]
@@ -644,7 +728,7 @@ namespace Tests
             // 7   0 0 0 0 0 0 0 0
 
             // Act
-            game.HasTurn = Color.White;
+            game.CurrentPlayer = Color.White;
             Exception ex = Assert.Throws<Exception>(delegate { game.DoMove(2, 3); });
             Assert.That(ex.Message, Is.EqualTo("Zet (2,3) is niet mogelijk!"));
 
@@ -656,7 +740,7 @@ namespace Tests
 
             Assert.AreEqual(Color.None, game.Board[2, 3]);
 
-            Assert.AreEqual(Color.White, game.HasTurn);
+            Assert.AreEqual(Color.White, game.CurrentPlayer);
         }
 
 
@@ -678,7 +762,7 @@ namespace Tests
             // 6   0 0 0 0 0 0 0 0
             // 7   0 0 0 0 0 0 0 0
             // Act
-            game.HasTurn = Color.Black;
+            game.CurrentPlayer = Color.Black;
             game.DoMove(0, 3);
             // Assert
             Assert.AreEqual(Color.Black, game.Board[0, 3]);
@@ -687,7 +771,7 @@ namespace Tests
             Assert.AreEqual(Color.Black, game.Board[3, 3]);
             Assert.AreEqual(Color.Black, game.Board[4, 3]);
 
-            Assert.AreEqual(Color.White, game.HasTurn);
+            Assert.AreEqual(Color.White, game.CurrentPlayer);
         }
 
         [Test]
@@ -709,7 +793,7 @@ namespace Tests
             // 7   0 0 0 0 0 0 0 0
 
             // Act
-            game.HasTurn = Color.White;
+            game.CurrentPlayer = Color.White;
             Exception ex = Assert.Throws<Exception>(delegate { game.DoMove(0, 3); });
             Assert.That(ex.Message, Is.EqualTo("Zet (0,3) is niet mogelijk!"));
 
@@ -750,7 +834,7 @@ namespace Tests
             // 7   0 0 0 2 0 0 0 0
 
             // Act
-            game.HasTurn = Color.Black;
+            game.CurrentPlayer = Color.Black;
             game.DoMove(0, 3);
             // Assert
             Assert.AreEqual(Color.Black, game.Board[0, 3]);
@@ -788,7 +872,7 @@ namespace Tests
             // 7   0 0 0 1 0 0 0 0
 
             // Act
-            game.HasTurn = Color.Black;
+            game.CurrentPlayer = Color.Black;
             Exception ex = Assert.Throws<Exception>(delegate { game.DoMove(0, 3); });
             Assert.That(ex.Message, Is.EqualTo("Zet (0,3) is niet mogelijk!"));
 
@@ -821,7 +905,7 @@ namespace Tests
             // 6   0 0 0 0 0 0 0 0
             // 7   0 0 0 0 0 0 0 0
             // Act
-            game.HasTurn = Color.Black;
+            game.CurrentPlayer = Color.Black;
             game.DoMove(4, 7);
             // Assert
             Assert.AreEqual(Color.Black, game.Board[4, 3]);
@@ -850,7 +934,7 @@ namespace Tests
             // 7   0 0 0 0 0 0 0 0
 
             // Act
-            game.HasTurn = Color.White;
+            game.CurrentPlayer = Color.White;
             //spel.DoeZet(4, 7);
             Exception ex = Assert.Throws<Exception>(delegate { game.DoMove(4, 7); });
             Assert.That(ex.Message, Is.EqualTo("Zet (4,7) is niet mogelijk!"));
@@ -891,7 +975,7 @@ namespace Tests
             // 7   0 0 0 0 0 0 0 0
 
             // Act
-            game.HasTurn = Color.Black;
+            game.CurrentPlayer = Color.Black;
             game.DoMove(4, 7);
             // Assert
             Assert.AreEqual(Color.Black, game.Board[4, 0]);
@@ -929,7 +1013,7 @@ namespace Tests
             // 7   0 0 0 0 0 0 0 0
 
             // Act
-            game.HasTurn = Color.White;
+            game.CurrentPlayer = Color.White;
 
             Exception ex = Assert.Throws<Exception>(delegate { game.DoMove(4, 7); });
             Assert.That(ex.Message, Is.EqualTo("Zet (4,7) is niet mogelijk!"));
@@ -980,7 +1064,7 @@ namespace Tests
             // 7   0 0 0 0 0 0 0 0
 
             // Act
-            game.HasTurn = Color.White;
+            game.CurrentPlayer = Color.White;
             Exception ex = Assert.Throws<Exception>(delegate { game.DoMove(2, 2); });
             Assert.That(ex.Message, Is.EqualTo("Zet (2,2) is niet mogelijk!"));
 
@@ -1010,7 +1094,7 @@ namespace Tests
             // 7   0 0 0 0 0 0 0 0
 
             // Act
-            game.HasTurn = Color.Black;
+            game.CurrentPlayer = Color.Black;
             Exception ex = Assert.Throws<Exception>(delegate { game.DoMove(2, 2); });
             Assert.That(ex.Message, Is.EqualTo("Zet (2,2) is niet mogelijk!"));
 
@@ -1043,7 +1127,7 @@ namespace Tests
             // 6   0 0 0 0 0 0 0 0
             // 7   0 0 0 0 0 0 0 0
             // Act
-            game.HasTurn = Color.White;
+            game.CurrentPlayer = Color.White;
             game.DoMove(0, 7);
             // Assert
             Assert.AreEqual(Color.White, game.Board[5, 2]);
@@ -1073,7 +1157,7 @@ namespace Tests
             // 6   0 0 0 0 0 0 0 0
             // 7   0 0 0 0 0 0 0 0
             // Act
-            game.HasTurn = Color.Black;
+            game.CurrentPlayer = Color.Black;
             Exception ex = Assert.Throws<Exception>(delegate { game.DoMove(0, 7); });
             Assert.That(ex.Message, Is.EqualTo("Zet (0,7) is niet mogelijk!"));
 
@@ -1110,7 +1194,7 @@ namespace Tests
             // 6   0 0 0 0 0 0 1 0
             // 7   0 0 0 0 0 0 0 2 <
             // Act
-            game.HasTurn = Color.Black;
+            game.CurrentPlayer = Color.Black;
             game.DoMove(7, 7);
             // Assert
             Assert.AreEqual(Color.Black, game.Board[2, 2]);
@@ -1140,7 +1224,7 @@ namespace Tests
             // 6   0 0 0 0 0 0 1 0
             // 7   0 0 0 0 0 0 0 1 <
             // Act
-            game.HasTurn = Color.White;
+            game.CurrentPlayer = Color.White;
             Exception ex = Assert.Throws<Exception>(delegate { game.DoMove(7, 7); });
             Assert.That(ex.Message, Is.EqualTo("Zet (7,7) is niet mogelijk!"));
 
@@ -1176,7 +1260,7 @@ namespace Tests
             // 6   0 0 0 0 0 0 0 0
             // 7   0 0 0 0 0 0 0 0 
             // Act
-            game.HasTurn = Color.Black;
+            game.CurrentPlayer = Color.Black;
             game.DoMove(0, 0);
             // Assert
             Assert.AreEqual(Color.Black, game.Board[0, 0]);
@@ -1206,7 +1290,7 @@ namespace Tests
             // 6   0 0 0 0 0 0 0 0
             // 7   0 0 0 0 0 0 0 0          
             // Act
-            game.HasTurn = Color.White;
+            game.CurrentPlayer = Color.White;
             //spel.DoeZet(0, 0);
             Exception ex = Assert.Throws<Exception>(delegate { game.DoMove(0, 0); });
             Assert.That(ex.Message, Is.EqualTo("Zet (0,0) is niet mogelijk!"));
@@ -1245,7 +1329,7 @@ namespace Tests
             // 6   0 2 0 0 0 0 0 0
             // 7   1 0 0 0 0 0 0 0 <
             // Act
-            game.HasTurn = Color.White;
+            game.CurrentPlayer = Color.White;
             game.DoMove(7, 0);
             // Assert
             Assert.AreEqual(Color.White, game.Board[7, 0]);
@@ -1275,7 +1359,7 @@ namespace Tests
             // 6   0 2 0 0 0 0 0 0
             // 7   2 0 0 0 0 0 0 0 <
             // Act
-            game.HasTurn = Color.Black;
+            game.CurrentPlayer = Color.Black;
             Exception ex = Assert.Throws<Exception>(delegate { game.DoMove(7, 0); });
             Assert.That(ex.Message, Is.EqualTo("Zet (7,0) is niet mogelijk!"));
 
@@ -1375,10 +1459,10 @@ namespace Tests
             // 6   1 1 1 1 1 1 1 0
             // 7   1 1 1 1 1 1 1 1
             // Act
-            game.HasTurn = Color.Black;
+            game.CurrentPlayer = Color.Black;
             game.SkipTurn();
             // Assert
-            Assert.AreEqual(Color.White, game.HasTurn);
+            Assert.AreEqual(Color.White, game.CurrentPlayer);
         }
 
         [Test]
@@ -1462,10 +1546,56 @@ namespace Tests
             // 6   1 1 1 1 1 1 1 0
             // 7   1 1 1 1 1 1 1 1
             // Act
-            game.HasTurn = Color.White;
+            game.CurrentPlayer = Color.White;
             game.SkipTurn();
             // Assert
-            Assert.AreEqual(Color.Black, game.HasTurn);
+            Assert.AreEqual(Color.Black, game.CurrentPlayer);
+        }
+        
+        [Test]
+        public void Pas_WitAanZetEnZetMogelijk_ThrowsException()
+        {
+            // Arrange  (zowel wit als zwart kunnen niet meer)
+            Game game = new Game();
+            //     0 1 2 3 4 5 6 7
+            //                     v
+            // 0   0 0 0 0 0 0 0 0  
+            // 1   0 0 0 0 0 0 0 0
+            // 2   0 0 0 0 0 0 0 0
+            // 3   0 0 0 1 2 0 0 0
+            // 4   0 0 0 2 1 0 0 0
+            // 5   0 0 0 0 0 0 0 0
+            // 6   0 0 0 0 0 0 0 0
+            // 7   0 0 0 0 0 0 0 0
+            //                     1 <
+            // Act
+            game.CurrentPlayer = Color.White;
+            // Assert
+            Exception ex = Assert.Throws<Exception>(delegate { game.SkipTurn(); });
+            Assert.That(ex.Message, Is.EqualTo("Passen mag niet, er is nog een zet mogelijk"));
+        }
+        
+        [Test]
+        public void Pas_ZwartAanZetEnZetMogelijk_ThrowsException()
+        {
+            // Arrange  (zowel wit als zwart kunnen niet meer)
+            Game game = new Game();
+            //     0 1 2 3 4 5 6 7
+            //                     v
+            // 0   0 0 0 0 0 0 0 0  
+            // 1   0 0 0 0 0 0 0 0
+            // 2   0 0 0 0 0 0 0 0
+            // 3   0 0 0 1 2 0 0 0
+            // 4   0 0 0 2 1 0 0 0
+            // 5   0 0 0 0 0 0 0 0
+            // 6   0 0 0 0 0 0 0 0
+            // 7   0 0 0 0 0 0 0 0
+            //                     1 <
+            // Act
+            game.CurrentPlayer = Color.Black;
+            // Assert
+            Exception ex = Assert.Throws<Exception>(delegate { game.SkipTurn(); });
+            Assert.That(ex.Message, Is.EqualTo("Passen mag niet, er is nog een zet mogelijk"));
         }
 
         [Test]
@@ -1549,7 +1679,7 @@ namespace Tests
             // 6   1 1 1 1 1 1 1 0
             // 7   1 1 1 1 1 1 1 1
             // Act
-            game.HasTurn = Color.White;
+            game.CurrentPlayer = Color.White;
             var actual = game.IsFinished();
             // Assert
             Assert.IsTrue(actual);
@@ -1636,7 +1766,7 @@ namespace Tests
             // 6   1 1 1 1 1 1 1 2
             // 7   1 1 1 1 1 1 1 1
             // Act
-            game.HasTurn = Color.White;
+            game.CurrentPlayer = Color.White;
             var actual = game.IsFinished();
             // Assert
             Assert.IsTrue(actual);
@@ -1659,7 +1789,7 @@ namespace Tests
             // 7   0 0 0 0 0 0 0 0
             //                     
             // Act
-            game.HasTurn = Color.White;
+            game.CurrentPlayer = Color.White;
             var actual = game.IsFinished();
             // Assert
             Assert.IsFalse(actual);
