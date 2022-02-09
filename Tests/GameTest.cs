@@ -12,6 +12,90 @@ namespace Tests
         // Black = 2
 
         [Test]
+        public void IntialiseerGame()
+        {
+            // Arrange
+            Game game = new Game();
+            //     0 1 2 3 4 5 6 7
+            //                     v
+            // 0   0 0 0 0 0 0 0 0  
+            // 1   0 0 0 0 0 0 0 0
+            // 2   0 0 0 0 0 0 0 0
+            // 3   0 0 0 1 2 0 0 0
+            // 4   0 0 0 2 1 0 0 0
+            // 5   0 0 0 0 0 0 0 0
+            // 6   0 0 0 0 0 0 0 0
+            // 7   0 0 0 0 0 0 0 0
+            //                     1 <
+            // Act
+            game.CurrentPlayer = Color.White;
+            // Assert
+            Assert.AreEqual(Color.White, game.CurrentPlayer);
+            Assert.AreEqual(0, game.Id);
+            Assert.IsNull(game.Description);
+            Assert.IsNull(game.TokenPlayerOne);
+            Assert.IsNull(game.TokenPlayerTwo);
+        }
+        
+        [Test]
+        public void IntialiseerGame_Token_IsUnqiue()
+        {
+            // Arrange
+            Game game = new Game();
+            Game gameTwo = new Game();
+            
+            // Assert
+            Assert.AreNotEqual(game.Token, gameTwo.Token);
+        }
+        
+        [Test]
+        public void AreMovesPossible_ColorNone_SkipTurn_ThrowsException()
+        {
+            // Arrange
+            Game game = new Game();
+            //     0 1 2 3 4 5 6 7
+            //                     v
+            // 0   0 0 0 0 0 0 0 0  
+            // 1   0 0 0 0 0 0 0 0
+            // 2   0 0 0 0 0 0 0 0
+            // 3   0 0 0 1 2 0 0 0
+            // 4   0 0 0 2 1 0 0 0
+            // 5   0 0 0 0 0 0 0 0
+            // 6   0 0 0 0 0 0 0 0
+            // 7   0 0 0 0 0 0 0 0
+            //                     1 <
+            // Act
+            game.CurrentPlayer = Color.None;
+            // Assert
+            Exception ex = Assert.Throws<Exception>(delegate { game.SkipTurn(); });
+            Assert.That(ex.Message, Is.EqualTo("Kleur mag niet gelijk aan Geen zijn!"));
+        }
+        
+        [Test]
+        public void AreMovesPossible_ColorNone_ThrowsException()
+        {
+            // Arrange
+            Game game = new Game();
+            //     0 1 2 3 4 5 6 7
+            //                     v
+            // 0   0 0 0 0 0 0 0 0  
+            // 1   0 0 0 0 0 0 0 0
+            // 2   0 0 0 0 0 0 0 0
+            // 3   0 0 0 1 2 0 0 0
+            // 4   0 0 0 2 1 0 0 0
+            // 5   0 0 0 0 0 0 0 0
+            // 6   0 0 0 0 0 0 0 0
+            // 7   0 0 0 0 0 0 0 0
+            //                     1 <
+            // Act
+            game.CurrentPlayer = Color.None;
+            // Assert
+            Assert.IsFalse(game.IsMovePossible(3, 5));
+            Assert.IsFalse(game.IsMovePossible(3, 3));
+            Assert.IsFalse(game.IsMovePossible(3, 4));
+        }
+        
+        [Test]
         public void ZetMogelijk__BuitenBord_Exception()
         {
             // Arrange
@@ -1466,6 +1550,52 @@ namespace Tests
             game.SkipTurn();
             // Assert
             Assert.AreEqual(Color.Black, game.CurrentPlayer);
+        }
+        
+        [Test]
+        public void Pas_WitAanZetEnZetMogelijk_ThrowsException()
+        {
+            // Arrange  (zowel wit als zwart kunnen niet meer)
+            Game game = new Game();
+            //     0 1 2 3 4 5 6 7
+            //                     v
+            // 0   0 0 0 0 0 0 0 0  
+            // 1   0 0 0 0 0 0 0 0
+            // 2   0 0 0 0 0 0 0 0
+            // 3   0 0 0 1 2 0 0 0
+            // 4   0 0 0 2 1 0 0 0
+            // 5   0 0 0 0 0 0 0 0
+            // 6   0 0 0 0 0 0 0 0
+            // 7   0 0 0 0 0 0 0 0
+            //                     1 <
+            // Act
+            game.CurrentPlayer = Color.White;
+            // Assert
+            Exception ex = Assert.Throws<Exception>(delegate { game.SkipTurn(); });
+            Assert.That(ex.Message, Is.EqualTo("Passen mag niet, er is nog een zet mogelijk"));
+        }
+        
+        [Test]
+        public void Pas_ZwartAanZetEnZetMogelijk_ThrowsException()
+        {
+            // Arrange  (zowel wit als zwart kunnen niet meer)
+            Game game = new Game();
+            //     0 1 2 3 4 5 6 7
+            //                     v
+            // 0   0 0 0 0 0 0 0 0  
+            // 1   0 0 0 0 0 0 0 0
+            // 2   0 0 0 0 0 0 0 0
+            // 3   0 0 0 1 2 0 0 0
+            // 4   0 0 0 2 1 0 0 0
+            // 5   0 0 0 0 0 0 0 0
+            // 6   0 0 0 0 0 0 0 0
+            // 7   0 0 0 0 0 0 0 0
+            //                     1 <
+            // Act
+            game.CurrentPlayer = Color.Black;
+            // Assert
+            Exception ex = Assert.Throws<Exception>(delegate { game.SkipTurn(); });
+            Assert.That(ex.Message, Is.EqualTo("Passen mag niet, er is nog een zet mogelijk"));
         }
 
         [Test]

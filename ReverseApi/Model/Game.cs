@@ -108,10 +108,8 @@ namespace ReverseApi.Model
                         case Color.Black:
                             blackCount++;
                             continue;
-                        case Color.None:
-                            continue;
                         default:
-                            throw new ArgumentOutOfRangeException();
+                            continue;
                     }
                 }
             }
