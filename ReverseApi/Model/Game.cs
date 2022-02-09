@@ -141,16 +141,6 @@ namespace ReverseApi.Model
         }
 
         /// <inheritdoc/>
-        /// private readonly int[,] _direction = new int[8, 2] {
-        /// {  0,  1 },         // rightwards
-        /// {  0, -1 },         // leftwards
-        /// {  1,  0 },         // downwards
-        /// { -1,  0 },         // towards
-        /// {  1,  1 },         // downwards to right
-        /// {  1, -1 },         // downwards to left
-        /// { -1,  1 },         // towards to right
-        /// { -1, -1 }          // towards to left
-        /// };
         public void DoMove(int row, int column)
         {
             if (!this.IsMovePossible(row, column))
@@ -158,16 +148,15 @@ namespace ReverseApi.Model
                 throw new Exception($"Zet ({row},{column}) is niet mogelijk!");
             }
 
-            this.Board[row, column] = this.CurrentPlayer;
             for (int delta = 0; delta < BoardSize; delta++)
             {
-                int nextRow = row, nextColumn = column;
                 var rowDirection = this._direction[delta, 0];
                 var columnDirection = this._direction[delta, 1];
 
-                this.FlipOpponentStones(nextRow, nextColumn, this.CurrentPlayer, rowDirection, columnDirection);
+                this.FlipOpponentStones(row, column, this.CurrentPlayer, rowDirection, columnDirection);
             }
             
+            this.Board[row, column] = this.CurrentPlayer;
             this.ChangeTurn();
         }
 
@@ -316,39 +305,6 @@ namespace ReverseApi.Model
                    && adjacentOpponentStones > 0;
         }
 
-        private bool CheckFlippingStones(int row, int column, Color colorPlayer, int rowDirection, int columnDirection)
-        {
-            if (!Game.PositionInsideBoardBoundaries(row, column))
-            {
-                return false;
-            }
-            
-            // Initializes the row and column on the index before the first box next to the move.
-            var currentRow = row + rowDirection;
-            var currentColumn = column + columnDirection;
-            Color colorOpponent = Game.GetColorOpponent(colorPlayer);
-
-            int adjacentOpponentStones = 0;
-            // Zolang Bord[rij,kolom] niet buiten de bordgrenzen ligt, en je in het volgende vakje 
-            // steeds de kleur van de tegenstander treft, ga je nog een vakje verder kijken.
-            // Bord[rij, kolom] ligt uiteindelijk buiten de bordgrenzen, of heeft niet meer de
-            // de kleur van de tegenstander.
-            // N.b.: deel achter && wordt alleen uitgevoerd als conditie daarvoor true is.
-            while (Game.PositionInsideBoardBoundaries(currentRow, currentColumn) && this.Board[currentRow, currentColumn] == colorOpponent)
-            {
-                currentRow += rowDirection;
-                currentColumn += columnDirection;
-                adjacentOpponentStones++;
-            }
-
-            // Nu kijk je hoe je geeindigt bent met bovenstaande loop. Alleen
-            // als alle drie onderstaande condities waar zijn, zijn er in de
-            // opgegeven richting stenen in te sluiten.
-            return Game.PositionInsideBoardBoundaries(currentRow, currentColumn) 
-                   && this.Board[currentRow, currentColumn] == colorPlayer 
-                   && adjacentOpponentStones > 0;
-        }
-        
         /// <summary>
         /// Flips the stones of the opponent.
         /// </summary>
@@ -360,7 +316,7 @@ namespace ReverseApi.Model
         /// <returns>True if the stones where flipped.</returns>
         private bool FlipOpponentStones(int row, int column, Color colorPlayer, int rowDirection, int columnDirection)
         {
-            if (!this.CheckFlippingStones(row, column, colorPlayer, rowDirection, columnDirection))
+            if (!this.CanMakeMoveAndFlipOpponentStones(row, column, colorPlayer, rowDirection, columnDirection))
             {
                 return false;
             }
