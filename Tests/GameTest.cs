@@ -1,6 +1,6 @@
 using System;
 using NUnit.Framework;
-using ReverseApi.Model;
+using ReversiApi.Model;
 
 namespace Tests
 {
