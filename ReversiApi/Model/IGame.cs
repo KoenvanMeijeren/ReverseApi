@@ -1,11 +1,14 @@
 ﻿namespace ReversiApi.Model;
 
+/// <summary>
+/// Provides an enumeration for the colors.
+/// </summary>
 public enum Color
 {
     None, 
     White, 
     Black
-};
+}
 
 /// <summary>
 /// Provides an interface for game object.
