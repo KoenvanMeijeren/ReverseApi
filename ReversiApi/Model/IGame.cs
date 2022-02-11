@@ -7,6 +7,9 @@ public enum Color
     Black
 };
 
+/// <summary>
+/// Provides an interface for game object.
+/// </summary>
 public interface IGame
 {
     int Id { get; set; }
