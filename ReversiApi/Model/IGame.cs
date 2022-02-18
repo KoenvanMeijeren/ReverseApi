@@ -10,11 +10,11 @@ public enum Color
 public interface IGame
 {
     int Id { get; set; }
-    string Description { get; set; }
+    string? Description { get; set; }
     // The unique token of the game.
     string Token { get; set; }
-    string TokenPlayerOne { get; set; }
-    string TokenPlayerTwo { get; set; }
+    string? TokenPlayerOne { get; set; }
+    string? TokenPlayerTwo { get; set; }
     Color[,] Board { get; set; }
     Color CurrentPlayer { get; set; }
         

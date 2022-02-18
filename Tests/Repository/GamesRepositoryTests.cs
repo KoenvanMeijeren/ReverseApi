@@ -51,6 +51,45 @@ public class GamesRepositoryTests
     }
 
     [Test]
+    public void GetOneGameByPlayerOne()
+    {
+        var token = this._repository.All().First().TokenPlayerOne;
+        var game = this._repository.GetByPlayerOne(token);
+        
+        Assert.IsNotNull(game);
+        Assert.AreEqual("Potje snel reveri, dus niet lang nadenken", game.Description);
+        Assert.AreEqual(token, game.TokenPlayerOne);
+        Assert.IsNull( game.TokenPlayerTwo);
+    }
+    
+    [Test]
+    public void CannotGetGameForNonExistingPlayerOneToken()
+    {
+        Assert.IsNull(this._repository.GetByPlayerOne(null));
+        Assert.IsNull(this._repository.GetByPlayerOne("test"));
+        Assert.IsNull(this._repository.GetByPlayerOne("1"));
+    }
+    
+    [Test]
+    public void GetOneGameByPlayerTwo()
+    {
+        var game = this._repository.GetByPlayerTwo("mnopqr");
+        
+        Assert.IsNotNull(game);
+        Assert.AreEqual("Ik zoek een gevorderde tegenspeler!", game.Description);
+        Assert.AreEqual("ghijkl", game.TokenPlayerOne);
+        Assert.AreEqual("mnopqr", game.TokenPlayerTwo);
+    }
+    
+    [Test]
+    public void CannotGetGameForNonExistingPlayerTwoToken()
+    {
+        Assert.IsNull(this._repository.GetByPlayerTwo(null));
+        Assert.IsNull(this._repository.GetByPlayerTwo("test"));
+        Assert.IsNull(this._repository.GetByPlayerTwo("1"));
+    }
+    
+    [Test]
     public void AddGame()
     {
         var repository = new GamesRepository();

@@ -25,10 +25,10 @@ public class Game : IGame
     #region Properties
 
     public int Id { get; set; }
-    public string Description { get; set; }
+    public string? Description { get; set; }
     public string Token { get; set; }
-    public string TokenPlayerOne { get; set; }
-    public string TokenPlayerTwo { get; set; }
+    public string? TokenPlayerOne { get; set; }
+    public string? TokenPlayerTwo { get; set; }
     public Color[,] Board { get; set; }
     public Color CurrentPlayer { get; set; }
 

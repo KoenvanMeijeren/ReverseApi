@@ -2,7 +2,7 @@
 
 public class GameCreateDto
 {
-    public string TokenPlayerOne { get; set; }
-    public string Description { get; set; }
+    public string? TokenPlayerOne { get; set; }
+    public string? Description { get; set; }
 
 }
