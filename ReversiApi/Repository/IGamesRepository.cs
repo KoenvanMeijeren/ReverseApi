@@ -30,5 +30,5 @@ public interface IGamesRepository
     /// </summary>
     /// <param name="token">The unique token of the game.</param>
     /// <returns>The game.</returns>
-    IGame Get(string token);
+    IGame? Get(string token);
 }

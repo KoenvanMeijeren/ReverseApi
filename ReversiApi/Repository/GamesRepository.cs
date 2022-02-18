@@ -46,7 +46,7 @@ public class GamesRepository : IGamesRepository
     }
 
     /// <inheritdoc />
-    public IGame Get(string token)
+    public IGame? Get(string token)
     {
         return this._games.Find(game => game.Token.Equals(token));
     }
