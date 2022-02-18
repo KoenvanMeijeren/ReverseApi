@@ -2,10 +2,10 @@
 using System.Linq;
 using NuGet.Protocol;
 using NUnit.Framework;
-using ReverseApi.Controllers;
-using ReverseApi.Model;
-using ReverseApi.Model.DataTransferObject.Game;
-using ReverseApi.Repository;
+using ReversiApi.Controllers;
+using ReversiApi.Model;
+using ReversiApi.Model.DataTransferObject.Game;
+using ReversiApi.Repository;
 
 namespace Tests.Controller;
 

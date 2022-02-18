@@ -1,11 +1,10 @@
-using System.Collections.Generic;
-using System.Linq;
+#nullable enable
 using Microsoft.AspNetCore.Mvc;
-using ReverseApi.Model;
-using ReverseApi.Model.DataTransferObject.Game;
-using ReverseApi.Repository;
+using ReversiApi.Model;
+using ReversiApi.Model.DataTransferObject.Game;
+using ReversiApi.Repository;
 
-namespace ReverseApi.Controllers
+namespace ReversiApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

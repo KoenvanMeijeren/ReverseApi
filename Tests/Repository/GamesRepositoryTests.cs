@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using NUnit.Framework;
-using ReverseApi.Model;
-using ReverseApi.Repository;
+using ReversiApi.Model;
+using ReversiApi.Repository;
 
 namespace Tests.Repository;
 

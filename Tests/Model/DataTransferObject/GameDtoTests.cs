@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
-using ReverseApi.Model;
-using ReverseApi.Model.DataTransferObject.Game;
+using ReversiApi.Model;
+using ReversiApi.Model.DataTransferObject.Game;
 
 namespace Tests.Model.DataTransferObject;
 

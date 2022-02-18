@@ -8,7 +8,7 @@ public class Game : IGame
     #region Fields
 
     private const int BoardSize = 8;
-    
+        
     private readonly int[,] _direction = new int[8, 2] {
         {  0,  1 },         // rightwards
         {  0, -1 },         // leftwards
@@ -33,7 +33,7 @@ public class Game : IGame
     public Color CurrentPlayer { get; set; }
 
     #endregion
-    
+        
     public Game()
     {
         this.Token = Game.GenerateToken();
@@ -121,7 +121,7 @@ public class Game : IGame
         {
             return Color.Black;
         }
-        
+            
         return Color.None;
     }
 
@@ -132,7 +132,7 @@ public class Game : IGame
         {
             throw new Exception($"Zet ({row},{column}) ligt buiten het bord!");
         }
-        
+            
         return this.IsMovePossible(row, column, this.CurrentPlayer);
     }
 
@@ -151,7 +151,7 @@ public class Game : IGame
 
             this.FlipOpponentStones(row, column, this.CurrentPlayer, rowDirection, columnDirection);
         }
-        
+            
         this.Board[row, column] = this.CurrentPlayer;
         this.ChangeTurn();
     }
@@ -183,7 +183,7 @@ public class Game : IGame
         {
             throw new Exception("Kleur mag niet gelijk aan Geen zijn!");
         }
-        
+            
         // Checks if there is a move possible for a color.
         for (int row = 0; row < BoardSize; row++)
         {
@@ -214,7 +214,7 @@ public class Game : IGame
                 return true;
             }
         }
-        
+            
         return false;
     }
 
@@ -236,7 +236,7 @@ public class Game : IGame
     {
         return row is >= 0 and < BoardSize && column is >= 0 and < BoardSize;
     }
-    
+        
     /// <summary>
     /// Determines if the position is not filled.
     /// </summary>
@@ -274,7 +274,7 @@ public class Game : IGame
         {
             return false;
         }
-        
+            
         // Initializes the row and column on the index before the first box next to the move.
         var currentRow = row + rowDirection;
         var currentColumn = column + columnDirection;
@@ -316,7 +316,7 @@ public class Game : IGame
         {
             return false;
         }
-     
+         
         Color colorOpponent = Game.GetColorOpponent(colorPlayer);
         var currentRow = row + rowDirection;
         var currentColumn = column + columnDirection;
@@ -329,7 +329,7 @@ public class Game : IGame
             currentRow += rowDirection;
             currentColumn += columnDirection;
         }
-        
+            
         return true;
     }
 }

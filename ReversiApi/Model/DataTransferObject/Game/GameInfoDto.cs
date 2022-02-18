@@ -1,5 +1,5 @@
 ﻿#nullable enable
-namespace ReverseApi.Model.DataTransferObject.Game;
+namespace ReversiApi.Model.DataTransferObject.Game;
 
 public class GameInfoDto
 {

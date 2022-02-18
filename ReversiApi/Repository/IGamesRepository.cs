@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using ReverseApi.Model;
+﻿using ReversiApi.Model;
 
-namespace ReverseApi.Repository;
+namespace ReversiApi.Repository;
 
 /// <summary>
 /// Provides an interface for games repository.
