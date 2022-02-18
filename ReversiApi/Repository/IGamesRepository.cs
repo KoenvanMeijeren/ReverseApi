@@ -30,5 +30,19 @@ public interface IGamesRepository
     /// </summary>
     /// <param name="token">The unique token of the game.</param>
     /// <returns>The game.</returns>
-    IGame? Get(string token);
+    IGame? Get(string? token);
+    
+    /// <summary>
+    /// Gets the game by the token of player one.
+    /// </summary>
+    /// <param name="token">The unique token of the game.</param>
+    /// <returns>The game.</returns>
+    IGame? GetByPlayerOne(string? token);
+    
+    /// <summary>
+    /// Gets the game by the token of player two.
+    /// </summary>
+    /// <param name="token">The unique token of the game.</param>
+    /// <returns>The game.</returns>
+    IGame? GetByPlayerTwo(string? token);
 }

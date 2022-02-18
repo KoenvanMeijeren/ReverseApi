@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿#nullable enable
+using System.Collections.Generic;
 using System.Linq;
 using NuGet.Protocol;
 using NUnit.Framework;
@@ -90,6 +91,82 @@ public class GameControllerTest
     }
 
     [Test]
+    public void NotEmpty_GetGameByPlayerOneToken()
+    {
+        // Arrange
+        var repository = new GamesRepositoryTest();
+        var controller = new GameController(repository);
+
+        // Act
+        var response = controller.GetByPlayerOneToken("abcdef");
+        var json = response.ToJson();
+        
+        // Assert
+        Assert.IsNotEmpty(json);
+        Assert.IsTrue(json.Contains("200"));
+        Assert.IsTrue(json.Contains("Result"));
+        Assert.IsTrue(json.Contains("Value"));
+        Assert.IsTrue(json.Contains("Potje snel reveri"));
+    }
+    
+    [Test]
+    public void Empty_GetGameByPlayerOneToken()
+    {
+        // Arrange
+        var repository = new GamesRepositoryEmptyTest();
+        var controller = new GameController(repository);
+
+        // Act
+        var response = controller.GetByPlayerOneToken("test");
+        var response1 = controller.GetByPlayerOneToken(null);
+        var json = response.ToJson();
+        var json1 = response1.ToJson();
+        
+        // Assert
+        Assert.IsTrue(json.Contains("404"));
+        Assert.IsTrue(json1.Contains("404"));
+    }
+    
+    [Test]
+    public void NotEmpty_GetGameByPlayerTwoToken()
+    {
+        // Arrange
+        var repository = new GamesRepositoryTest();
+        var controller = new GameController(repository);
+
+        // Act
+        var response = controller.GetByPlayerTwoToken("mnopqr");
+        var json = response.ToJson();
+        
+        // Assert
+        Assert.IsNotEmpty(json);
+        Assert.IsTrue(json.Contains("200"));
+        Assert.IsTrue(json.Contains("Result"));
+        Assert.IsTrue(json.Contains("Value"));
+        Assert.IsTrue(json.Contains("Ik zoek een"));
+    }
+    
+    [Test]
+    public void Empty_GetGameByPlayerTwoToken()
+    {
+        // Arrange
+        var repository = new GamesRepositoryEmptyTest();
+        var controller = new GameController(repository);
+
+        // Act
+        var response = controller.GetByPlayerTwoToken("test");
+        var response1 = controller.GetByPlayerTwoToken(null);
+        var json = response.ToJson();
+        var json1 = response1.ToJson();
+        
+        // Assert
+        Assert.IsTrue(json.Contains("404"));
+        Assert.IsTrue(json1.Contains("404"));
+    }
+
+
+    
+    [Test]
     public void PostGame_Valid()
     {
         // Arrange
@@ -148,7 +225,7 @@ public class GameControllerTest
 
 class GamesRepositoryTest : IGamesRepository
 {
-    private List<IGame> _games;
+    private readonly List<IGame> _games;
 
     public GamesRepositoryTest()
     {
@@ -186,15 +263,27 @@ class GamesRepositoryTest : IGamesRepository
     }
 
     /// <inheritdoc />
-    public IGame Get(string token)
+    public IGame? Get(string token)
     {
         return this._games.Find(game => game.Token.Equals(token));
+    }
+
+    /// <inheritdoc />
+    public IGame? GetByPlayerOne(string token)
+    {
+        return this._games.Find(game => game.TokenPlayerOne != null && game.TokenPlayerOne.Equals(token));
+    }
+    
+    /// <inheritdoc />
+    public IGame? GetByPlayerTwo(string token)
+    {
+        return this._games.Find(game => game.TokenPlayerTwo != null && game.TokenPlayerTwo.Equals(token));
     }
 }
 
 class GamesRepositoryEmptyTest : IGamesRepository
 {
-    private List<IGame> _games = new List<IGame>();
+    private readonly List<IGame> _games = new List<IGame>();
 
     /// <inheritdoc />
     public void Add(IGame game)
@@ -215,8 +304,22 @@ class GamesRepositoryEmptyTest : IGamesRepository
     }
 
     /// <inheritdoc />
-    public IGame Get(string token)
+    public IGame? Get(string token)
     {
         return this._games.Find(game => game.Token.Equals(token));
     }
+    
+        
+    /// <inheritdoc />
+    public IGame? GetByPlayerOne(string token)
+    {
+        return this._games.Find(game => game.TokenPlayerOne != null && game.TokenPlayerOne.Equals(token));
+    }
+    
+    /// <inheritdoc />
+    public IGame? GetByPlayerTwo(string token)
+    {
+        return this._games.Find(game => game.TokenPlayerTwo != null && game.TokenPlayerTwo.Equals(token));
+    }
+    
 }

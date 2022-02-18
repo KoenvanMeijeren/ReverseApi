@@ -34,9 +34,52 @@ namespace ReversiApi.Controllers
         // GET api/Game/{token}
         [HttpGet]
         [Route("{token}", Name = "getGameByTokenRoute")] 
-        public ActionResult<IGame> GetByToken(string token)
+        public ActionResult<IGame> GetByToken(string? token)
         {
+            if (token == null)
+            {
+                return NotFound();
+            }
+            
             var game = this._repository.Get(token);
+            if (game == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(new GameInfoDto(game));
+        }
+        
+        // GET api/Game/player-one/{token}
+        [HttpGet]
+        [Route("player-one/{token}", Name = "getGameByPlayerOneTokenRoute")] 
+        public ActionResult<IGame> GetByPlayerOneToken(string? token)
+        {
+            if (token == null)
+            {
+                return NotFound();
+            }
+            
+            var game = this._repository.GetByPlayerOne(token);
+            if (game == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(new GameInfoDto(game));
+        }
+        
+        // GET api/Game/player-two/{token}
+        [HttpGet]
+        [Route("player-two/{token}", Name = "getGameByPlayerTwoTokenRoute")] 
+        public ActionResult<IGame> GetByPlayerTwoToken(string? token)
+        {
+            if (token == null)
+            {
+                return NotFound();
+            }
+            
+            var game = this._repository.GetByPlayerTwo(token);
             if (game == null)
             {
                 return NotFound();

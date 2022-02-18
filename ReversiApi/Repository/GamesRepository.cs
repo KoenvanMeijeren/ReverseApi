@@ -8,7 +8,7 @@ namespace ReversiApi.Repository;
 public class GamesRepository : IGamesRepository
 {
 
-    private List<IGame> _games;
+    private readonly List<IGame> _games;
 
     public GamesRepository()
     {
@@ -49,5 +49,17 @@ public class GamesRepository : IGamesRepository
     public IGame? Get(string token)
     {
         return this._games.Find(game => game.Token.Equals(token));
+    }
+    
+    /// <inheritdoc />
+    public IGame? GetByPlayerOne(string token)
+    {
+        return this._games.Find(game => game.TokenPlayerOne != null && game.TokenPlayerOne.Equals(token));
+    }
+    
+    /// <inheritdoc />
+    public IGame? GetByPlayerTwo(string token)
+    {
+        return this._games.Find(game => game.TokenPlayerTwo != null && game.TokenPlayerTwo.Equals(token));
     }
 }
