@@ -29,9 +29,11 @@ public class GameTest
         //                     1 <
         // Act
         game.CurrentPlayer = Color.White;
+        game.Id = 1;
+        
         // Assert
         Assert.AreEqual(Color.White, game.CurrentPlayer);
-        Assert.AreEqual(0, game.Id);
+        Assert.AreEqual(1, game.Id);
         Assert.IsNull(game.Description);
         Assert.IsNull(game.TokenPlayerOne);
         Assert.IsNull(game.TokenPlayerTwo);
