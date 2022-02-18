@@ -223,7 +223,7 @@ public class GameControllerTest
     
 }
 
-class GamesRepositoryTest : IGamesRepository
+internal class GamesRepositoryTest : IGamesRepository
 {
     private readonly List<IGame> _games;
 
@@ -263,25 +263,25 @@ class GamesRepositoryTest : IGamesRepository
     }
 
     /// <inheritdoc />
-    public IGame? Get(string token)
+    public IGame? Get(string? token)
     {
         return this._games.Find(game => game.Token.Equals(token));
     }
 
     /// <inheritdoc />
-    public IGame? GetByPlayerOne(string token)
+    public IGame? GetByPlayerOne(string? token)
     {
         return this._games.Find(game => game.TokenPlayerOne != null && game.TokenPlayerOne.Equals(token));
     }
     
     /// <inheritdoc />
-    public IGame? GetByPlayerTwo(string token)
+    public IGame? GetByPlayerTwo(string? token)
     {
         return this._games.Find(game => game.TokenPlayerTwo != null && game.TokenPlayerTwo.Equals(token));
     }
 }
 
-class GamesRepositoryEmptyTest : IGamesRepository
+internal class GamesRepositoryEmptyTest : IGamesRepository
 {
     private readonly List<IGame> _games = new List<IGame>();
 
@@ -304,20 +304,20 @@ class GamesRepositoryEmptyTest : IGamesRepository
     }
 
     /// <inheritdoc />
-    public IGame? Get(string token)
+    public IGame? Get(string? token)
     {
         return this._games.Find(game => game.Token.Equals(token));
     }
     
         
     /// <inheritdoc />
-    public IGame? GetByPlayerOne(string token)
+    public IGame? GetByPlayerOne(string? token)
     {
         return this._games.Find(game => game.TokenPlayerOne != null && game.TokenPlayerOne.Equals(token));
     }
     
     /// <inheritdoc />
-    public IGame? GetByPlayerTwo(string token)
+    public IGame? GetByPlayerTwo(string? token)
     {
         return this._games.Find(game => game.TokenPlayerTwo != null && game.TokenPlayerTwo.Equals(token));
     }
