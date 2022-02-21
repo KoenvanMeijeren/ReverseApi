@@ -20,21 +20,38 @@ public enum Status
 
 public interface IGame
 {
-    int Id { get; set; }
+    int Id { get; }
     string? Description { get; set; }
     // The unique token of the game.
-    string Token { get; set; }
+    string Token { get; }
     IPlayer? PlayerOne { get; set; }
     IPlayer? PlayerTwo { get; set; }
     IPlayer CurrentPlayer { get; set; }
     Color[,] Board { get; set; }
-    Status Status { get; set; }
+    Status Status { get; }
         
     /// <summary>
     /// Allows the player to skip his turn, if possible. Otherwise throws an exception if there are moves possible. 
     /// </summary>
     void SkipTurn();
 
+    /// <summary>
+    /// Whether the game has been queued or not.
+    /// </summary>
+    /// <returns>True if the game is queued.</returns>
+    bool IsQueued();
+    
+    /// <summary>
+    /// Whether the game is played by the players or not.
+    /// </summary>
+    /// <returns>True if the game is playing.</returns>
+    bool IsPlaying();
+
+    /// <summary>
+    /// Starts the game if both players are initialized.
+    /// </summary>
+    void Start();
+    
     /// <summary>
     /// The current player quits the game.
     /// </summary>
@@ -51,18 +68,6 @@ public interface IGame
     /// </summary>
     /// <returns>True if the game is finished.</returns>
     bool IsFinished();
-        
-    /// <summary>
-    /// Whether the game has been queued or not.
-    /// </summary>
-    /// <returns>True if the game is queued.</returns>
-    bool IsQueued();
-    
-    /// <summary>
-    /// Whether the game is played by the players or not.
-    /// </summary>
-    /// <returns>True if the game is playing.</returns>
-    bool IsPlaying();
     
     /// <summary>
     /// Which color occurs the most on the game board.

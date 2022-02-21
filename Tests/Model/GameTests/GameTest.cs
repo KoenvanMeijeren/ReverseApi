@@ -30,11 +30,10 @@ public class GameTest
         //                     1 <
         // Act
         game.CurrentPlayer = new Player(Color.White);
-        game.Id = 1;
         
         // Assert
         Assert.AreEqual(Color.White, game.CurrentPlayer.Color);
-        Assert.AreEqual(1, game.Id);
+        Assert.AreEqual(-1, game.Id);
         Assert.IsNull(game.Description);
         Assert.IsNull(game.PlayerOne);
         Assert.IsNull(game.PlayerTwo);
@@ -91,6 +90,9 @@ public class GameTest
         // 7   0 0 0 0 0 0 0 0
         //                     1 <
         // Act
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
         game.CurrentPlayer = new Player(Color.None);
         // Assert
         Assert.IsFalse(game.IsMovePossible(3, 5));
@@ -115,7 +117,10 @@ public class GameTest
         // 7   0 0 0 0 0 0 0 0
         //                     1 <
         // Act
-        game.CurrentPlayer = new Player(Color.White);
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerOne;
         //var actual = spel.ZetMogelijk(8, 8);
         Exception ex = Assert.Throws<Exception>(delegate { game.IsMovePossible(8, 8); });
         Assert.That(ex.Message, Is.EqualTo("Zet (8,8) ligt buiten het bord!"));
@@ -140,7 +145,10 @@ public class GameTest
         // 7   0 0 0 0 0 0 0 0
 
         // Act
-        game.CurrentPlayer = new Player(Color.Black);
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerTwo;
         var actual = game.IsMovePossible(2, 3);
         // Assert
         Assert.IsTrue(actual);
@@ -163,7 +171,10 @@ public class GameTest
         // 7   0 0 0 0 0 0 0 0
 
         // Act
-        game.CurrentPlayer = new Player(Color.White);
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerOne;
         var actual = game.IsMovePossible(2, 3);
         // Assert
         Assert.IsFalse(actual);
@@ -188,7 +199,10 @@ public class GameTest
         // 6   0 0 0 0 0 0 0 0
         // 7   0 0 0 0 0 0 0 0
         // Act
-        game.CurrentPlayer = new Player(Color.Black);
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerTwo;
         var actual = game.IsMovePossible(0, 3);
         // Assert
         Assert.IsTrue(actual);
@@ -213,7 +227,10 @@ public class GameTest
         // 7   0 0 0 0 0 0 0 0
 
         // Act
-        game.CurrentPlayer = new Player(Color.White);
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerOne;
         var actual = game.IsMovePossible(0, 3);
         // Assert
         Assert.IsFalse(actual);
@@ -243,7 +260,10 @@ public class GameTest
         // 7   0 0 0 2 0 0 0 0
 
         // Act
-        game.CurrentPlayer = new Player(Color.Black);
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerTwo;
         var actual = game.IsMovePossible(0, 3);
         // Assert
         Assert.IsTrue(actual);
@@ -273,7 +293,10 @@ public class GameTest
         // 7   0 0 0 1 0 0 0 0
 
         // Act
-        game.CurrentPlayer = new Player(Color.Black);
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerTwo;
         var actual = game.IsMovePossible(0, 3);
         // Assert
         Assert.IsFalse(actual);
@@ -302,7 +325,10 @@ public class GameTest
         // 6   0 0 0 0 0 0 0 0
         // 7   0 0 0 0 0 0 0 0
         // Act
-        game.CurrentPlayer = new Player(Color.Black);
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerTwo;
         var actual = game.IsMovePossible(4, 7);
         // Assert
         Assert.IsTrue(actual);
@@ -327,7 +353,10 @@ public class GameTest
         // 7   0 0 0 0 0 0 0 0
 
         // Act
-        game.CurrentPlayer = new Player(Color.White);
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerOne;
         var actual = game.IsMovePossible(4, 7);
         // Assert
         Assert.IsFalse(actual);
@@ -357,7 +386,10 @@ public class GameTest
         // 7   0 0 0 0 0 0 0 0
 
         // Act
-        game.CurrentPlayer = new Player(Color.Black);
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerTwo;
         var actual = game.IsMovePossible(4, 7);
         // Assert
         Assert.IsTrue(actual);
@@ -388,7 +420,10 @@ public class GameTest
         // 7   0 0 0 0 0 0 0 0
 
         // Act
-        game.CurrentPlayer = new Player(Color.White);
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerOne;
         var actual = game.IsMovePossible(4, 7);
         // Assert
         Assert.IsFalse(actual);
@@ -425,7 +460,10 @@ public class GameTest
         // 7   0 0 0 0 0 0 0 0
 
         // Act
-        game.CurrentPlayer = new Player(Color.White);
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerOne;
         var actual = game.IsMovePossible(2, 2);
         // Assert
         Assert.IsFalse(actual);
@@ -447,7 +485,10 @@ public class GameTest
         // 7   0 0 0 0 0 0 0 0
 
         // Act
-        game.CurrentPlayer = new Player(Color.Black);
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerTwo;
         var actual = game.IsMovePossible(2, 2);
         // Assert
         Assert.IsFalse(actual);
@@ -473,7 +514,10 @@ public class GameTest
         // 6   0 0 0 0 0 0 0 0
         // 7   0 0 0 0 0 0 0 0
         // Act
-        game.CurrentPlayer = new Player(Color.White);
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerOne;
         var actual = game.IsMovePossible(0, 7);
         // Assert
         Assert.IsTrue(actual);
@@ -498,7 +542,10 @@ public class GameTest
         // 6   0 0 0 0 0 0 0 0
         // 7   0 0 0 0 0 0 0 0
         // Act
-        game.CurrentPlayer = new Player(Color.Black);
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerTwo;
         var actual = game.IsMovePossible(0, 7);
         // Assert
         Assert.IsFalse(actual);
@@ -523,7 +570,10 @@ public class GameTest
         // 6   0 0 0 0 0 0 1 0
         // 7   0 0 0 0 0 0 0 2 <
         // Act
-        game.CurrentPlayer = new Player(Color.Black);
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerTwo;
         var actual = game.IsMovePossible(7, 7);
         // Assert
         Assert.IsTrue(actual);
@@ -548,7 +598,10 @@ public class GameTest
         // 6   0 0 0 0 0 0 1 0
         // 7   0 0 0 0 0 0 0 1
         // Act
-        game.CurrentPlayer = new Player(Color.White);
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerOne;
         var actual = game.IsMovePossible(7, 7);
         // Assert
         Assert.IsFalse(actual);
@@ -573,7 +626,10 @@ public class GameTest
         // 6   0 0 0 0 0 0 0 0
         // 7   0 0 0 0 0 0 0 0 
         // Act
-        game.CurrentPlayer = new Player(Color.Black);
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerTwo;
         var actual = game.IsMovePossible(0, 0);
         // Assert
         Assert.IsTrue(actual);
@@ -598,7 +654,10 @@ public class GameTest
         // 6   0 0 0 0 0 0 0 0
         // 7   0 0 0 0 0 0 0 0          
         // Act
-        game.CurrentPlayer = new Player(Color.White);
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerOne;
         var actual = game.IsMovePossible(0, 0);
         // Assert
         Assert.IsFalse(actual);
@@ -623,7 +682,10 @@ public class GameTest
         // 6   0 2 0 0 0 0 0 0
         // 7   1 0 0 0 0 0 0 0 <
         // Act
-        game.CurrentPlayer = new Player(Color.White);
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerOne;
         var actual = game.IsMovePossible(7, 0);
         // Assert
         Assert.IsTrue(actual);
@@ -648,7 +710,10 @@ public class GameTest
         // 6   0 2 0 0 0 0 0 0
         // 7   2 0 0 0 0 0 0 0
         // Act
-        game.CurrentPlayer = new Player(Color.Black);
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerTwo;
         var actual = game.IsMovePossible(7, 0);
         // Assert
         Assert.IsFalse(actual);
@@ -673,7 +738,10 @@ public class GameTest
         // 7   0 0 0 0 0 0 0 0
         //                     1 <
         // Act
-        game.CurrentPlayer = new Player(Color.White);
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerOne;
         //spel.DoeZet(8, 8);
         Exception ex = Assert.Throws<Exception>(delegate { game.DoMove(8, 8); });
         Assert.That(ex.Message, Is.EqualTo("Zet (8,8) ligt buiten het bord!"));
@@ -707,6 +775,7 @@ public class GameTest
         game.PlayerOne = new Player(Color.White);
         game.PlayerTwo = new Player(Color.Black);
         game.CurrentPlayer = game.PlayerTwo;
+        game.Start();
         game.DoMove(2, 3);
         // Assert
         Assert.AreEqual(Color.Black, game.Board[2, 3]);
@@ -733,7 +802,10 @@ public class GameTest
         // 7   0 0 0 0 0 0 0 0
 
         // Act
-        game.CurrentPlayer = new Player(Color.White);
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerOne;
         Exception ex = Assert.Throws<Exception>(delegate { game.DoMove(2, 3); });
         Assert.That(ex.Message, Is.EqualTo("Zet (2,3) is niet mogelijk!"));
 
@@ -770,6 +842,7 @@ public class GameTest
         game.PlayerOne = new Player(Color.White);
         game.PlayerTwo = new Player(Color.Black);
         game.CurrentPlayer = game.PlayerTwo;
+        game.Start();
         game.DoMove(0, 3);
         // Assert
         Assert.AreEqual(Color.Black, game.Board[0, 3]);
@@ -803,6 +876,7 @@ public class GameTest
         game.PlayerOne = new Player(Color.White);
         game.PlayerTwo = new Player(Color.Black);
         game.CurrentPlayer = game.PlayerOne;
+        game.Start();
         Exception ex = Assert.Throws<Exception>(delegate { game.DoMove(0, 3); });
         Assert.That(ex.Message, Is.EqualTo("Zet (0,3) is niet mogelijk!"));
 
@@ -846,6 +920,7 @@ public class GameTest
         game.PlayerOne = new Player(Color.White);
         game.PlayerTwo = new Player(Color.Black);
         game.CurrentPlayer = game.PlayerTwo;
+        game.Start();
         game.DoMove(0, 3);
         // Assert
         Assert.AreEqual(Color.Black, game.Board[0, 3]);
@@ -883,7 +958,10 @@ public class GameTest
         // 7   0 0 0 1 0 0 0 0
 
         // Act
-        game.CurrentPlayer = new Player(Color.Black);
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerTwo;
         Exception ex = Assert.Throws<Exception>(delegate { game.DoMove(0, 3); });
         Assert.That(ex.Message, Is.EqualTo("Zet (0,3) is niet mogelijk!"));
 
@@ -916,7 +994,10 @@ public class GameTest
         // 6   0 0 0 0 0 0 0 0
         // 7   0 0 0 0 0 0 0 0
         // Act
-        game.CurrentPlayer = new Player(Color.Black);
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerTwo;
         game.DoMove(4, 7);
         // Assert
         Assert.AreEqual(Color.Black, game.Board[4, 3]);
@@ -945,7 +1026,10 @@ public class GameTest
         // 7   0 0 0 0 0 0 0 0
 
         // Act
-        game.CurrentPlayer = new Player(Color.White);
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerOne;
         //spel.DoeZet(4, 7);
         Exception ex = Assert.Throws<Exception>(delegate { game.DoMove(4, 7); });
         Assert.That(ex.Message, Is.EqualTo("Zet (4,7) is niet mogelijk!"));
@@ -986,7 +1070,10 @@ public class GameTest
         // 7   0 0 0 0 0 0 0 0
 
         // Act
-        game.CurrentPlayer = new Player(Color.Black);
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerTwo;
         game.DoMove(4, 7);
         // Assert
         Assert.AreEqual(Color.Black, game.Board[4, 0]);
@@ -1024,7 +1111,10 @@ public class GameTest
         // 7   0 0 0 0 0 0 0 0
 
         // Act
-        game.CurrentPlayer = new Player(Color.White);
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerOne;
 
         Exception ex = Assert.Throws<Exception>(delegate { game.DoMove(4, 7); });
         Assert.That(ex.Message, Is.EqualTo("Zet (4,7) is niet mogelijk!"));
@@ -1075,7 +1165,10 @@ public class GameTest
         // 7   0 0 0 0 0 0 0 0
 
         // Act
-        game.CurrentPlayer = new Player(Color.White);
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerOne;
         Exception ex = Assert.Throws<Exception>(delegate { game.DoMove(2, 2); });
         Assert.That(ex.Message, Is.EqualTo("Zet (2,2) is niet mogelijk!"));
 
@@ -1105,7 +1198,10 @@ public class GameTest
         // 7   0 0 0 0 0 0 0 0
 
         // Act
-        game.CurrentPlayer = new Player(Color.Black);
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerTwo;
         Exception ex = Assert.Throws<Exception>(delegate { game.DoMove(2, 2); });
         Assert.That(ex.Message, Is.EqualTo("Zet (2,2) is niet mogelijk!"));
 
@@ -1138,7 +1234,10 @@ public class GameTest
         // 6   0 0 0 0 0 0 0 0
         // 7   0 0 0 0 0 0 0 0
         // Act
-        game.CurrentPlayer = new Player(Color.White);
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerOne;
         game.DoMove(0, 7);
         // Assert
         Assert.AreEqual(Color.White, game.Board[5, 2]);
@@ -1168,7 +1267,10 @@ public class GameTest
         // 6   0 0 0 0 0 0 0 0
         // 7   0 0 0 0 0 0 0 0
         // Act
-        game.CurrentPlayer = new Player(Color.Black);
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerTwo;
         Exception ex = Assert.Throws<Exception>(delegate { game.DoMove(0, 7); });
         Assert.That(ex.Message, Is.EqualTo("Zet (0,7) is niet mogelijk!"));
 
@@ -1205,7 +1307,10 @@ public class GameTest
         // 6   0 0 0 0 0 0 1 0
         // 7   0 0 0 0 0 0 0 2 <
         // Act
-        game.CurrentPlayer = new Player(Color.Black);
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerTwo;
         game.DoMove(7, 7);
         // Assert
         Assert.AreEqual(Color.Black, game.Board[2, 2]);
@@ -1235,7 +1340,10 @@ public class GameTest
         // 6   0 0 0 0 0 0 1 0
         // 7   0 0 0 0 0 0 0 1 <
         // Act
-        game.CurrentPlayer = new Player(Color.White);
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerOne;
         Exception ex = Assert.Throws<Exception>(delegate { game.DoMove(7, 7); });
         Assert.That(ex.Message, Is.EqualTo("Zet (7,7) is niet mogelijk!"));
 
@@ -1271,7 +1379,10 @@ public class GameTest
         // 6   0 0 0 0 0 0 0 0
         // 7   0 0 0 0 0 0 0 0 
         // Act
-        game.CurrentPlayer = new Player(Color.Black);
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerTwo;
         game.DoMove(0, 0);
         // Assert
         Assert.AreEqual(Color.Black, game.Board[0, 0]);
@@ -1301,7 +1412,10 @@ public class GameTest
         // 6   0 0 0 0 0 0 0 0
         // 7   0 0 0 0 0 0 0 0          
         // Act
-        game.CurrentPlayer = new Player(Color.White);
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerOne;
         //spel.DoeZet(0, 0);
         Exception ex = Assert.Throws<Exception>(delegate { game.DoMove(0, 0); });
         Assert.That(ex.Message, Is.EqualTo("Zet (0,0) is niet mogelijk!"));
@@ -1340,7 +1454,10 @@ public class GameTest
         // 6   0 2 0 0 0 0 0 0
         // 7   1 0 0 0 0 0 0 0 <
         // Act
-        game.CurrentPlayer = new Player(Color.White);
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerOne;
         game.DoMove(7, 0);
         // Assert
         Assert.AreEqual(Color.White, game.Board[7, 0]);
@@ -1370,7 +1487,10 @@ public class GameTest
         // 6   0 2 0 0 0 0 0 0
         // 7   2 0 0 0 0 0 0 0 <
         // Act
-        game.CurrentPlayer = new Player(Color.Black);
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerTwo;
         Exception ex = Assert.Throws<Exception>(delegate { game.DoMove(7, 0); });
         Assert.That(ex.Message, Is.EqualTo("Zet (7,0) is niet mogelijk!"));
 
@@ -1584,7 +1704,10 @@ public class GameTest
         // 7   0 0 0 0 0 0 0 0
         //                     1 <
         // Act
-        game.CurrentPlayer = new Player(Color.White);
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerOne;
         // Assert
         Exception ex = Assert.Throws<Exception>(delegate { game.SkipTurn(); });
         Assert.That(ex.Message, Is.EqualTo("Passen mag niet, er is nog een zet mogelijk"));
@@ -1607,7 +1730,10 @@ public class GameTest
         // 7   0 0 0 0 0 0 0 0
         //                     1 <
         // Act
-        game.CurrentPlayer = new Player(Color.Black);
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerTwo;
         // Assert
         Exception ex = Assert.Throws<Exception>(delegate { game.SkipTurn(); });
         Assert.That(ex.Message, Is.EqualTo("Passen mag niet, er is nog een zet mogelijk"));
@@ -1694,7 +1820,10 @@ public class GameTest
         // 6   1 1 1 1 1 1 1 0
         // 7   1 1 1 1 1 1 1 1
         // Act
-        game.CurrentPlayer = new Player(Color.White);
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerOne;
         var actual = game.IsFinished();
         // Assert
         Assert.IsTrue(actual);
@@ -1781,7 +1910,10 @@ public class GameTest
         // 6   1 1 1 1 1 1 1 2
         // 7   1 1 1 1 1 1 1 1
         // Act
-        game.CurrentPlayer = new Player(Color.White);
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerOne;
         var actual = game.IsFinished();
         // Assert
         Assert.IsTrue(actual);
@@ -1804,7 +1936,10 @@ public class GameTest
         // 7   0 0 0 0 0 0 0 0
         //                     
         // Act
-        game.CurrentPlayer = new Player(Color.White);
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerOne;
         var actual = game.IsFinished();
         // Assert
         Assert.IsFalse(actual);
@@ -1829,6 +1964,11 @@ public class GameTest
         // 7   0 0 0 0 0 0 0 0
         //                     
         // Act
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerOne;
+        
         var actual = game.PredominantColor();
         // Assert
         Assert.AreEqual(Color.None, actual);
@@ -1857,6 +1997,11 @@ public class GameTest
         // 7   0 0 0 0 0 0 0 0
         //                     
         // Act
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerOne;
+        
         var actual = game.PredominantColor();
         // Assert
         Assert.AreEqual(Color.Black, actual);
@@ -1886,6 +2031,10 @@ public class GameTest
         // 7   0 0 0 0 0 0 0 0
         //                     
         // Act
+        game.PlayerOne = new Player(Color.White);
+        game.PlayerTwo = new Player(Color.Black);
+        game.Start();
+        game.CurrentPlayer = game.PlayerOne;
         var actual = game.PredominantColor();
         // Assert
         Assert.AreEqual(Color.White, actual);
