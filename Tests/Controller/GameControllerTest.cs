@@ -346,6 +346,12 @@ internal class GamesRepositoryTest : IGamesRepository
     {
         return this.All().Where(game => game.PlayerTwo?.Token == null);
     }
+    
+    /// <inheritdoc />
+    public bool Exists(string? token)
+    {
+        return token != null && this.Get(token) != null;
+    }
 
     /// <inheritdoc />
     public IGame? Get(string? token)
@@ -386,6 +392,12 @@ internal class GamesRepositoryEmptyTest : IGamesRepository
     public IEnumerable<IGame> AllInQueue()
     {
         return this.All().Where(game => game.IsQueued());
+    }
+    
+    /// <inheritdoc />
+    public bool Exists(string? token)
+    {
+        return token != null && this.Get(token) != null;
     }
 
     /// <inheritdoc />

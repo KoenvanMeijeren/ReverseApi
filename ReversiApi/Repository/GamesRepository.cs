@@ -47,6 +47,12 @@ public class GamesRepository : IGamesRepository
     }
 
     /// <inheritdoc />
+    public bool Exists(string? token)
+    {
+        return token != null && this.Get(token) != null;
+    }
+
+    /// <inheritdoc />
     public IGame? Get(string? token)
     {
         return this._games.Find(game => game.Token.Equals(token));
