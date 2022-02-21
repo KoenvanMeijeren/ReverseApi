@@ -1,8 +1,9 @@
 ﻿using NUnit.Framework;
-using ReversiApi.Model;
-using ReversiApi.Model.DataTransferObject.Game;
+using ReversiApi.Model.Game;
+using ReversiApi.Model.Game.DataTransferObject;
+using ReversiApi.Model.Player;
 
-namespace Tests.Model.DataTransferObject;
+namespace Tests.Model.GameTests.DataTransferObject;
 
 [TestFixture]
 public class GameDtoTests
@@ -34,7 +35,7 @@ public class GameDtoTests
     public void CanCreate_GameInfoDto()
     {
         IGame game = new Game();
-        game.TokenPlayerOne = "abcdef";
+        game.PlayerOne = new PlayerOne("abcdef");
         game.Description = "Potje snel reveri, dus niet lang nadenken";
         
         var dto = new GameInfoDto(game);

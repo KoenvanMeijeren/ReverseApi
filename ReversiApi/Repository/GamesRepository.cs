@@ -1,4 +1,5 @@
-﻿using ReversiApi.Model;
+﻿using ReversiApi.Model.Game;
+using ReversiApi.Model.Player;
 
 namespace ReversiApi.Repository;
 
@@ -16,12 +17,12 @@ public class GamesRepository : IGamesRepository
         IGame game2 = new Game();
         IGame game3 = new Game();
 
-        game1.TokenPlayerOne = "abcdef";
+        game1.PlayerOne = new PlayerOne("abcdef");
         game1.Description = "Potje snel reveri, dus niet lang nadenken";
-        game2.TokenPlayerOne = "ghijkl";
-        game2.TokenPlayerTwo = "mnopqr";
+        game2.PlayerOne = new PlayerOne("ghijkl");
+        game2.PlayerTwo = new PlayerTwo("mnopqr");
         game2.Description = "Ik zoek een gevorderde tegenspeler!";
-        game3.TokenPlayerOne = "stuvwx";
+        game3.PlayerOne = new PlayerOne("stuvwx");
         game3.Description = "Na dit spel wil ik er nog een paar spelen tegen zelfde tegenstander";
 
         this._games = new List<IGame> {game1, game2, game3};
@@ -42,24 +43,24 @@ public class GamesRepository : IGamesRepository
     /// <inheritdoc />
     public IEnumerable<IGame> AllInQueue()
     {
-        return this.All().Where(game => game.TokenPlayerTwo == null);
+        return this.All().Where(game => game.PlayerTwo == null);
     }
 
     /// <inheritdoc />
-    public IGame? Get(string token)
+    public IGame? Get(string? token)
     {
         return this._games.Find(game => game.Token.Equals(token));
     }
     
     /// <inheritdoc />
-    public IGame? GetByPlayerOne(string token)
+    public IGame? GetByPlayerOne(string? token)
     {
-        return this._games.Find(game => game.TokenPlayerOne != null && game.TokenPlayerOne.Equals(token));
+        return this._games.Find(game => game.PlayerOne != null && game.PlayerOne.Token.Equals(token));
     }
     
     /// <inheritdoc />
-    public IGame? GetByPlayerTwo(string token)
+    public IGame? GetByPlayerTwo(string? token)
     {
-        return this._games.Find(game => game.TokenPlayerTwo != null && game.TokenPlayerTwo.Equals(token));
+        return this._games.Find(game => game.PlayerTwo != null && game.PlayerTwo.Token.Equals(token));
     }
 }

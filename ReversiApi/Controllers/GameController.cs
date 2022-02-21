@@ -1,7 +1,8 @@
 #nullable enable
 using Microsoft.AspNetCore.Mvc;
-using ReversiApi.Model;
-using ReversiApi.Model.DataTransferObject.Game;
+using ReversiApi.Model.Game;
+using ReversiApi.Model.Game.DataTransferObject;
+using ReversiApi.Model.Player;
 using ReversiApi.Repository;
 
 namespace ReversiApi.Controllers
@@ -18,8 +19,8 @@ namespace ReversiApi.Controllers
             this._repository = repository;
         }
         
-        // GET api/Game
-        [HttpGet]
+        // GET api/Game/queue
+        [HttpGet("queue/descriptions")]
         public ActionResult<IEnumerable<string>> GetDescriptionsOfGameInQueue()
         {
             var result = from game in this._repository.AllInQueue() select game.Description;
@@ -100,11 +101,54 @@ namespace ReversiApi.Controllers
             }
             
             IGame newGame = new Game();
-            newGame.TokenPlayerOne = gameCreateDto.TokenPlayerOne;
+            newGame.PlayerOne = new PlayerOne(gameCreateDto.TokenPlayerOne);
             newGame.Description = gameCreateDto.Description;
             this._repository.Add(newGame);
             
             return CreatedAtRoute("getGameByTokenRoute", new {token = newGame.Token}, new GameInfoDto(newGame));
+        }
+
+        [HttpGet]
+        [Route("{token}/status", Name = "getGameStatus")]
+        public ActionResult<IGame> GetGameStatus(string? token)
+        {
+            if (!this.GameExists(token))
+            {
+                return NotFound();
+            }
+
+            var game = this._repository.Get(token);
+
+            return Ok(new GameStatusDto(game));
+        }
+
+        [HttpPut("{token}/quit")]
+        public ActionResult<IGame> QuitGame(string? token)
+        {
+            if (!this.GameExists(token))
+            {
+                return NotFound();
+            }
+
+            var game = this._repository.Get(token);
+            game.Quit();
+
+            return Ok(new GameStatusDto(game));
+        }
+
+        /// <summary>
+        /// Determines if the game exists.
+        /// </summary>
+        /// <param name="token">The unique token of the game.</param>
+        /// <returns>Whether the game exists or not.</returns>
+        private bool GameExists(string? token)
+        {
+            if (token == null)
+            {
+                return false;
+            }
+            
+            return this._repository.Get(token) != null;
         }
 
     }

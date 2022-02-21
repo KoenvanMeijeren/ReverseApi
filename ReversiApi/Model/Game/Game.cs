@@ -1,4 +1,6 @@
-﻿namespace ReversiApi.Model;
+﻿using ReversiApi.Model.Player;
+
+namespace ReversiApi.Model.Game;
 
 /// <summary>
 /// Provides the Game class for the Reversi game.
@@ -7,7 +9,9 @@ public class Game : IGame
 {
     #region Fields
 
-    private const int BoardSize = 8;
+    private const int 
+        IdUndefined = -1,
+        BoardSize = 8;
         
     private readonly int[,] _direction = new int[8, 2] {
         {  0,  1 },         // rightwards
@@ -24,18 +28,22 @@ public class Game : IGame
 
     #region Properties
 
-    public int Id { get; set; }
+    public int Id { get; }
     public string? Description { get; set; }
-    public string Token { get; set; }
-    public string? TokenPlayerOne { get; set; }
-    public string? TokenPlayerTwo { get; set; }
+    public string Token { get; }
+    public PlayerOne? PlayerOne { get; set; }
+    public PlayerTwo? PlayerTwo { get; set; }
+    public IPlayer CurrentPlayer { get; set; }
     public Color[,] Board { get; set; }
-    public Color CurrentPlayer { get; set; }
+    public Status Status { get; private set; }
 
     #endregion
-        
+
+    #region Construction
+
     public Game()
     {
+        this.Id = IdUndefined;
         this.Token = Game.GenerateToken();
 
         this.Board = new Color[BoardSize, BoardSize];
@@ -44,7 +52,8 @@ public class Game : IGame
         this.Board[3, 4] = Color.Black;
         this.Board[4, 3] = Color.Black;
 
-        this.CurrentPlayer = Color.None;
+        this.CurrentPlayer = new PlayerUndefined();
+        this.Status = Status.Created;
     }
 
     /// <summary>
@@ -61,15 +70,71 @@ public class Game : IGame
             .Replace("+", "r");
     }
 
+    #endregion
+
+    #region Status
+
     /// <inheritdoc/>
-    public void SkipTurn()
+    public bool IsQueued()
     {
-        if (this.AreMovesPossible(this.CurrentPlayer))
+        if (this.PlayerOne != null && this.PlayerTwo != null)
         {
-            throw new Exception("Passen mag niet, er is nog een zet mogelijk");
+            return false;
+        }
+        
+        this.Status = Status.Queued;
+        return true;
+
+    }
+
+    /// <inheritdoc/>
+    public void Start()
+    {
+        switch (this.PlayerOne)
+        {
+            case null when this.PlayerTwo == null:
+                throw new Exception("Game kan niet gestart worden omdat de spelers nog niet gekoppeld zijn.");
+            case null:
+                throw new Exception("Game kan niet gestart worden omdat speler 1 niet gekoppeld is.");
+            default:
+            {
+                if (this.PlayerTwo == null)
+                {
+                    throw new Exception("Game kan niet gestart worden omdat speler 2 niet gekoppeld is.");
+                }
+
+                break;
+            }
         }
 
-        this.ChangeTurn();
+        this.Status = Status.Playing;
+    }
+
+    /// <inheritdoc/>
+    public bool IsPlaying()
+    {
+        return this.Status == Status.Playing;
+    }
+    
+    /// <inheritdoc/>
+    public void Quit()
+    {
+        if (this.CurrentPlayer.Equals(this.PlayerOne))
+        {
+            this.PlayerOne = null;
+        }
+        else
+        {
+            this.PlayerTwo = null;
+        }
+        
+        this.Status = Status.Quit;
+    }
+
+    /// <inheritdoc/>
+    public bool IsQuit()
+    {
+        return this.Status == Status.Quit;
     }
 
     /// <inheritdoc/>
@@ -87,12 +152,33 @@ public class Game : IGame
             }
         }
 
+        this.Status = Status.Finished;
         return true;
+    }
+
+    #endregion
+
+    #region Game actions
+
+    /// <inheritdoc/>
+    public void SkipTurn()
+    {
+        if (this.AreMovesPossible(this.CurrentPlayer.Color))
+        {
+            throw new Exception("Passen mag niet, er is nog een zet mogelijk");
+        }
+
+        this.ChangeTurn();
     }
 
     /// <inheritdoc/>
     public Color PredominantColor()
     {
+        if (!this.IsPlaying())
+        {
+            throw new Exception("Game is nog niet gestart!");
+        }
+        
         int whiteCount = 0, blackCount = 0;
         for (int row = 0; row < BoardSize; row++)
         {
@@ -128,17 +214,27 @@ public class Game : IGame
     /// <inheritdoc/>
     public bool IsMovePossible(int row, int column)
     {
+        if (!this.IsPlaying())
+        {
+            throw new Exception("Game is nog niet gestart!");
+        }
+        
         if (!Game.PositionInsideBoardBoundaries(row, column))
         {
             throw new Exception($"Zet ({row},{column}) ligt buiten het bord!");
         }
             
-        return this.IsMovePossible(row, column, this.CurrentPlayer);
+        return this.IsMovePossible(row, column, this.CurrentPlayer.Color);
     }
 
     /// <inheritdoc/>
     public void DoMove(int row, int column)
     {
+        if (!this.IsPlaying())
+        {
+            throw new Exception("Game is nog niet gestart!");
+        }
+        
         if (!this.IsMovePossible(row, column))
         {
             throw new Exception($"Zet ({row},{column}) is niet mogelijk!");
@@ -149,11 +245,23 @@ public class Game : IGame
             var rowDirection = this._direction[delta, 0];
             var columnDirection = this._direction[delta, 1];
 
-            this.FlipOpponentStones(row, column, this.CurrentPlayer, rowDirection, columnDirection);
+            this.FlipOpponentStones(row, column, this.CurrentPlayer.Color, rowDirection, columnDirection);
         }
             
-        this.Board[row, column] = this.CurrentPlayer;
+        this.Board[row, column] = this.CurrentPlayer.Color;
         this.ChangeTurn();
+    }
+
+    #endregion
+
+    #region Game action executors
+
+     /// <summary>
+    /// Changes the turn to the opposite player.
+    /// </summary>
+    private void ChangeTurn()
+    {
+        this.CurrentPlayer = this.CurrentPlayer.Equals(this.PlayerOne) ? this.PlayerTwo : this.PlayerOne;
     }
 
     /// <summary>
@@ -216,14 +324,6 @@ public class Game : IGame
         }
             
         return false;
-    }
-
-    /// <summary>
-    /// Changes the turn to the opposite player.
-    /// </summary>
-    private void ChangeTurn()
-    {
-        this.CurrentPlayer = this.CurrentPlayer == Color.White ? Color.Black : Color.White;
     }
 
     /// <summary>
@@ -332,4 +432,7 @@ public class Game : IGame
             
         return true;
     }
+
+    #endregion
+    
 }

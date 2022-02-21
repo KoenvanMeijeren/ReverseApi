@@ -1,4 +1,4 @@
-﻿namespace ReversiApi.Model.DataTransferObject.Game;
+﻿namespace ReversiApi.Model.Game.DataTransferObject;
 
 public class GameCreateDto
 {
