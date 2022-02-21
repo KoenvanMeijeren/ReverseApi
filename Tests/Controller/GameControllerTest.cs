@@ -182,7 +182,7 @@ public class GameControllerTest
         };
 
         // Act
-        var response = controller.PostGame(dto);
+        var response = controller.CreateGame(dto);
         var json = response.ToJson();
         
         // Assert
@@ -207,7 +207,7 @@ public class GameControllerTest
         var controller = new GameController(repository);
 
         // Act
-        var response = controller.PostGame(null);
+        var response = controller.CreateGame(null);
         var json = response.ToJson();
         
         // Assert
@@ -350,7 +350,7 @@ internal class GamesRepositoryTest : IGamesRepository
     /// <inheritdoc />
     public IGame? Get(string? token)
     {
-        return this._games.Find(game => game.Token.Equals(token));
+        return this._games.Find(game => game.IsQueued());
     }
     
     /// <inheritdoc />
@@ -385,7 +385,7 @@ internal class GamesRepositoryEmptyTest : IGamesRepository
     /// <inheritdoc />
     public IEnumerable<IGame> AllInQueue()
     {
-        return this.All().Where(game => game.PlayerTwo?.Token == null);
+        return this.All().Where(game => game.IsQueued());
     }
 
     /// <inheritdoc />
