@@ -111,7 +111,7 @@ public class Game : IGame
     /// <inheritdoc/>
     public void Start()
     {
-        if (this.IsQuit() || this.Status == Status.Finished)
+        if (!this.IsCreated() && !this.IsQueued() && !this.IsPending())
         {
             throw new Exception("Game is al een keer gestart!");
         }

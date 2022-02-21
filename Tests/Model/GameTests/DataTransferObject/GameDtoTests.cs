@@ -41,7 +41,7 @@ public class GameDtoTests
         var dto = new GameInfoDto(game);
         
         Assert.IsNotNull(dto.Token);
-        Assert.AreEqual(Color.None.ToString(), dto.CurrentPlayer);
+        Assert.AreEqual(new PlayerUndefined().Color.ToString(), dto.CurrentPlayer.Color);
         Assert.IsTrue(dto.Board?.Contains("[[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0"));
         Assert.AreEqual("abcdef", dto.PlayerOne.Token);
         Assert.AreEqual("Potje snel reveri, dus niet lang nadenken", dto.Description);
@@ -53,12 +53,15 @@ public class GameDtoTests
         var dto = new GameInfoDto(null);
         
         Assert.IsNull(dto.Id);
-        Assert.IsNull(dto.CurrentPlayer);
+        Assert.IsNull(dto.CurrentPlayer.Color);
+        Assert.IsNull(dto.CurrentPlayer.Token);
         Assert.AreEqual("null", dto.Board);
         Assert.IsNull(dto.Description);
         Assert.IsNull(dto.Token);
-        Assert.IsNull(dto.PlayerOne);
-        Assert.IsNull(dto.PlayerTwo);
+        Assert.IsNull(dto.PlayerOne.Color);
+        Assert.IsNull(dto.PlayerOne.Token);
+        Assert.IsNull(dto.PlayerTwo.Color);
+        Assert.IsNull(dto.PlayerTwo.Token);
     }
     
     [Test]
@@ -71,10 +74,9 @@ public class GameDtoTests
         
         var dto = new GameStatusDto(game);
         
-        Assert.AreEqual(Color.White, dto.CurrentPlayer.Color);
+        Assert.AreEqual(game.PlayerOne.Color.ToString(), dto.CurrentPlayer.Color);
         Assert.IsTrue(dto.Board?.Contains("[[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0"));
-        Assert.AreEqual("abcdef", dto.CurrentPlayer.Token);
-        Assert.AreEqual(Status.Created, dto.Status);
+        Assert.AreEqual(Status.Created.ToString(), dto.Status);
     }
     
     [Test]
@@ -83,7 +85,8 @@ public class GameDtoTests
         var dto = new GameStatusDto(null);
         
         Assert.IsNull(dto.Status);
-        Assert.IsNull(dto.CurrentPlayer);
+        Assert.IsNull(dto.CurrentPlayer.Color);
+        Assert.IsNull(dto.CurrentPlayer.Token);
         Assert.AreEqual("null", dto.Board);
     }
 

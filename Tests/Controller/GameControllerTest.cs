@@ -344,7 +344,7 @@ internal class GamesRepositoryTest : IGamesRepository
     /// <inheritdoc />
     public IEnumerable<IGame> AllInQueue()
     {
-        return this.All().Where(game => game.PlayerTwo?.Token == null);
+        return this.All().Where(game => game.IsQueued());
     }
     
     /// <inheritdoc />
@@ -356,7 +356,7 @@ internal class GamesRepositoryTest : IGamesRepository
     /// <inheritdoc />
     public IGame? Get(string? token)
     {
-        return this._games.Find(game => game.IsQueued());
+        return this._games.Find(game => game.Token.Equals(token));
     }
     
     /// <inheritdoc />

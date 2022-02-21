@@ -20,6 +20,19 @@ namespace ReversiApi.Controllers
         }
         
         // GET api/Game/queue
+        [HttpGet("queue")]
+        public ActionResult<IEnumerable<GameInfoDto>> GetGamesInQueue()
+        {
+            var result = from game in this._repository.AllInQueue() select new GameInfoDto(game);
+            if (!result.Any())
+            {
+                return NotFound();
+            }
+                
+            return Ok(result);
+        }
+
+        // GET api/Game/queue
         [HttpGet("queue/descriptions")]
         public ActionResult<IEnumerable<string>> GetDescriptionsOfGameInQueue()
         {
@@ -88,12 +101,27 @@ namespace ReversiApi.Controllers
 
             return Ok(new GameInfoDto(game));
         }
+
+        [HttpGet]
+        [Route("{token}/status", Name = "getGameStatus")]
+        public ActionResult<IGame> GetGameStatus(string? token)
+        {
+            if (!this._repository.Exists(token))
+            {
+                return NotFound();
+            }
+
+            var game = this._repository.Get(token);
+
+            return Ok(new GameStatusDto(game));
+        }
         
         // POST: api/Game
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        // We use a DTO in order to prevent overposting.
+        // We use a DTO in order to prevent overposting. Overposting is done by changing more fields then allowed. 
+        // See: https://andrewlock.net/preventing-mass-assignment-or-over-posting-in-asp-net-core/.
         [HttpPost]
-        public ActionResult PostGame([FromBody] GameCreateDto? gameCreateDto)
+        public ActionResult CreateGame([FromBody] GameCreateDto? gameCreateDto)
         {
             if (gameCreateDto == null)
             {
@@ -107,25 +135,87 @@ namespace ReversiApi.Controllers
             
             return CreatedAtRoute("getGameByTokenRoute", new {token = newGame.Token}, new GameInfoDto(newGame));
         }
-
-        [HttpGet]
-        [Route("{token}/status", Name = "getGameStatus")]
-        public ActionResult<IGame> GetGameStatus(string? token)
+        
+        [HttpPut("add/player-one")]
+        public ActionResult<IGame> AddPlayerOneToGame([FromBody] GameAddPlayer? gameAddPlayer)
         {
-            if (!this.GameExists(token))
+            if (gameAddPlayer == null)
+            {
+                return BadRequest();
+            }
+            
+            if (!this._repository.Exists(gameAddPlayer.Token))
+            {
+                return NotFound();
+            }
+
+            var game = this._repository.Get(gameAddPlayer.Token);
+            game.PlayerOne = new PlayerOne(gameAddPlayer.PlayerToken);
+
+            return Ok(new GameInfoDto(game));
+        }
+        
+        [HttpPut("add/player-two")]
+        public ActionResult<IGame> AddPlayerTwoToGame([FromBody] GameAddPlayer? gameAddPlayer)
+        {
+            if (gameAddPlayer == null)
+            {
+                return BadRequest();
+            }
+            
+            if (!this._repository.Exists(gameAddPlayer.Token))
+            {
+                return NotFound();
+            }
+
+            var game = this._repository.Get(gameAddPlayer.Token);
+            game.PlayerTwo = new PlayerTwo(gameAddPlayer.PlayerToken);
+
+            return Ok(new GameInfoDto(game));
+        }
+        
+        [HttpPut("{token}/start")]
+        public ActionResult<IGame> StartGame(string? token)
+        {
+            if (!this._repository.Exists(token))
             {
                 return NotFound();
             }
 
             var game = this._repository.Get(token);
+            game.Start();
 
+            return Ok(new GameStatusDto(game));
+        }
+        
+        [HttpPut("do-move")]
+        public ActionResult<IGame> DoMoveGame([FromBody] GameDoMoveDto? gameDoMove)
+        {
+            if (gameDoMove == null)
+            {
+                return BadRequest();
+            }
+            
+            if (!this._repository.Exists(gameDoMove.Token))
+            {
+                return NotFound();
+            }
+
+            var game = this._repository.Get(gameDoMove.Token);
+            if (!game.CurrentPlayer.Token.Equals(gameDoMove.PlayerToken))
+            {
+                return BadRequest();
+            }
+            
+            game.DoMove(gameDoMove.Row, gameDoMove.Column);
+            
             return Ok(new GameStatusDto(game));
         }
 
         [HttpPut("{token}/quit")]
         public ActionResult<IGame> QuitGame(string? token)
         {
-            if (!this.GameExists(token))
+            if (!this._repository.Exists(token))
             {
                 return NotFound();
             }
@@ -136,19 +226,18 @@ namespace ReversiApi.Controllers
             return Ok(new GameStatusDto(game));
         }
 
-        /// <summary>
-        /// Determines if the game exists.
-        /// </summary>
-        /// <param name="token">The unique token of the game.</param>
-        /// <returns>Whether the game exists or not.</returns>
-        private bool GameExists(string? token)
+        [HttpGet("{token}/finished")]
+        public ActionResult<IGame> IsFinishedGame(string? token)
         {
-            if (token == null)
+            if (!this._repository.Exists(token))
             {
-                return false;
+                return NotFound();
             }
-            
-            return this._repository.Get(token) != null;
+
+            var game = this._repository.Get(token);
+            game.IsFinished();
+
+            return Ok(new GameStatusDto(game));
         }
 
     }
