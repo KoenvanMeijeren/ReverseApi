@@ -34,7 +34,7 @@ public class GameDtoTests
     public void CanCreate_GameInfoDto()
     {
         IGame game = new Game();
-        game.TokenPlayerOne = "abcdef";
+        game.PlayerOne = new Player(Color.White, "abcdef");
         game.Description = "Potje snel reveri, dus niet lang nadenken";
         
         var dto = new GameInfoDto(game);

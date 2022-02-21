@@ -27,10 +27,11 @@ public class Game : IGame
     public int Id { get; set; }
     public string? Description { get; set; }
     public string Token { get; set; }
-    public string? TokenPlayerOne { get; set; }
-    public string? TokenPlayerTwo { get; set; }
+    public IPlayer? PlayerOne { get; set; }
+    public IPlayer? PlayerTwo { get; set; }
+    public IPlayer CurrentPlayer { get; set; }
     public Color[,] Board { get; set; }
-    public Color CurrentPlayer { get; set; }
+    public Status Status { get; set; }
 
     #endregion
         
@@ -44,7 +45,8 @@ public class Game : IGame
         this.Board[3, 4] = Color.Black;
         this.Board[4, 3] = Color.Black;
 
-        this.CurrentPlayer = Color.None;
+        this.CurrentPlayer = new Player(Color.None);
+        this.Status = Status.Created;
     }
 
     /// <summary>
@@ -64,12 +66,29 @@ public class Game : IGame
     /// <inheritdoc/>
     public void SkipTurn()
     {
-        if (this.AreMovesPossible(this.CurrentPlayer))
+        if (this.AreMovesPossible(this.CurrentPlayer.Color))
         {
             throw new Exception("Passen mag niet, er is nog een zet mogelijk");
         }
 
         this.ChangeTurn();
+    }
+
+    /// <inheritdoc/>
+    public void Quit()
+    {
+        if (this.CurrentPlayer.Equals(this.PlayerOne))
+        {
+            this.PlayerOne = null;
+        }
+        
+        this.Status = Status.Quit;
+    }
+
+    /// <inheritdoc/>
+    public bool IsQuit()
+    {
+        return this.Status == Status.Quit;
     }
 
     /// <inheritdoc/>
@@ -87,7 +106,27 @@ public class Game : IGame
             }
         }
 
+        this.Status = Status.Finished;
         return true;
+    }
+
+    /// <inheritdoc/>
+    public bool IsQueued()
+    {
+        if (this.PlayerOne == null || this.PlayerTwo == null)
+        {
+            this.Status = Status.Queued;
+            return true;
+        }
+
+        this.Status = Status.Playing;
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public bool IsPlaying()
+    {
+        return !this.IsQueued();
     }
 
     /// <inheritdoc/>
@@ -133,7 +172,7 @@ public class Game : IGame
             throw new Exception($"Zet ({row},{column}) ligt buiten het bord!");
         }
             
-        return this.IsMovePossible(row, column, this.CurrentPlayer);
+        return this.IsMovePossible(row, column, this.CurrentPlayer.Color);
     }
 
     /// <inheritdoc/>
@@ -149,10 +188,10 @@ public class Game : IGame
             var rowDirection = this._direction[delta, 0];
             var columnDirection = this._direction[delta, 1];
 
-            this.FlipOpponentStones(row, column, this.CurrentPlayer, rowDirection, columnDirection);
+            this.FlipOpponentStones(row, column, this.CurrentPlayer.Color, rowDirection, columnDirection);
         }
             
-        this.Board[row, column] = this.CurrentPlayer;
+        this.Board[row, column] = this.CurrentPlayer.Color;
         this.ChangeTurn();
     }
 
@@ -223,7 +262,7 @@ public class Game : IGame
     /// </summary>
     private void ChangeTurn()
     {
-        this.CurrentPlayer = this.CurrentPlayer == Color.White ? Color.Black : Color.White;
+        this.CurrentPlayer = this.CurrentPlayer.Equals(this.PlayerOne) ? this.PlayerTwo : this.PlayerOne;
     }
 
     /// <summary>

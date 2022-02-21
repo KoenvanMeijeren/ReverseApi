@@ -17,7 +17,7 @@ public class GamesRepositoryTests
         var games = this._repository.All();
         
         Assert.AreEqual(3, games.Count);
-        Assert.AreEqual("abcdef", games.First().TokenPlayerOne);
+        Assert.AreEqual("abcdef", games.First().PlayerOne.Token);
     }
     
     [Test]
@@ -26,7 +26,7 @@ public class GamesRepositoryTests
         var games = this._repository.AllInQueue().ToList();
         
         Assert.AreEqual(2, games.Count);
-        Assert.AreEqual("abcdef", games.First().TokenPlayerOne);
+        Assert.AreEqual("abcdef", games.First().PlayerOne.Token);
     }
     
     [Test]
@@ -38,8 +38,8 @@ public class GamesRepositoryTests
         Assert.IsNotNull(game);
         Assert.AreEqual(token, game.Token);
         Assert.AreEqual("Potje snel reveri, dus niet lang nadenken", game.Description);
-        Assert.AreEqual("abcdef", game.TokenPlayerOne);
-        Assert.IsNull( game.TokenPlayerTwo);
+        Assert.AreEqual("abcdef", game.PlayerOne.Token);
+        Assert.IsNull( game.PlayerTwo);
     }
     
     [Test]
@@ -53,13 +53,13 @@ public class GamesRepositoryTests
     [Test]
     public void GetOneGameByPlayerOne()
     {
-        var token = this._repository.All().First().TokenPlayerOne;
+        var token = this._repository.All().First().PlayerOne.Token;
         var game = this._repository.GetByPlayerOne(token);
         
         Assert.IsNotNull(game);
         Assert.AreEqual("Potje snel reveri, dus niet lang nadenken", game.Description);
-        Assert.AreEqual(token, game.TokenPlayerOne);
-        Assert.IsNull( game.TokenPlayerTwo);
+        Assert.AreEqual(token, game.PlayerOne.Token);
+        Assert.IsNull( game.PlayerTwo?.Token);
     }
     
     [Test]
@@ -77,8 +77,8 @@ public class GamesRepositoryTests
         
         Assert.IsNotNull(game);
         Assert.AreEqual("Ik zoek een gevorderde tegenspeler!", game.Description);
-        Assert.AreEqual("ghijkl", game.TokenPlayerOne);
-        Assert.AreEqual("mnopqr", game.TokenPlayerTwo);
+        Assert.AreEqual("ghijkl", game.PlayerOne.Token);
+        Assert.AreEqual("mnopqr", game.PlayerTwo.Token);
     }
     
     [Test]
@@ -96,10 +96,10 @@ public class GamesRepositoryTests
         var game1 = new Game();
         var game2 = new Game();
         
-        game1.TokenPlayerOne = "fdask";
+        game1.PlayerOne = new Player(Color.White, "fdask");
         game1.Description = "Potje snel reveri, dus niet lang nadenken";
-        game2.TokenPlayerOne = "qwert";
-        game2.TokenPlayerTwo = "fdask";
+        game2.PlayerOne = new Player(Color.White, "qwert");
+        game2.PlayerTwo = new Player(Color.Black, "fdask");
         game2.Description = "Ik zoek een gevorderde tegenspeler!";
         
         repository.Add(game1);
