@@ -26,6 +26,13 @@ public interface IGamesRepository
     IEnumerable<IGame> AllInQueue();
 
     /// <summary>
+    /// Determines if the game exists.
+    /// </summary>
+    /// <param name="token">The unique token of the game.</param>
+    /// <returns>Whether the game exists or not.</returns>
+    bool Exists(string? token);
+    
+    /// <summary>
     /// Gets the game by the token.
     /// </summary>
     /// <param name="token">The unique token of the game.</param>

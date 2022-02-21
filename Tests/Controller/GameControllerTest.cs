@@ -1,6 +1,7 @@
 ﻿#nullable enable
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol;
 using NUnit.Framework;
 using ReversiApi.Controllers;
@@ -14,6 +15,40 @@ namespace Tests.Controller;
 [TestFixture]
 public class GameControllerTest
 {
+    
+    [Test]
+    public void NotEmpty_GetGamesInQueue()
+    {
+        // Arrange
+        var repository = new GamesRepositoryTest();
+        var controller = new GameController(repository);
+
+        // Act
+        var response = controller.GetGamesInQueue();
+        var json = response.ToJson();
+        
+        // Assert
+        Assert.IsInstanceOf<OkObjectResult>(response.Result);
+        Assert.IsTrue(json.Contains("Result"));
+        Assert.IsTrue(json.Contains("Status"));
+        Assert.IsTrue(json.Contains("PlayerOne"));
+        Assert.IsTrue(json.Contains("PlayerTwo"));
+        Assert.IsTrue(json.Contains("CurrentPlayer"));
+    }
+    
+    [Test]
+    public void Empty_GetOfGamesInQueue()
+    {
+        // Arrange
+        var repository = new GamesRepositoryEmptyTest();
+        var controller = new GameController(repository);
+
+        // Act
+        var response = controller.GetGamesInQueue();
+        
+        // Assert
+        Assert.IsInstanceOf<NotFoundResult>(response.Result);
+    }
 
     [Test]
     public void NotEmpty_GetDescriptionsOfGameInQueue()
@@ -27,8 +62,7 @@ public class GameControllerTest
         var json = response.ToJson();
         
         // Assert
-        Assert.IsNotEmpty(json);
-        Assert.IsTrue(json.Contains("200"));
+        Assert.IsInstanceOf<OkObjectResult>(response.Result);
         Assert.IsTrue(json.Contains("Result"));
         Assert.IsTrue(json.Contains("Value"));
         Assert.IsTrue(json.Contains("Potje snel reveri"));
@@ -43,14 +77,9 @@ public class GameControllerTest
 
         // Act
         var response = controller.GetDescriptionsOfGameInQueue();
-        var json = response.ToJson();
         
         // Assert
-        Assert.IsNotEmpty(json);
-        Assert.IsTrue(json.Contains("404"));
-        Assert.IsTrue(json.Contains("Result"));
-        Assert.IsFalse(json.Contains("Value"));
-        Assert.IsFalse(json.Contains("Potje snel reveri"));
+        Assert.IsInstanceOf<NotFoundResult>(response.Result);
     }
     
     [Test]
@@ -65,8 +94,7 @@ public class GameControllerTest
         var json = response.ToJson();
         
         // Assert
-        Assert.IsNotEmpty(json);
-        Assert.IsTrue(json.Contains("200"));
+        Assert.IsInstanceOf<OkObjectResult>(response.Result);
         Assert.IsTrue(json.Contains("Result"));
         Assert.IsTrue(json.Contains("Value"));
         Assert.IsTrue(json.Contains("Potje snel reveri"));
@@ -82,15 +110,10 @@ public class GameControllerTest
         // Act
         var response = controller.GetByToken("test");
         var response1 = controller.GetByToken(null);
-        var json = response.ToJson();
-        var json1 = response1.ToJson();
         
         // Assert
-        Assert.IsTrue(json.Contains("404"));
-        Assert.IsTrue(json1.Contains("404"));
-        Assert.IsTrue(json.Contains("Result"));
-        Assert.IsFalse(json.Contains("Value"));
-        Assert.IsFalse(json.Contains("Potje snel reveri"));
+        Assert.IsInstanceOf<NotFoundResult>(response.Result);
+        Assert.IsInstanceOf<NotFoundResult>(response1.Result);
     }
 
     [Test]
@@ -105,8 +128,7 @@ public class GameControllerTest
         var json = response.ToJson();
         
         // Assert
-        Assert.IsNotEmpty(json);
-        Assert.IsTrue(json.Contains("200"));
+        Assert.IsInstanceOf<OkObjectResult>(response.Result);
         Assert.IsTrue(json.Contains("Result"));
         Assert.IsTrue(json.Contains("Value"));
         Assert.IsTrue(json.Contains("Potje snel reveri"));
@@ -122,12 +144,10 @@ public class GameControllerTest
         // Act
         var response = controller.GetByPlayerOneToken("test");
         var response1 = controller.GetByPlayerOneToken(null);
-        var json = response.ToJson();
-        var json1 = response1.ToJson();
         
         // Assert
-        Assert.IsTrue(json.Contains("404"));
-        Assert.IsTrue(json1.Contains("404"));
+        Assert.IsInstanceOf<NotFoundResult>(response.Result);
+        Assert.IsInstanceOf<NotFoundResult>(response1.Result);
     }
     
     [Test]
@@ -142,8 +162,7 @@ public class GameControllerTest
         var json = response.ToJson();
         
         // Assert
-        Assert.IsNotEmpty(json);
-        Assert.IsTrue(json.Contains("200"));
+        Assert.IsInstanceOf<OkObjectResult>(response.Result);
         Assert.IsTrue(json.Contains("Result"));
         Assert.IsTrue(json.Contains("Value"));
         Assert.IsTrue(json.Contains("Ik zoek een"));
@@ -159,15 +178,11 @@ public class GameControllerTest
         // Act
         var response = controller.GetByPlayerTwoToken("test");
         var response1 = controller.GetByPlayerTwoToken(null);
-        var json = response.ToJson();
-        var json1 = response1.ToJson();
         
         // Assert
-        Assert.IsTrue(json.Contains("404"));
-        Assert.IsTrue(json1.Contains("404"));
+        Assert.IsInstanceOf<NotFoundResult>(response.Result);
+        Assert.IsInstanceOf<NotFoundResult>(response1.Result);
     }
-
-
     
     [Test]
     public void PostGame_Valid()
@@ -182,12 +197,11 @@ public class GameControllerTest
         };
 
         // Act
-        var response = controller.PostGame(dto);
+        var response = controller.CreateGame(dto);
         var json = response.ToJson();
         
         // Assert
-        Assert.IsNotEmpty(json);
-        Assert.IsTrue(json.Contains("201"));
+        Assert.IsInstanceOf<CreatedAtRouteResult>(response);
         Assert.IsTrue(json.Contains("Value"));
         Assert.IsTrue(json.Contains("RouteName"));
         Assert.IsTrue(json.Contains("getGameByTokenRoute"));
@@ -207,21 +221,11 @@ public class GameControllerTest
         var controller = new GameController(repository);
 
         // Act
-        var response = controller.PostGame(null);
+        var response = controller.CreateGame(null);
         var json = response.ToJson();
         
         // Assert
-        Assert.IsNotEmpty(json);
-        Assert.IsTrue(json.Contains("400"));
-        Assert.IsFalse(json.Contains("Value"));
-        Assert.IsFalse(json.Contains("RouteName"));
-        Assert.IsFalse(json.Contains("getGameByTokenRoute"));
-        Assert.IsFalse(json.Contains("RouteValues"));
-        Assert.IsFalse(json.Contains("token"));
-        Assert.IsFalse(json.Contains("Id"));
-        Assert.IsFalse(json.Contains("Description"));
-        Assert.IsFalse(json.Contains("Token"));
-        Assert.IsFalse(json.Contains("TokenPlayerOne"));
+        Assert.IsInstanceOf<BadRequestResult>(response);
     }
     
     [Test]
@@ -236,8 +240,7 @@ public class GameControllerTest
         var json = response.ToJson();
         
         // Assert
-        Assert.IsNotEmpty(json);
-        Assert.IsTrue(json.Contains("200"));
+        Assert.IsInstanceOf<OkObjectResult>(response.Result);
         Assert.IsTrue(json.Contains("Result"));
         Assert.IsTrue(json.Contains("Value"));
         Assert.IsTrue(json.Contains("Board"));
@@ -255,12 +258,210 @@ public class GameControllerTest
         // Act
         var response = controller.GetGameStatus("test");
         var response1 = controller.GetGameStatus(null);
-        var json = response.ToJson();
-        var json1 = response1.ToJson();
         
         // Assert
-        Assert.IsTrue(json.Contains("404"));
-        Assert.IsTrue(json1.Contains("404"));
+        Assert.IsInstanceOf<NotFoundResult>(response.Result);
+        Assert.IsInstanceOf<NotFoundResult>(response1.Result);
+    }
+    
+    [Test]
+    public void AddPlayerOneToGame_Valid()
+    {
+        // Arrange
+        var repository = new GamesRepositoryTest();
+        var controller = new GameController(repository);
+        var game = new Game();
+        var dto = new GameAddPlayerDto()
+        {
+            Token = game.Token,
+            PlayerToken = "abcdef"
+        };
+
+        // Act
+        repository.Add(game);
+        var response = controller.AddPlayerOneToGame(dto);
+        
+        // Assert
+        Assert.IsInstanceOf<OkObjectResult>(response.Result);
+    }
+    
+    [Test]
+    public void AddPlayerOneToGame_Invalid()
+    {
+        // Arrange
+        var repository = new GamesRepositoryTest();
+        var controller = new GameController(repository);
+        var dto = new GameAddPlayerDto()
+        {
+            Token = "testfda",
+            PlayerToken = "abcdeffdasf"
+        };
+        
+        // Act
+        var response = controller.AddPlayerOneToGame(null);
+        var response1 = controller.AddPlayerOneToGame(dto);
+        
+        // Assert
+        Assert.IsInstanceOf<BadRequestResult>(response.Result);
+        Assert.IsInstanceOf<NotFoundResult>(response1.Result);
+    }
+    
+    [Test]
+    public void AddPlayerTwoToGame_Valid()
+    {
+        // Arrange
+        var repository = new GamesRepositoryTest();
+        var controller = new GameController(repository);
+        var game = new Game();
+        var dto = new GameAddPlayerDto()
+        {
+            Token = game.Token,
+            PlayerToken = "abcdef"
+        };
+
+        // Act
+        repository.Add(game);
+        var response = controller.AddPlayerTwoToGame(dto);
+        
+        // Assert
+        Assert.IsInstanceOf<OkObjectResult>(response.Result);
+    }
+    
+    [Test]
+    public void AddPlayerTwoToGame_Invalid()
+    {
+        // Arrange
+        var repository = new GamesRepositoryTest();
+        var controller = new GameController(repository);
+        var dto = new GameAddPlayerDto()
+        {
+            Token = "testfda",
+            PlayerToken = "abcdeffdasf"
+        };
+        
+        // Act
+        var response = controller.AddPlayerTwoToGame(null);
+        var response1 = controller.AddPlayerTwoToGame(dto);
+        
+        // Assert
+        Assert.IsInstanceOf<BadRequestResult>(response.Result);
+        Assert.IsInstanceOf<NotFoundResult>(response1.Result);
+    }
+    
+    [Test]
+    public void Can_StartGame()
+    {
+        // Arrange
+        var repository = new GamesRepositoryTest();
+        var controller = new GameController(repository);
+        var game = new Game
+        {
+            PlayerOne = new PlayerOne(),
+            PlayerTwo = new PlayerTwo()
+        };
+
+        // Act 
+        repository.Add(game);
+        
+        var response = controller.StartGame(game.Token);
+        var json = response.ToJson();
+        
+        // Assert
+        Assert.IsInstanceOf<OkObjectResult>(response.Result);
+        Assert.IsTrue(json.Contains(Status.Playing.ToString()));
+    }
+    
+    [Test]
+    public void Cannot_StartGame()
+    {
+        // Arrange
+        var repository = new GamesRepositoryTest();
+        var controller = new GameController(repository);
+
+        // Act 
+        var response = controller.StartGame("test");
+        var response1 = controller.StartGame(null);
+
+        // Assert
+        Assert.IsInstanceOf<NotFoundResult>(response.Result);
+        Assert.IsInstanceOf<NotFoundResult>(response1.Result);
+    }
+
+    [Test]
+    public void Can_DoMoveInGame()
+    {
+        // Arrange
+        var repository = new GamesRepositoryTest();
+        var controller = new GameController(repository);
+        var game = new Game
+        {
+            PlayerOne = new PlayerOne(),
+            PlayerTwo = new PlayerTwo()
+        };
+
+        // Act 
+        repository.Add(game);
+        game.Start();
+
+        var response = controller.DoMoveGame(new GameDoMoveDto()
+        {
+            Token = game.Token,
+            PlayerToken = "",
+            Row = 3, 
+            Column = 5
+        });
+        var json = response.ToJson();
+        
+        // Assert
+        Assert.IsInstanceOf<OkObjectResult>(response.Result);
+        Assert.IsTrue(json.Contains(Status.Playing.ToString()));
+    }
+    
+    [Test]
+    public void CannotWithInvalidPlayer_DoMoveInGame()
+    {
+        // Arrange
+        var repository = new GamesRepositoryTest();
+        var controller = new GameController(repository);
+        var game = new Game
+        {
+            PlayerOne = new PlayerOne("qweruty"),
+            PlayerTwo = new PlayerTwo()
+        };
+
+        // Act 
+        repository.Add(game);
+        game.Start();
+
+        var response = controller.DoMoveGame(new GameDoMoveDto()
+        {
+            Token = game.Token,
+            PlayerToken = "test",
+            Row = 3, 
+            Column = 5
+        });
+        
+        // Assert
+        Assert.IsInstanceOf<BadRequestResult>(response.Result);
+    }
+    
+    [Test]
+    public void Cannot_DoMoveInGame()
+    {
+        // Arrange
+        var repository = new GamesRepositoryTest();
+        var controller = new GameController(repository);
+
+        // Act 
+        var response = controller.DoMoveGame(new GameDoMoveDto()
+        {
+            Token = "test"
+        });
+        var response1 = controller.DoMoveGame(null);
+
+        // Assert
+        Assert.IsInstanceOf<NotFoundResult>(response.Result);
+        Assert.IsInstanceOf<BadRequestResult>(response1.Result);
     }
     
     [Test]
@@ -283,7 +484,7 @@ public class GameControllerTest
         var json = response.ToJson();
         
         // Assert
-        Assert.IsTrue(json.Contains("200"));
+        Assert.IsInstanceOf<OkObjectResult>(response.Result);
         Assert.IsTrue(json.Contains(Status.Quit.ToString()));
     }
     
@@ -297,14 +498,48 @@ public class GameControllerTest
         // Act 
         var response = controller.QuitGame("test");
         var response1 = controller.QuitGame(null);
-        var json = response.ToJson();
-        var json1 = response1.ToJson();
         
         // Assert
-        Assert.IsTrue(json.Contains("404"));
-        Assert.IsTrue(json1.Contains("404"));
-        Assert.IsFalse(json.Contains(Status.Quit.ToString()));
-        Assert.IsFalse(json1.Contains(Status.Quit.ToString()));
+        Assert.IsInstanceOf<NotFoundResult>(response.Result);
+        Assert.IsInstanceOf<NotFoundResult>(response1.Result);
+    }
+    
+    [Test]
+    public void Can_CheckForFinishedGame()
+    {
+        // Arrange
+        var repository = new GamesRepositoryTest();
+        var controller = new GameController(repository);
+        var game = new Game
+        {
+            PlayerOne = new PlayerOne(),
+            PlayerTwo = new PlayerTwo()
+        };
+
+        // Act 
+        repository.Add(game);
+        game.Start();
+        
+        var response = controller.IsFinishedGame(game.Token);
+        
+        // Assert
+        Assert.IsInstanceOf<OkObjectResult>(response.Result);
+    }
+    
+    [Test]
+    public void Cannot_CheckForFinishedGame()
+    {
+        // Arrange
+        var repository = new GamesRepositoryTest();
+        var controller = new GameController(repository);
+
+        // Act 
+        var response = controller.IsFinishedGame("test");
+        var response1 = controller.IsFinishedGame(null);
+
+        // Assert
+        Assert.IsInstanceOf<NotFoundResult>(response.Result);
+        Assert.IsInstanceOf<NotFoundResult>(response1.Result);
     }
 }
 
@@ -344,7 +579,13 @@ internal class GamesRepositoryTest : IGamesRepository
     /// <inheritdoc />
     public IEnumerable<IGame> AllInQueue()
     {
-        return this.All().Where(game => game.PlayerTwo?.Token == null);
+        return this.All().Where(game => game.IsQueued());
+    }
+    
+    /// <inheritdoc />
+    public bool Exists(string? token)
+    {
+        return token != null && this.Get(token) != null;
     }
 
     /// <inheritdoc />
@@ -385,7 +626,13 @@ internal class GamesRepositoryEmptyTest : IGamesRepository
     /// <inheritdoc />
     public IEnumerable<IGame> AllInQueue()
     {
-        return this.All().Where(game => game.PlayerTwo?.Token == null);
+        return this.All().Where(game => game.IsQueued());
+    }
+    
+    /// <inheritdoc />
+    public bool Exists(string? token)
+    {
+        return token != null && this.Get(token) != null;
     }
 
     /// <inheritdoc />

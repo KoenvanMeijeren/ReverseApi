@@ -91,6 +91,16 @@ public class GamesRepositoryTests
     }
     
     [Test]
+    public void ExistsGame()
+    {
+        var token = this._repository.All().First().Token;
+        
+        Assert.IsTrue(this._repository.Exists(token));
+        Assert.IsFalse(this._repository.Exists(null));
+        Assert.IsFalse(this._repository.Exists("abcdef"));
+    }
+    
+    [Test]
     public void AddGame()
     {
         var repository = new GamesRepository();

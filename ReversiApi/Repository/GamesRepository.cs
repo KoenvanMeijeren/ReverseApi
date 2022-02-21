@@ -43,7 +43,13 @@ public class GamesRepository : IGamesRepository
     /// <inheritdoc />
     public IEnumerable<IGame> AllInQueue()
     {
-        return this.All().Where(game => game.PlayerTwo == null);
+        return this.All().Where(game => game.IsQueued());
+    }
+
+    /// <inheritdoc />
+    public bool Exists(string? token)
+    {
+        return token != null && this.Get(token) != null;
     }
 
     /// <inheritdoc />
