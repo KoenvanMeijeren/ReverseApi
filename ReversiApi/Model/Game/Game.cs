@@ -75,21 +75,47 @@ public class Game : IGame
     #region Status
 
     /// <inheritdoc/>
-    public bool IsQueued()
+    public bool IsCreated()
+    {
+        return this.Status == Status.Created;
+    }
+
+    /// <inheritdoc/>
+    public void Queue()
     {
         if (this.PlayerOne != null && this.PlayerTwo != null)
         {
-            return false;
+            if (this.Status == Status.Queued || this.IsCreated())
+            {
+                this.Status = Status.Pending;
+            }
+            
+            return;
         }
         
         this.Status = Status.Queued;
-        return true;
+    }
 
+    /// <inheritdoc/>
+    public bool IsQueued()
+    {
+        return this.PlayerOne == null || this.PlayerTwo == null || this.Status == Status.Queued;
+    }
+
+    /// <inheritdoc/>
+    public bool IsPending()
+    {
+        return this.Status == Status.Pending;
     }
 
     /// <inheritdoc/>
     public void Start()
     {
+        if (this.IsQuit() || this.Status == Status.Finished)
+        {
+            throw new Exception("Game is al een keer gestart!");
+        }
+        
         switch (this.PlayerOne)
         {
             case null when this.PlayerTwo == null:
@@ -108,6 +134,12 @@ public class Game : IGame
         }
 
         this.Status = Status.Playing;
+        if (this.CurrentPlayer.Equals(this.PlayerOne) || this.CurrentPlayer.Equals(this.PlayerTwo))
+        {
+            return;
+        }
+        
+        this.CurrentPlayer = this.PlayerOne;
     }
 
     /// <inheritdoc/>
@@ -119,13 +151,9 @@ public class Game : IGame
     /// <inheritdoc/>
     public void Quit()
     {
-        if (this.CurrentPlayer.Equals(this.PlayerOne))
+        if (!this.IsPlaying())
         {
-            this.PlayerOne = null;
-        }
-        else
-        {
-            this.PlayerTwo = null;
+            throw new Exception("De game is nog niet gestart!");
         }
         
         this.Status = Status.Quit;
@@ -174,11 +202,6 @@ public class Game : IGame
     /// <inheritdoc/>
     public Color PredominantColor()
     {
-        if (!this.IsPlaying())
-        {
-            throw new Exception("Game is nog niet gestart!");
-        }
-        
         int whiteCount = 0, blackCount = 0;
         for (int row = 0; row < BoardSize; row++)
         {
