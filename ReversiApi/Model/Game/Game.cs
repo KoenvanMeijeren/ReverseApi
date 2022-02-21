@@ -108,6 +108,12 @@ public class Game : IGame
         }
 
         this.Status = Status.Playing;
+        if (this.CurrentPlayer.Equals(this.PlayerOne) || this.CurrentPlayer.Equals(this.PlayerTwo))
+        {
+            return;
+        }
+        
+        this.CurrentPlayer = this.PlayerOne;
     }
 
     /// <inheritdoc/>

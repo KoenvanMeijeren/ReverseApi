@@ -194,7 +194,7 @@ public class GameControllerTest
         Assert.IsTrue(json.Contains("Id"));
         Assert.IsTrue(json.Contains("Description"));
         Assert.IsTrue(json.Contains("Token"));
-        Assert.IsTrue(json.Contains("TokenPlayerOne"));
+        Assert.IsTrue(json.Contains("PlayerOne"));
     }
     
     [Test]

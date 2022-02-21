@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using ReversiApi.Model.Player;
 
 #nullable enable
 namespace ReversiApi.Model.Game.DataTransferObject;
@@ -11,8 +12,8 @@ public class GameInfoDto
     public int? Id => this._game?.Id;
     public string? Description => this._game?.Description;
     public string? Token => this._game?.Token;
-    public string? TokenPlayerOne => this._game?.PlayerOne?.Token;
-    public string? TokenPlayerTwo => this._game?.PlayerTwo?.Token;
+    public PlayerOne? PlayerOne => this._game?.PlayerOne;
+    public PlayerTwo? PlayerTwo => this._game?.PlayerTwo;
     public string? Board => JsonConvert.SerializeObject(this._game?.Board);
     public string? CurrentPlayer => this._game?.CurrentPlayer.Color.ToString();
     public string? Status => this._game?.Status.ToString();

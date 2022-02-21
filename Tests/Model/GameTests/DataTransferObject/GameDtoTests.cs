@@ -43,7 +43,7 @@ public class GameDtoTests
         Assert.IsNotNull(dto.Token);
         Assert.AreEqual(Color.None.ToString(), dto.CurrentPlayer);
         Assert.IsTrue(dto.Board?.Contains("[[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0"));
-        Assert.AreEqual("abcdef", dto.TokenPlayerOne);
+        Assert.AreEqual("abcdef", dto.PlayerOne.Token);
         Assert.AreEqual("Potje snel reveri, dus niet lang nadenken", dto.Description);
     }
     
@@ -57,8 +57,34 @@ public class GameDtoTests
         Assert.AreEqual("null", dto.Board);
         Assert.IsNull(dto.Description);
         Assert.IsNull(dto.Token);
-        Assert.IsNull(dto.TokenPlayerOne);
-        Assert.IsNull(dto.TokenPlayerTwo);
+        Assert.IsNull(dto.PlayerOne);
+        Assert.IsNull(dto.PlayerTwo);
     }
     
+    [Test]
+    public void CanCreate_GameStatusDto()
+    {
+        IGame game = new Game();
+        game.PlayerOne = new PlayerOne("abcdef");
+        game.CurrentPlayer = game.PlayerOne;
+        game.Description = "Potje snel reveri, dus niet lang nadenken";
+        
+        var dto = new GameStatusDto(game);
+        
+        Assert.AreEqual(Color.White, dto.CurrentPlayer.Color);
+        Assert.IsTrue(dto.Board?.Contains("[[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0"));
+        Assert.AreEqual("abcdef", dto.CurrentPlayer.Token);
+        Assert.AreEqual(Status.Created, dto.Status);
+    }
+    
+    [Test]
+    public void CanCreateEmpty_GameStatusDto()
+    {
+        var dto = new GameStatusDto(null);
+        
+        Assert.IsNull(dto.Status);
+        Assert.IsNull(dto.CurrentPlayer);
+        Assert.AreEqual("null", dto.Board);
+    }
+
 }
