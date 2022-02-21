@@ -13,6 +13,7 @@ public enum Status
 {
     Created,
     Queued,
+    Pending,
     Playing,
     Finished,
     Quit
@@ -36,10 +37,27 @@ public interface IGame
     void SkipTurn();
 
     /// <summary>
+    /// Whether the game has been created or not.
+    /// </summary>
+    /// <returns>True if the game is created.</returns>
+    bool IsCreated();
+    
+    /// <summary>
+    /// Changes the status to queued if one of the players is not set.
+    /// </summary>
+    void Queue();
+    
+    /// <summary>
     /// Whether the game has been queued or not.
     /// </summary>
     /// <returns>True if the game is queued.</returns>
     bool IsQueued();
+
+    /// <summary>
+    /// Whether the game is waiting for changing the status or not.
+    /// </summary>
+    /// <returns>True if the game is pending.</returns>
+    bool IsPending();
     
     /// <summary>
     /// Whether the game is played by the players or not.
