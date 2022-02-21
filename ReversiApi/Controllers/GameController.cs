@@ -20,7 +20,7 @@ namespace ReversiApi.Controllers
         }
         
         // GET api/Game/queue
-        [HttpGet("queue")]
+        [HttpGet("queue/descriptions")]
         public ActionResult<IEnumerable<string>> GetDescriptionsOfGameInQueue()
         {
             var result = from game in this._repository.AllInQueue() select game.Description;
@@ -101,7 +101,7 @@ namespace ReversiApi.Controllers
             }
             
             IGame newGame = new Game();
-            newGame.PlayerOne = new Player(Color.White, gameCreateDto.TokenPlayerOne);
+            newGame.PlayerOne = new PlayerOne(gameCreateDto.TokenPlayerOne);
             newGame.Description = gameCreateDto.Description;
             this._repository.Add(newGame);
             
@@ -131,6 +131,7 @@ namespace ReversiApi.Controllers
             }
 
             var game = this._repository.Get(token);
+            game.Quit();
 
             return Ok(new GameStatusDto(game));
         }

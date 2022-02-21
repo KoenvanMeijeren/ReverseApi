@@ -24,8 +24,8 @@ public interface IGame
     string? Description { get; set; }
     // The unique token of the game.
     string Token { get; }
-    IPlayer? PlayerOne { get; set; }
-    IPlayer? PlayerTwo { get; set; }
+    PlayerOne? PlayerOne { get; set; }
+    PlayerTwo? PlayerTwo { get; set; }
     IPlayer CurrentPlayer { get; set; }
     Color[,] Board { get; set; }
     Status Status { get; }

@@ -234,12 +234,12 @@ internal class GamesRepositoryTest : IGamesRepository
         IGame game2 = new Game();
         IGame game3 = new Game();
 
-        game1.PlayerOne = new Player(Color.White, "abcdef");
+        game1.PlayerOne = new PlayerOne("abcdef");
         game1.Description = "Potje snel reveri, dus niet lang nadenken";
-        game2.PlayerOne = new Player(Color.White, "ghijkl");
-        game2.PlayerTwo = new Player(Color.Black, "mnopqr");
+        game2.PlayerOne = new PlayerOne("ghijkl");
+        game2.PlayerTwo = new PlayerTwo("mnopqr");
         game2.Description = "Ik zoek een gevorderde tegenspeler!";
-        game3.PlayerOne = new Player(Color.White, "stuvwx");
+        game3.PlayerOne = new PlayerOne("stuvwx");
         game3.Description = "Na dit spel wil ik er nog een paar spelen tegen zelfde tegenstander";
 
         this._games = new List<IGame> {game1, game2, game3};

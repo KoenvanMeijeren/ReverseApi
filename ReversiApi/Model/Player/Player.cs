@@ -2,12 +2,36 @@
 
 namespace ReversiApi.Model.Player;
 
-public class Player : IPlayer
+public class PlayerOne : Player
+{
+    public PlayerOne(string token = ""): base(Color.White, token)
+    {
+        
+    }
+}
+
+public class PlayerTwo : Player
+{
+    public PlayerTwo(string token = ""): base(Color.Black, token)
+    {
+        
+    }
+}
+
+public class PlayerUndefined : Player
+{
+    public PlayerUndefined() : base(Color.None)
+    {
+        
+    }
+}
+
+public abstract class Player : IPlayer
 {
     public string Token { get; }
     public Color Color { get; }
 
-    public Player(Color color, string token = "")
+    protected Player(Color color, string token = "")
     {
         this.Token = token;
         this.Color = color;
@@ -21,6 +45,11 @@ public class Player : IPlayer
                    && this.Color.Equals(player.Color);
         }
         
-        return base.Equals(obj);
+        return false;
+    }
+    
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(this.Token, (int) this.Color);
     }
 }

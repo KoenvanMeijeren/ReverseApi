@@ -97,10 +97,10 @@ public class GamesRepositoryTests
         var game1 = new Game();
         var game2 = new Game();
         
-        game1.PlayerOne = new Player(Color.White, "fdask");
+        game1.PlayerOne = new PlayerOne("fdask");
         game1.Description = "Potje snel reveri, dus niet lang nadenken";
-        game2.PlayerOne = new Player(Color.White, "qwert");
-        game2.PlayerTwo = new Player(Color.Black, "fdask");
+        game2.PlayerOne = new PlayerOne("qwert");
+        game2.PlayerTwo = new PlayerTwo("fdask");
         game2.Description = "Ik zoek een gevorderde tegenspeler!";
         
         repository.Add(game1);

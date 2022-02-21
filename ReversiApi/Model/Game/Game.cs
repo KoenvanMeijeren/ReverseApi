@@ -31,8 +31,8 @@ public class Game : IGame
     public int Id { get; }
     public string? Description { get; set; }
     public string Token { get; }
-    public IPlayer? PlayerOne { get; set; }
-    public IPlayer? PlayerTwo { get; set; }
+    public PlayerOne? PlayerOne { get; set; }
+    public PlayerTwo? PlayerTwo { get; set; }
     public IPlayer CurrentPlayer { get; set; }
     public Color[,] Board { get; set; }
     public Status Status { get; private set; }
@@ -52,7 +52,7 @@ public class Game : IGame
         this.Board[3, 4] = Color.Black;
         this.Board[4, 3] = Color.Black;
 
-        this.CurrentPlayer = new Player.Player(Color.None);
+        this.CurrentPlayer = new PlayerUndefined();
         this.Status = Status.Created;
     }
 
