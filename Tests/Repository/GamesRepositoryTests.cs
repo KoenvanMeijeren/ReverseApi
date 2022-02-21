@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using NUnit.Framework;
-using ReversiApi.Model;
+using ReversiApi.Model.Game;
+using ReversiApi.Model.Player;
 using ReversiApi.Repository;
 
 namespace Tests.Repository;

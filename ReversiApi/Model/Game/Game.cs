@@ -1,4 +1,6 @@
-﻿namespace ReversiApi.Model;
+﻿using ReversiApi.Model.Player;
+
+namespace ReversiApi.Model.Game;
 
 /// <summary>
 /// Provides the Game class for the Reversi game.
@@ -45,7 +47,7 @@ public class Game : IGame
         this.Board[3, 4] = Color.Black;
         this.Board[4, 3] = Color.Black;
 
-        this.CurrentPlayer = new Player(Color.None);
+        this.CurrentPlayer = new Player.Player(Color.None);
         this.Status = Status.Created;
     }
 

@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 
 #nullable enable
-namespace ReversiApi.Model.DataTransferObject.Game;
+namespace ReversiApi.Model.Game.DataTransferObject;
 
 public class GameStatusDto
 {

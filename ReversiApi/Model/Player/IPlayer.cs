@@ -1,4 +1,6 @@
-﻿namespace ReversiApi.Model;
+﻿using ReversiApi.Model.Game;
+
+namespace ReversiApi.Model.Player;
 
 public interface IPlayer
 {

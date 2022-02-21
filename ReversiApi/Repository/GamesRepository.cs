@@ -1,4 +1,5 @@
-﻿using ReversiApi.Model;
+﻿using ReversiApi.Model.Game;
+using ReversiApi.Model.Player;
 
 namespace ReversiApi.Repository;
 

@@ -1,8 +1,9 @@
 using System;
 using NUnit.Framework;
-using ReversiApi.Model;
+using ReversiApi.Model.Game;
+using ReversiApi.Model.Player;
 
-namespace Tests;
+namespace Tests.Model.GameTests;
 
 [TestFixture]
 public class GameTest

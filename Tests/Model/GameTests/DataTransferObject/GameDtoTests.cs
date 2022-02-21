@@ -1,8 +1,9 @@
 ﻿using NUnit.Framework;
-using ReversiApi.Model;
-using ReversiApi.Model.DataTransferObject.Game;
+using ReversiApi.Model.Game;
+using ReversiApi.Model.Game.DataTransferObject;
+using ReversiApi.Model.Player;
 
-namespace Tests.Model.DataTransferObject;
+namespace Tests.Model.GameTests.DataTransferObject;
 
 [TestFixture]
 public class GameDtoTests
