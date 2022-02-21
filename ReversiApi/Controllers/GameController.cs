@@ -137,7 +137,7 @@ namespace ReversiApi.Controllers
         }
         
         [HttpPut("add/player-one")]
-        public ActionResult<IGame> AddPlayerOneToGame([FromBody] GameAddPlayer? gameAddPlayer)
+        public ActionResult<IGame> AddPlayerOneToGame([FromBody] GameAddPlayerDto? gameAddPlayer)
         {
             if (gameAddPlayer == null)
             {
@@ -156,7 +156,7 @@ namespace ReversiApi.Controllers
         }
         
         [HttpPut("add/player-two")]
-        public ActionResult<IGame> AddPlayerTwoToGame([FromBody] GameAddPlayer? gameAddPlayer)
+        public ActionResult<IGame> AddPlayerTwoToGame([FromBody] GameAddPlayerDto? gameAddPlayer)
         {
             if (gameAddPlayer == null)
             {

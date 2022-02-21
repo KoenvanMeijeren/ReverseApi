@@ -90,4 +90,54 @@ public class GameDtoTests
         Assert.AreEqual("null", dto.Board);
     }
 
+    [Test]
+    public void CanCreate_GameAddPlayerDto()
+    {
+        var dto = new GameAddPlayerDto()
+        {
+            Token = "test",
+            PlayerToken = "qwert"
+        };
+
+        Assert.AreEqual("test", dto.Token);
+        Assert.AreEqual("qwert", dto.PlayerToken);
+    }
+    
+    [Test]
+    public void CanCreateEmpty_GameAddPlayerDto()
+    {
+        var dto = new GameAddPlayerDto();
+        
+        Assert.IsNull(dto.Token);
+        Assert.IsNull(dto.PlayerToken);
+    }
+    
+    [Test]
+    public void CanCreate_GameDoMoveDto()
+    {
+        var dto = new GameDoMoveDto
+        {
+            Token = "test",
+            PlayerToken = "qwert",
+            Row = 3,
+            Column = 34
+        };
+
+        Assert.AreEqual("test", dto.Token);
+        Assert.AreEqual("qwert", dto.PlayerToken);
+        Assert.AreEqual(3, dto.Row);
+        Assert.AreEqual(34, dto.Column);
+    }
+    
+    [Test]
+    public void CanCreateEmpty_GameDoMoveDto()
+    {
+        var dto = new GameDoMoveDto();
+        
+        Assert.IsNull(dto.Token);
+        Assert.IsNull(dto.PlayerToken);
+        Assert.AreEqual(0, dto.Row);
+        Assert.AreEqual(0, dto.Column);
+    }
+    
 }

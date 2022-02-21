@@ -1,6 +1,6 @@
 ﻿namespace ReversiApi.Model.Game.DataTransferObject;
 
-public class GameAddPlayer
+public class GameAddPlayerDto
 {
     public string? Token { get; set; }
     public string? PlayerToken { get; set; }
