@@ -81,11 +81,13 @@ public class GameControllerTest
 
         // Act
         var response = controller.GetByToken("test");
+        var response1 = controller.GetByToken(null);
         var json = response.ToJson();
+        var json1 = response1.ToJson();
         
         // Assert
-        Assert.IsNotEmpty(json);
         Assert.IsTrue(json.Contains("404"));
+        Assert.IsTrue(json1.Contains("404"));
         Assert.IsTrue(json.Contains("Result"));
         Assert.IsFalse(json.Contains("Value"));
         Assert.IsFalse(json.Contains("Potje snel reveri"));
@@ -222,6 +224,88 @@ public class GameControllerTest
         Assert.IsFalse(json.Contains("TokenPlayerOne"));
     }
     
+    [Test]
+    public void NotEmpty_GetGameStatus()
+    {
+        // Arrange
+        var repository = new GamesRepositoryTest();
+        var controller = new GameController(repository);
+
+        // Act
+        var response = controller.GetGameStatus(repository.All().First().Token);
+        var json = response.ToJson();
+        
+        // Assert
+        Assert.IsNotEmpty(json);
+        Assert.IsTrue(json.Contains("200"));
+        Assert.IsTrue(json.Contains("Result"));
+        Assert.IsTrue(json.Contains("Value"));
+        Assert.IsTrue(json.Contains("Board"));
+        Assert.IsTrue(json.Contains("CurrentPlayer"));
+        Assert.IsTrue(json.Contains("Status"));
+    }
+    
+    [Test]
+    public void Empty_GetGameStatus() 
+    {
+        // Arrange
+        var repository = new GamesRepositoryEmptyTest();
+        var controller = new GameController(repository);
+
+        // Act
+        var response = controller.GetGameStatus("test");
+        var response1 = controller.GetGameStatus(null);
+        var json = response.ToJson();
+        var json1 = response1.ToJson();
+        
+        // Assert
+        Assert.IsTrue(json.Contains("404"));
+        Assert.IsTrue(json1.Contains("404"));
+    }
+    
+    [Test]
+    public void Can_QuitGame()
+    {
+        // Arrange
+        var repository = new GamesRepositoryTest();
+        var controller = new GameController(repository);
+        var game = new Game
+        {
+            PlayerOne = new PlayerOne(),
+            PlayerTwo = new PlayerTwo()
+        };
+
+        // Act 
+        repository.Add(game);
+        game.Start();
+        
+        var response = controller.QuitGame(game.Token);
+        var json = response.ToJson();
+        
+        // Assert
+        Assert.IsTrue(json.Contains("200"));
+        Assert.IsTrue(json.Contains(Status.Quit.ToString()));
+    }
+    
+    [Test]
+    public void Cannot_QuitGame()
+    {
+        // Arrange
+        var repository = new GamesRepositoryTest();
+        var controller = new GameController(repository);
+
+        // Act 
+        var response = controller.QuitGame("test");
+        var response1 = controller.QuitGame(null);
+        var json = response.ToJson();
+        var json1 = response1.ToJson();
+        
+        // Assert
+        Assert.IsTrue(json.Contains("404"));
+        Assert.IsTrue(json1.Contains("404"));
+        Assert.IsFalse(json.Contains(Status.Quit.ToString()));
+        Assert.IsFalse(json1.Contains(Status.Quit.ToString()));
+    }
 }
 
 internal class GamesRepositoryTest : IGamesRepository
