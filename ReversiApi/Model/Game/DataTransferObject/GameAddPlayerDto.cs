@@ -2,7 +2,7 @@
 
 public class GameAddPlayerDto
 {
-    public string? Token { get; set; }
-    public string? PlayerToken { get; set; }
+    public string? Token { get; init; }
+    public string? PlayerToken { get; init; }
 
 }

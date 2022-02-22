@@ -45,6 +45,7 @@ public class GameDtoTests
         Assert.IsTrue(dto.Board?.Contains("[[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0"));
         Assert.AreEqual("abcdef", dto.PlayerOne.Token);
         Assert.AreEqual("Potje snel reveri, dus niet lang nadenken", dto.Description);
+        Assert.AreEqual(Status.Created.ToString(), dto.Status);
     }
     
     [Test]
@@ -58,6 +59,7 @@ public class GameDtoTests
         Assert.AreEqual("null", dto.Board);
         Assert.IsNull(dto.Description);
         Assert.IsNull(dto.Token);
+        Assert.IsNull(dto.Status);
         Assert.IsNull(dto.PlayerOne.Color);
         Assert.IsNull(dto.PlayerOne.Token);
         Assert.IsNull(dto.PlayerTwo.Color);

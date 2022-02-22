@@ -7,7 +7,7 @@ public class GameStatusDto
 {
 
     private readonly IGame? _game;
-    public string? Board => JsonConvert.SerializeObject(this._game?.Board);
+    public string Board => JsonConvert.SerializeObject(this._game?.Board);
     public PlayerInfoDto CurrentPlayer => new PlayerInfoDto(this._game?.CurrentPlayer);
     public string? Status => this._game?.Status.ToString();
     

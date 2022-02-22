@@ -2,9 +2,9 @@
 
 public class GameDoMoveDto
 {
-    public string? Token { get; set; }
-    public string? PlayerToken { get; set; }
-    public int Row { get; set; }
-    public int Column { get; set; }
+    public string? Token { get; init; }
+    public string? PlayerToken { get; init; }
+    public int Row { get; init; }
+    public int Column { get; init; }
 
 }
