@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using ReversiApi.Model.Player.DataTransferObject;
 
 #nullable enable
 namespace ReversiApi.Model.Game.DataTransferObject;
