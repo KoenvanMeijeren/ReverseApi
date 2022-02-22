@@ -64,8 +64,10 @@ public class Game : IGame
     {
         return Convert
             .ToBase64String(Guid.NewGuid().ToByteArray())
-            .Replace("/", "q")
-            .Replace("+", "r");
+            .Replace("/", "s")
+            .Replace("=", "i")
+            .Replace("?", "q")
+            .Replace("+", "p");
     }
 
     #endregion
