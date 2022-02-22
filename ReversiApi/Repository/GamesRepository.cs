@@ -1,7 +1,4 @@
-﻿using ReversiApi.Model.Game;
-using ReversiApi.Model.Player;
-
-namespace ReversiApi.Repository;
+﻿namespace ReversiApi.Repository;
 
 /// <summary>
 /// Provides a repository for the game.

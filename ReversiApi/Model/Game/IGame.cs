@@ -1,6 +1,4 @@
-﻿using ReversiApi.Model.Player;
-
-namespace ReversiApi.Model.Game;
+﻿namespace ReversiApi.Model.Game;
 
 public enum Color
 {

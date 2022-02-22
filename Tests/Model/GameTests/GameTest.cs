@@ -16,7 +16,7 @@ public class GameTest
     public void IntialiseerGame()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         //     0 1 2 3 4 5 6 7
         //                     v
         // 0   0 0 0 0 0 0 0 0  
@@ -43,8 +43,8 @@ public class GameTest
     public void IntialiseerGame_Token_IsUnqiue()
     {
         // Arrange
-        Game game = new Game();
-        Game gameTwo = new Game();
+        IGame game = new Game();
+        IGame gameTwo = new Game();
             
         // Assert
         Assert.AreNotEqual(game.Token, gameTwo.Token);
@@ -54,7 +54,7 @@ public class GameTest
     public void AreMovesPossible_ColorNone_SkipTurn_ThrowsException()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         //     0 1 2 3 4 5 6 7
         //                     v
         // 0   0 0 0 0 0 0 0 0  
@@ -77,7 +77,7 @@ public class GameTest
     public void AreMovesPossible_ColorNone_ThrowsException()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         //     0 1 2 3 4 5 6 7
         //                     v
         // 0   0 0 0 0 0 0 0 0  
@@ -104,7 +104,7 @@ public class GameTest
     public void ZetMogelijk__BuitenBord_Exception()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         //     0 1 2 3 4 5 6 7
         //                     v
         // 0   0 0 0 0 0 0 0 0  
@@ -132,7 +132,7 @@ public class GameTest
     public void ZetMogelijk_StartSituatieZet23Zwart_ReturnTrue()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         //     0 1 2 3 4 5 6 7
         //           v
         // 0   0 0 0 0 0 0 0 0  
@@ -158,7 +158,7 @@ public class GameTest
     public void ZetMogelijk_StartSituatieZet23Wit_ReturnFalse()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         //     0 1 2 3 4 5 6 7
         //           v
         // 0   0 0 0 0 0 0 0 0  
@@ -185,7 +185,7 @@ public class GameTest
     public void ZetMogelijk_ZetAanDeRandBoven_ReturnTrue()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         game.Board[1, 3] = Color.White;
         game.Board[2, 3] = Color.White;
         //     0 1 2 3 4 5 6 7
@@ -212,7 +212,7 @@ public class GameTest
     public void ZetMogelijk_ZetAanDeRandBoven_ReturnFalse()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         game.Board[1, 3] = Color.White;
         game.Board[2, 3] = Color.White;
         //     0 1 2 3 4 5 6 7
@@ -240,7 +240,7 @@ public class GameTest
     public void ZetMogelijk_ZetAanDeRandBovenEnTotBenedenReedsGevuld_ReturnTrue()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         game.Board[1, 3] = Color.White;
         game.Board[2, 3] = Color.White;
         game.Board[3, 3] = Color.White;
@@ -273,7 +273,7 @@ public class GameTest
     public void ZetMogelijk_ZetAanDeRandBovenEnTotBenedenReedsGevuld_ReturnFalse()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         game.Board[1, 3] = Color.White;
         game.Board[2, 3] = Color.White;
         game.Board[3, 3] = Color.White;
@@ -311,7 +311,7 @@ public class GameTest
     public void ZetMogelijk_ZetAanDeRandRechts_ReturnTrue()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         game.Board[4, 5] = Color.White;
         game.Board[4, 6] = Color.White;
         //     0 1 2 3 4 5 6 7
@@ -338,7 +338,7 @@ public class GameTest
     public void ZetMogelijk_ZetAanDeRandRechts_ReturnFalse()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         game.Board[4, 5] = Color.White;
         game.Board[4, 6] = Color.White;
         //     0 1 2 3 4 5 6 7
@@ -366,7 +366,7 @@ public class GameTest
     public void ZetMogelijk_ZetAanDeRandRechtsEnTotLinksReedsGevuld_ReturnTrue()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         game.Board[4, 0] = Color.Black;
         game.Board[4, 1] = Color.White;
         game.Board[4, 2] = Color.White;
@@ -399,7 +399,7 @@ public class GameTest
     public void ZetMogelijk_ZetAanDeRandRechtsEnTotLinksReedsGevuld_ReturnFalse()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         game.Board[4, 0] = Color.Black;
         game.Board[4, 1] = Color.White;
         game.Board[4, 2] = Color.White;
@@ -447,7 +447,7 @@ public class GameTest
     public void ZetMogelijk_StartSituatieZet22Wit_ReturnFalse()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         //     0 1 2 3 4 5 6 7
         //         v
         // 0   0 0 0 0 0 0 0 0  
@@ -472,7 +472,7 @@ public class GameTest
     public void ZetMogelijk_StartSituatieZet22Zwart_ReturnFalse()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         //     0 1 2 3 4 5 6 7
         //         v
         // 0   0 0 0 0 0 0 0 0  
@@ -499,7 +499,7 @@ public class GameTest
     public void ZetMogelijk_ZetAanDeRandRechtsBoven_ReturnTrue()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         game.Board[2, 5] = Color.Black;
         game.Board[1, 6] = Color.Black;
         game.Board[5, 2] = Color.White;
@@ -527,7 +527,7 @@ public class GameTest
     public void ZetMogelijk_ZetAanDeRandRechtsBoven_ReturnFalse()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         game.Board[2, 5] = Color.Black;
         game.Board[1, 6] = Color.Black;
         game.Board[5, 2] = Color.White;
@@ -555,7 +555,7 @@ public class GameTest
     public void ZetMogelijk_ZetAanDeRandRechtsOnder_ReturnTrue()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         game.Board[2, 2] = Color.Black;
         game.Board[5, 5] = Color.White;
         game.Board[6, 6] = Color.White;
@@ -583,7 +583,7 @@ public class GameTest
     public void ZetMogelijk_ZetAanDeRandRechtsOnder_ReturnFalse()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         game.Board[2, 2] = Color.Black;
         game.Board[5, 5] = Color.White;
         game.Board[6, 6] = Color.White;
@@ -611,7 +611,7 @@ public class GameTest
     public void ZetMogelijk_ZetAanDeRandLinksBoven_ReturnTrue()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         game.Board[1, 1] = Color.White;
         game.Board[2, 2] = Color.White;
         game.Board[5, 5] = Color.Black;
@@ -639,7 +639,7 @@ public class GameTest
     public void ZetMogelijk_ZetAanDeRandLinksBoven_ReturnFalse()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         game.Board[1, 1] = Color.White;
         game.Board[2, 2] = Color.White;
         game.Board[5, 5] = Color.Black;
@@ -667,7 +667,7 @@ public class GameTest
     public void ZetMogelijk_ZetAanDeRandLinksOnder_ReturnTrue()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         game.Board[2, 5] = Color.White;
         game.Board[5, 2] = Color.Black;
         game.Board[6, 1] = Color.Black;
@@ -695,7 +695,7 @@ public class GameTest
     public void ZetMogelijk_ZetAanDeRandLinksOnder_ReturnFalse()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         game.Board[2, 5] = Color.White;
         game.Board[5, 2] = Color.Black;
         game.Board[6, 1] = Color.Black;
@@ -725,7 +725,7 @@ public class GameTest
     public void DoeZet_BuitenBord_Exception()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         //     0 1 2 3 4 5 6 7
         //                     v
         // 0   0 0 0 0 0 0 0 0  
@@ -759,7 +759,7 @@ public class GameTest
     public void DoeZet_StartSituatieZet23Zwart_ZetCorrectUitgevoerd()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         //     0 1 2 3 4 5 6 7
         //           v
         // 0   0 0 0 0 0 0 0 0  
@@ -789,7 +789,7 @@ public class GameTest
     public void DoeZet_StartSituatieZet23Wit_Exception()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         //     0 1 2 3 4 5 6 7
         //           v
         // 0   0 0 0 0 0 0 0 0  
@@ -825,7 +825,7 @@ public class GameTest
     public void DoeZet_ZetAanDeRandBoven_ZetCorrectUitgevoerd()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         game.Board[1, 3] = Color.White;
         game.Board[2, 3] = Color.White;
         //     0 1 2 3 4 5 6 7
@@ -858,7 +858,7 @@ public class GameTest
     public void DoeZet_ZetAanDeRandBoven_Exception()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         game.Board[1, 3] = Color.White;
         game.Board[2, 3] = Color.White;
         //     0 1 2 3 4 5 6 7
@@ -897,7 +897,7 @@ public class GameTest
     public void DoeZet_ZetAanDeRandBovenEnTotBenedenReedsGevuld_ZetCorrectUitgevoerd()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         game.Board[1, 3] = Color.White;
         game.Board[2, 3] = Color.White;
         game.Board[3, 3] = Color.White;
@@ -938,7 +938,7 @@ public class GameTest
     public void DoeZet_ZetAanDeRandBovenEnTotBenedenReedsGevuld_Exception()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         game.Board[1, 3] = Color.White;
         game.Board[2, 3] = Color.White;
         game.Board[3, 3] = Color.White;
@@ -980,7 +980,7 @@ public class GameTest
     public void DoeZet_ZetAanDeRandRechts_ZetCorrectUitgevoerd()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         game.Board[4, 5] = Color.White;
         game.Board[4, 6] = Color.White;
         //     0 1 2 3 4 5 6 7
@@ -1011,7 +1011,7 @@ public class GameTest
     public void DoeZet_ZetAanDeRandRechts_Exception()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         game.Board[4, 5] = Color.White;
         game.Board[4, 6] = Color.White;
         //     0 1 2 3 4 5 6 7
@@ -1050,7 +1050,7 @@ public class GameTest
     public void DoeZet_ZetAanDeRandRechtsEnTotLinksReedsGevuld_ZetCorrectUitgevoerd()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         game.Board[4, 0] = Color.Black;
         game.Board[4, 1] = Color.White;
         game.Board[4, 2] = Color.White;
@@ -1090,7 +1090,7 @@ public class GameTest
     public void DoeZet_ZetAanDeRandRechtsEnTotLinksReedsGevuld_Exception()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         game.Board[4, 0] = Color.Black;
         game.Board[4, 1] = Color.White;
         game.Board[4, 2] = Color.White;
@@ -1152,7 +1152,7 @@ public class GameTest
     public void DoeZet_StartSituatieZet22Wit_Exception()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         //     0 1 2 3 4 5 6 7
         //         v
         // 0   0 0 0 0 0 0 0 0  
@@ -1185,7 +1185,7 @@ public class GameTest
     public void DoeZet_StartSituatieZet22Zwart_Exception()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         //     0 1 2 3 4 5 6 7
         //         v
         // 0   0 0 0 0 0 0 0 0  
@@ -1219,7 +1219,7 @@ public class GameTest
     public void DoeZet_ZetAanDeRandRechtsBoven_ZetCorrectUitgevoerd()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         game.Board[2, 5] = Color.Black;
         game.Board[1, 6] = Color.Black;
         game.Board[5, 2] = Color.White;
@@ -1252,7 +1252,7 @@ public class GameTest
     public void DoeZet_ZetAanDeRandRechtsBoven_Exception()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         game.Board[2, 5] = Color.Black;
         game.Board[1, 6] = Color.Black;
         game.Board[5, 2] = Color.White;
@@ -1292,7 +1292,7 @@ public class GameTest
     public void DoeZet_ZetAanDeRandRechtsOnder_ZetCorrectUitgevoerd()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         game.Board[2, 2] = Color.Black;
         game.Board[5, 5] = Color.White;
         game.Board[6, 6] = Color.White;
@@ -1325,7 +1325,7 @@ public class GameTest
     public void DoeZet_ZetAanDeRandRechtsOnder_Exception()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         game.Board[2, 2] = Color.Black;
         game.Board[5, 5] = Color.White;
         game.Board[6, 6] = Color.White;
@@ -1364,7 +1364,7 @@ public class GameTest
     public void DoeZet_ZetAanDeRandLinksBoven_ZetCorrectUitgevoerd()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         game.Board[1, 1] = Color.White;
         game.Board[2, 2] = Color.White;
         game.Board[5, 5] = Color.Black;
@@ -1397,7 +1397,7 @@ public class GameTest
     public void DoeZet_ZetAanDeRandLinksBoven_Exception()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         game.Board[1, 1] = Color.White;
         game.Board[2, 2] = Color.White;
         game.Board[5, 5] = Color.Black;
@@ -1439,7 +1439,7 @@ public class GameTest
     public void DoeZet_ZetAanDeRandLinksOnder_ZetCorrectUitgevoerd()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         game.Board[2, 5] = Color.White;
         game.Board[5, 2] = Color.Black;
         game.Board[6, 1] = Color.Black;
@@ -1472,7 +1472,7 @@ public class GameTest
     public void DoeZet_ZetAanDeRandLinksOnder_Exception()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         game.Board[2, 5] = Color.White;
         game.Board[5, 2] = Color.Black;
         game.Board[6, 1] = Color.Black;
@@ -1513,7 +1513,7 @@ public class GameTest
     public void Pas_ZwartAanZetGeenZetMogelijk_ReturnTrueEnWisselBeurt()
     {
         // Arrange  (zowel wit als zwart kunnen niet meer)
-        Game game = new Game();
+        IGame game = new Game();
         game.Board[0, 0] = Color.White;
         game.Board[0, 1] = Color.White;
         game.Board[0, 2] = Color.White;
@@ -1602,7 +1602,7 @@ public class GameTest
     public void Pas_WitAanZetGeenZetMogelijk_ReturnTrueEnWisselBeurt()
     {
         // Arrange  (zowel wit als zwart kunnen niet meer)
-        Game game = new Game();
+        IGame game = new Game();
         game.Board[0, 0] = Color.White;
         game.Board[0, 1] = Color.White;
         game.Board[0, 2] = Color.White;
@@ -1691,7 +1691,7 @@ public class GameTest
     public void Pas_WitAanZetEnZetMogelijk_ThrowsException()
     {
         // Arrange  (zowel wit als zwart kunnen niet meer)
-        Game game = new Game();
+        IGame game = new Game();
         //     0 1 2 3 4 5 6 7
         //                     v
         // 0   0 0 0 0 0 0 0 0  
@@ -1717,7 +1717,7 @@ public class GameTest
     public void Pas_ZwartAanZetEnZetMogelijk_ThrowsException()
     {
         // Arrange  (zowel wit als zwart kunnen niet meer)
-        Game game = new Game();
+        IGame game = new Game();
         //     0 1 2 3 4 5 6 7
         //                     v
         // 0   0 0 0 0 0 0 0 0  
@@ -1743,7 +1743,7 @@ public class GameTest
     public void Afgelopen_GeenZetMogelijk_ReturnTrue()
     {
         // Arrange  (zowel wit als zwart kunnen niet meer)
-        Game game = new Game();
+        IGame game = new Game();
         game.Board[0, 0] = Color.White;
         game.Board[0, 1] = Color.White;
         game.Board[0, 2] = Color.White;
@@ -1833,7 +1833,7 @@ public class GameTest
     public void Afgelopen_GeenZetMogelijkAllesBezet_ReturnTrue()
     {
         // Arrange  (zowel wit als zwart kunnen niet meer)
-        Game game = new Game();
+        IGame game = new Game();
         game.Board[0, 0] = Color.White;
         game.Board[0, 1] = Color.White;
         game.Board[0, 2] = Color.White;
@@ -1923,7 +1923,7 @@ public class GameTest
     public void Afgelopen_WelZetMogelijk_ReturnFalse()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         //     0 1 2 3 4 5 6 7
         //                     
         // 0   0 0 0 0 0 0 0 0  
@@ -1951,7 +1951,7 @@ public class GameTest
     public void OverwegendeKleur_Gelijk_ReturnKleurGeen()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         //     0 1 2 3 4 5 6 7
         //                     
         // 0   0 0 0 0 0 0 0 0  
@@ -1978,7 +1978,7 @@ public class GameTest
     public void OverwegendeKleur_Zwart_ReturnKleurZwart()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         game.Board[2, 3] = Color.Black;
         game.Board[3, 3] = Color.Black;
         game.Board[4, 3] = Color.Black;
@@ -2011,7 +2011,7 @@ public class GameTest
     public void OverwegendeKleur_Wit_ReturnKleurWit()
     {
         // Arrange
-        Game game = new Game();
+        IGame game = new Game();
         game.Board[2, 3] = Color.White;
         game.Board[3, 3] = Color.White;
         game.Board[4, 3] = Color.White;

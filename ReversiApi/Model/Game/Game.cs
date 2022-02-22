@@ -1,6 +1,4 @@
-﻿using ReversiApi.Model.Player;
-
-namespace ReversiApi.Model.Game;
+﻿namespace ReversiApi.Model.Game;
 
 /// <summary>
 /// Provides the Game class for the Reversi game.
@@ -13,7 +11,7 @@ public class Game : IGame
         IdUndefined = -1,
         BoardSize = 8;
         
-    private readonly int[,] _direction = new int[8, 2] {
+    private readonly int[,] _direction = {
         {  0,  1 },         // rightwards
         {  0, -1 },         // leftwards
         {  1,  0 },         // downwards
@@ -215,6 +213,7 @@ public class Game : IGame
                     case Color.Black:
                         blackCount++;
                         continue;
+                    case Color.None:
                     default:
                         continue;
                 }
