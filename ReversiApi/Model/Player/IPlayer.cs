@@ -2,7 +2,7 @@
 
 public interface IPlayer
 {
-    public string Token { get; }
-    public Color Color { get; }
+    string Token { get; }
+    Color Color { get; }
     
 }
