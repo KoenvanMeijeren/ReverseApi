@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ReversiApi.DataAccess;
 
+[ExcludeFromCodeCoverage]
 public class GameEntityConfiguration : IEntityTypeConfiguration<GameEntity>
 {
     public void Configure(EntityTypeBuilder<GameEntity> builder)
