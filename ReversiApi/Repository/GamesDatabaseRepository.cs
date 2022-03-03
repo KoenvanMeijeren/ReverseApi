@@ -101,6 +101,7 @@ public class GamesDatabaseRepository : RepositoryDatabaseBase<GameEntity>, IData
         return entities;
     }
 
+    /// <inheritdoc />
     public override bool Update(GameEntity entity)
     {
         entity.UpdateEntity();

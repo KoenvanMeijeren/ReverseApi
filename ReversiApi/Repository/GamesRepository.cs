@@ -13,14 +13,26 @@ public class GamesRepository : RepositoryBase<GameEntity>, IGamesRepository<Game
         GameEntity entity2 = new GameEntity();
         GameEntity entity3 = new GameEntity();
 
+        entity1.Description = "Potje snel reveri, dus niet lang nadenken";
         entity1.PlayerOne = new PlayerEntity(new PlayerOne("abcdef"));
+
+        entity2.Description = "Ik zoek een gevorderde tegenspeler!";
         entity2.PlayerOne = new PlayerEntity(new PlayerOne("ghijkl"));
         entity2.PlayerTwo = new PlayerEntity(new PlayerTwo("mnopqr"));
+        
         entity3.PlayerOne = new PlayerEntity(new PlayerOne("stuvwx"));
 
         this.Add(entity1);
         this.Add(entity2);
         this.Add(entity3);
+    }
+
+    /// <inheritdoc />
+    public override void Add(GameEntity entity)
+    {
+        entity.UpdateGame();
+        
+        base.Add(entity);
     }
 
     /// <inheritdoc />
@@ -51,5 +63,14 @@ public class GamesRepository : RepositoryBase<GameEntity>, IGamesRepository<Game
     public GameEntity? GetByPlayerTwo(string? token)
     {
         return this.Items.SingleOrDefault(entity => entity.PlayerTwo != null && entity.PlayerTwo.Token.Equals(token));
+    }
+    
+    /// <inheritdoc />
+    public override bool Update(GameEntity entity)
+    {
+        entity.UpdateEntity();
+        entity.UpdateGame();
+
+        return base.Update(entity);
     }
 }

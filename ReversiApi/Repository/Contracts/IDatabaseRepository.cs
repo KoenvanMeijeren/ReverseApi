@@ -21,18 +21,4 @@ public interface IDatabaseRepository<T> : IRepository<T> where T : class, IEntit
     /// <returns>The entity.</returns>
     T? Get(int id);
     
-    /// <summary>
-    /// Updates the entity.
-    /// </summary>
-    /// <param name="entity">The entity.</param>
-    /// <returns>Whether the update was successful or not.</returns>
-    bool Update(T entity);
-    
-    /// <summary>
-    /// Deletes the entity.
-    /// </summary>
-    /// <param name="entity">The entity.</param>
-    /// <returns>Whether the delete was successful or not.</returns>
-    bool Delete(T entity);
-    
 }

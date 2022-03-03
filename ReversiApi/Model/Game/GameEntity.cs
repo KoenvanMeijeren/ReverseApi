@@ -61,6 +61,11 @@ public class GameEntity : IEntity
             this.Game.PlayerTwo = new PlayerTwo(this.PlayerTwo.Token);
         }
 
+        if (!this.Game.IsPlaying())
+        {
+            return;
+        }
+        
         this.Game.CurrentPlayer = this.Game.PlayerOne;
         if (this.CurrentPlayer != null && this.CurrentPlayer.Token.Equals(this.PlayerTwo?.Token))
         {

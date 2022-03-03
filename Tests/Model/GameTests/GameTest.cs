@@ -13,44 +13,6 @@ public class GameTest
     // Black = 2
 
     [Test]
-    public void IntialiseerGame()
-    {
-        // Arrange
-        IGame game = new Game();
-        //     0 1 2 3 4 5 6 7
-        //                     v
-        // 0   0 0 0 0 0 0 0 0  
-        // 1   0 0 0 0 0 0 0 0
-        // 2   0 0 0 0 0 0 0 0
-        // 3   0 0 0 1 2 0 0 0
-        // 4   0 0 0 2 1 0 0 0
-        // 5   0 0 0 0 0 0 0 0
-        // 6   0 0 0 0 0 0 0 0
-        // 7   0 0 0 0 0 0 0 0
-        //                     1 <
-        // Act
-        game.CurrentPlayer = new PlayerOne();
-        
-        // Assert
-        Assert.AreEqual(Color.White, game.CurrentPlayer.Color);
-        Assert.AreEqual(-1, game.Id);
-        Assert.IsNull(game.Description);
-        Assert.IsNull(game.PlayerOne);
-        Assert.IsNull(game.PlayerTwo);
-    }
-        
-    [Test]
-    public void IntialiseerGame_Token_IsUnqiue()
-    {
-        // Arrange
-        IGame game = new Game();
-        IGame gameTwo = new Game();
-            
-        // Assert
-        Assert.AreNotEqual(game.Token, gameTwo.Token);
-    }
-        
-    [Test]
     public void AreMovesPossible_ColorNone_SkipTurn_ThrowsException()
     {
         // Arrange

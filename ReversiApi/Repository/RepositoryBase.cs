@@ -17,4 +17,17 @@ public abstract class RepositoryBase<T> : IRepository<T> where T : class
     {
         return this.Items;
     }
+
+    public virtual bool Update(T entity)
+    {
+        var index = this.Items.IndexOf(entity);
+        this.Items[index] = entity;
+
+        return true;
+    }
+
+    public virtual bool Delete(T entity)
+    {
+        return this.Items.Remove(entity);
+    }
 }

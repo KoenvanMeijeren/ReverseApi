@@ -1,18 +1,19 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ReversiApi.DataAccess;
-using ReversiApi.Repository.Contracts;
+﻿using ReversiApi.Repository.Contracts;
 
 namespace ReversiApi.Repository;
 
 /// <summary>
 /// Provides a repository for the game.
 /// </summary>
-public class PlayersRepository : RepositoryDatabaseBase<PlayerEntity>, IPlayersRepository<PlayerEntity>
+public class PlayersRepository : RepositoryBase<PlayerEntity>, IPlayersRepository<PlayerEntity>
 {
     
-    public PlayersRepository(GamesDataAccess context) : base(context)
+    public PlayersRepository()
     {
-        
+        this.Add(new PlayerEntity(new PlayerOne("abcdef")));
+        this.Add(new PlayerEntity(new PlayerOne("ghijkl")));
+        this.Add(new PlayerEntity(new PlayerTwo("mnopqr")));
+        this.Add(new PlayerEntity(new PlayerOne("stuvwx")));
     }
 
     public PlayerEntity FirstOrCreate(PlayerEntity playerEntity)
@@ -31,18 +32,12 @@ public class PlayersRepository : RepositoryDatabaseBase<PlayerEntity>, IPlayersR
     /// <inheritdoc />
     public bool Exists(string? token)
     {
-        return this.Context.Players.SingleOrDefault(player => player.Token.Equals(token)) != null;
+        return this.Items.SingleOrDefault(player => player.Token.Equals(token)) != null;
     }
     
     /// <inheritdoc />
     public PlayerEntity? Get(string? token)
     {
-        return this.Context.Players.SingleOrDefault(player => player.Token.Equals(token));
-    }
-
-    /// <inheritdoc />
-    protected override DbSet<PlayerEntity> GetDbSet()
-    {
-        return this.Context.Players;
+        return this.Items.SingleOrDefault(player => player.Token.Equals(token));
     }
 }
