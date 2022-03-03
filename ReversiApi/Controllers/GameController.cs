@@ -145,6 +145,11 @@ public class GameController : ControllerBase
         {
             return NotFound();
         }
+
+        if (entity.PlayerOne != null)
+        {
+            return BadRequest();
+        }
         
         PlayerEntity player = new PlayerEntity(new PlayerOne(gameAddPlayer.PlayerToken));
         this._playersRepository.FirstOrCreate(player);
@@ -167,6 +172,11 @@ public class GameController : ControllerBase
         if (entity == null)
         {
             return NotFound();
+        }
+
+        if (entity.PlayerTwo != null)
+        {
+            return BadRequest();
         }
     
         PlayerEntity player = new PlayerEntity(new PlayerTwo(gameAddPlayer.PlayerToken));
