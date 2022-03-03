@@ -8,7 +8,6 @@ public class Game : IGame
     #region Fields
 
     private const int 
-        IdUndefined = -1,
         BoardSize = 8;
         
     private readonly int[,] _direction = {
@@ -26,14 +25,11 @@ public class Game : IGame
 
     #region Properties
 
-    public int Id { get; }
-    public string? Description { get; set; }
-    public string Token { get; }
     public PlayerOne? PlayerOne { get; set; }
     public PlayerTwo? PlayerTwo { get; set; }
     public IPlayer CurrentPlayer { get; set; }
     public Color[,] Board { get; set; }
-    public Status Status { get; private set; }
+    public Status Status { get; set; }
 
     #endregion
 
@@ -41,9 +37,6 @@ public class Game : IGame
 
     public Game()
     {
-        this.Id = IdUndefined;
-        this.Token = Game.GenerateToken();
-
         this.Board = new Color[BoardSize, BoardSize];
         this.Board[3, 3] = Color.White;
         this.Board[4, 4] = Color.White;
@@ -54,20 +47,13 @@ public class Game : IGame
         this.Status = Status.Created;
     }
 
-    /// <summary>
-    /// Generates the token for the game.
-    ///
-    /// Avoids using the '/' and '+' symbols, because the requests are done via API calls with the token as ID.
-    /// </summary>
-    /// <returns>The generated token.</returns>
-    private static string GenerateToken()
+    public Game(Color[,] board, Status status, PlayerOne playerOne, PlayerTwo playerTwo, IPlayer currentPlayer)
     {
-        return Convert
-            .ToBase64String(Guid.NewGuid().ToByteArray())
-            .Replace("/", "s")
-            .Replace("=", "i")
-            .Replace("?", "q")
-            .Replace("+", "p");
+        this.Board = board;
+        this.Status = status;
+        this.PlayerOne = playerOne;
+        this.PlayerTwo = playerTwo;
+        this.CurrentPlayer = currentPlayer;
     }
 
     #endregion

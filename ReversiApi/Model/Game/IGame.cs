@@ -19,15 +19,11 @@ public enum Status
 
 public interface IGame
 {
-    int Id { get; }
-    string? Description { get; set; }
-    // The unique token of the game.
-    string Token { get; }
     PlayerOne? PlayerOne { get; set; }
     PlayerTwo? PlayerTwo { get; set; }
     IPlayer CurrentPlayer { get; set; }
     Color[,] Board { get; set; }
-    Status Status { get; }
+    Status Status { get; set; }
         
     /// <summary>
     /// Allows the player to skip his turn, if possible. Otherwise throws an exception if there are moves possible. 

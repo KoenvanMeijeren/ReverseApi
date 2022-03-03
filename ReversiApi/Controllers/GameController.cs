@@ -1,3 +1,5 @@
+using ReversiApi.Repository.Contracts;
+
 #nullable enable
 
 namespace ReversiApi.Controllers;
@@ -7,37 +9,26 @@ namespace ReversiApi.Controllers;
 public class GameController : ControllerBase
 {
 
-    private readonly IGamesRepository _repository;
+    private readonly IDatabaseGamesRepository<GameEntity> _repository;
+    private readonly IPlayersRepository<PlayerEntity> _playersRepository;
 
-    public GameController(IGamesRepository repository)
+    public GameController(IDatabaseGamesRepository<GameEntity> repository, IPlayersRepository<PlayerEntity> playersRepository)
     {
         this._repository = repository;
+        this._playersRepository = playersRepository;
     }
-        
+    
     // GET api/Game/queue
     [HttpGet("queue")]
     public ActionResult<IEnumerable<GameInfoDto>> GetGamesInQueue()
     {
-        var result = from game in this._repository.AllInQueue() select new GameInfoDto(game);
-        if (!result.Any())
+        var entities = from entity in this._repository.AllInQueue() select new GameInfoDto(entity);
+        if (!entities.Any())
         {
             return NotFound();
         }
                 
-        return Ok(result);
-    }
-
-    // GET api/Game/queue
-    [HttpGet("queue/descriptions")]
-    public ActionResult<IEnumerable<string>> GetDescriptionsOfGameInQueue()
-    {
-        var result = from game in this._repository.AllInQueue() select game.Description;
-        if (!result.Any())
-        {
-            return NotFound();
-        }
-                
-        return Ok(result);
+        return Ok(entities);
     }
 
     // GET api/Game/{token}
@@ -47,16 +38,16 @@ public class GameController : ControllerBase
     {
         if (token == null)
         {
-            return NotFound();
+            return BadRequest();
         }
             
-        var game = this._repository.Get(token);
-        if (game == null)
+        var entity = this._repository.Get(token);
+        if (entity == null)
         {
             return NotFound();
         }
-
-        return Ok(new GameInfoDto(game));
+        
+        return Ok(new GameInfoDto(entity));
     }
         
     // GET api/Game/player-one/{token}
@@ -66,16 +57,16 @@ public class GameController : ControllerBase
     {
         if (token == null)
         {
-            return NotFound();
+            return BadRequest();
         }
             
-        var game = this._repository.GetByPlayerOne(token);
-        if (game == null)
+        var entity = this._repository.GetByPlayerOne(token);
+        if (entity == null)
         {
             return NotFound();
         }
-
-        return Ok(new GameInfoDto(game));
+    
+        return Ok(new GameInfoDto(entity));
     }
         
     // GET api/Game/player-two/{token}
@@ -85,30 +76,34 @@ public class GameController : ControllerBase
     {
         if (token == null)
         {
-            return NotFound();
+            return BadRequest();
         }
             
-        var game = this._repository.GetByPlayerTwo(token);
-        if (game == null)
+        var entity = this._repository.GetByPlayerTwo(token);
+        if (entity == null)
         {
             return NotFound();
         }
-
-        return Ok(new GameInfoDto(game));
+    
+        return Ok(new GameInfoDto(entity));
     }
-
+    
     [HttpGet]
     [Route("{token}/status", Name = "getGameStatus")]
     public ActionResult<IGame> GetGameStatus(string? token)
     {
-        if (!this._repository.Exists(token))
+        if (token == null)
+        {
+            return BadRequest();
+        }
+        
+        var entity = this._repository.Get(token);
+        if (entity == null)
         {
             return NotFound();
         }
 
-        var game = this._repository.Get(token);
-
-        return Ok(new GameStatusDto(game));
+        return Ok(new GameStatusDto(entity));
     }
         
     // POST: api/Game
@@ -122,13 +117,19 @@ public class GameController : ControllerBase
         {
             return BadRequest();
         }
+
+        PlayerEntity player = new PlayerEntity(new PlayerOne(gameCreateDto.TokenPlayerOne));
+        this._playersRepository.FirstOrCreate(player);
+        
+        GameEntity entity = new GameEntity
+        {
+            PlayerOne = player,
+            Description = gameCreateDto.Description
+        };
+        entity.UpdateGame();
+        this._repository.Add(entity);
             
-        IGame newGame = new Game();
-        newGame.PlayerOne = new PlayerOne(gameCreateDto.TokenPlayerOne);
-        newGame.Description = gameCreateDto.Description;
-        this._repository.Add(newGame);
-            
-        return CreatedAtRoute("getGameByTokenRoute", new {token = newGame.Token}, new GameInfoDto(newGame));
+        return CreatedAtRoute("getGameByTokenRoute", new {token = entity.Token}, new GameInfoDto(entity));
     }
         
     [HttpPut("add/player-one")]
@@ -139,15 +140,19 @@ public class GameController : ControllerBase
             return BadRequest();
         }
             
-        if (!this._repository.Exists(gameAddPlayer.Token))
+        var entity = this._repository.Get(gameAddPlayer.Token);
+        if (entity == null)
         {
             return NotFound();
         }
-
-        var game = this._repository.Get(gameAddPlayer.Token);
-        game.PlayerOne = new PlayerOne(gameAddPlayer.PlayerToken);
-
-        return Ok(new GameInfoDto(game));
+        
+        PlayerEntity player = new PlayerEntity(new PlayerOne(gameAddPlayer.PlayerToken));
+        this._playersRepository.FirstOrCreate(player);
+    
+        entity.PlayerOne = player;
+        this._repository.Update(entity);
+    
+        return Ok(new GameInfoDto(entity));
     }
         
     [HttpPut("add/player-two")]
@@ -158,29 +163,34 @@ public class GameController : ControllerBase
             return BadRequest();
         }
             
-        if (!this._repository.Exists(gameAddPlayer.Token))
+        var entity = this._repository.Get(gameAddPlayer.Token);
+        if (entity == null)
         {
             return NotFound();
         }
-
-        var game = this._repository.Get(gameAddPlayer.Token);
-        game.PlayerTwo = new PlayerTwo(gameAddPlayer.PlayerToken);
-
-        return Ok(new GameInfoDto(game));
+    
+        PlayerEntity player = new PlayerEntity(new PlayerTwo(gameAddPlayer.PlayerToken));
+        this._playersRepository.FirstOrCreate(player);
+    
+        entity.PlayerTwo = player;
+        this._repository.Update(entity);
+    
+        return Ok(new GameInfoDto(entity));
     }
         
     [HttpPut("{token}/start")]
     public ActionResult<IGame> StartGame(string? token)
     {
-        if (!this._repository.Exists(token))
+        var entity = this._repository.Get(token);
+        if (entity == null)
         {
             return NotFound();
         }
-
-        var game = this._repository.Get(token);
-        game.Start();
-
-        return Ok(new GameStatusDto(game));
+        
+        entity.Game.Start();
+        this._repository.Update(entity);
+    
+        return Ok(new GameStatusDto(entity));
     }
         
     [HttpPut("do-move")]
@@ -191,48 +201,51 @@ public class GameController : ControllerBase
             return BadRequest();
         }
             
-        if (!this._repository.Exists(gameDoMove.Token))
+        var entity = this._repository.Get(gameDoMove.Token);
+        if (entity == null)
         {
             return NotFound();
         }
-
-        var game = this._repository.Get(gameDoMove.Token);
-        if (!game.CurrentPlayer.Token.Equals(gameDoMove.PlayerToken))
+    
+        if (!entity.CurrentPlayer.Token.Equals(gameDoMove.PlayerToken))
         {
             return BadRequest();
         }
             
-        game.DoMove(gameDoMove.Row, gameDoMove.Column);
+        entity.Game.DoMove(gameDoMove.Row, gameDoMove.Column);
+        this._repository.Update(entity);
             
-        return Ok(new GameStatusDto(game));
+        return Ok(new GameStatusDto(entity));
     }
-
+    
     [HttpPut("{token}/quit")]
     public ActionResult<IGame> QuitGame(string? token)
     {
-        if (!this._repository.Exists(token))
+        var entity = this._repository.Get(token);
+        if (entity == null)
         {
             return NotFound();
         }
-
-        var game = this._repository.Get(token);
-        game.Quit();
-
-        return Ok(new GameStatusDto(game));
+        
+        entity.Game.Quit();
+        this._repository.Update(entity);
+    
+        return Ok(new GameStatusDto(entity));
     }
-
+    
     [HttpGet("{token}/finished")]
     public ActionResult<IGame> IsFinishedGame(string? token)
     {
-        if (!this._repository.Exists(token))
+        var entity = this._repository.Get(token);
+        if (entity == null)
         {
             return NotFound();
         }
-
-        var game = this._repository.Get(token);
-        game.IsFinished();
-
-        return Ok(new GameStatusDto(game));
+    
+        entity.Game.IsFinished();
+        this._repository.Update(entity);
+    
+        return Ok(new GameStatusDto(entity));
     }
 
 }
