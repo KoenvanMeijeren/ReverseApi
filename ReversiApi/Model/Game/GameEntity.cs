@@ -79,6 +79,16 @@ public class GameEntity : IEntity
         this.Board = JsonConvert.SerializeObject(this.Game.Board);
         this.Status = this.Game.Status;
 
+        if (this.Game.IsCreated() && this.PlayerOne != null && this.PlayerTwo != null)
+        {
+            this.Status = Status.Pending;
+        }
+        
+        if (!this.Game.IsPlaying())
+        {
+            return;
+        }
+        
         this.CurrentPlayer = this.PlayerOne;
         if (this.Game.CurrentPlayer.Token.Equals(this.PlayerTwo?.Token))
         {

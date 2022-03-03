@@ -29,14 +29,11 @@ public class GamesDatabaseRepository : RepositoryDatabaseBase<GameEntity>, IData
     /// <inheritdoc />
     public IEnumerable<GameEntity> AllInQueue()
     {
-        var entities = this.GetDbSet()
-            .Include(entity => entity.PlayerOne)
-            .Include(entity => entity.PlayerTwo)
-            .ToList()
-            .Where(entity => entity.Game.IsQueued())
-            .ToList();
+        var entities = this.All();
 
-        return PrepareForReturn(entities);
+        var filtered = entities.Where(entity => entity.Game.IsQueued() || entity.Game.IsPending()).ToList();
+
+        return PrepareForReturn(filtered);
     }
 
     /// <inheritdoc />
