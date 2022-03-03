@@ -17,6 +17,7 @@ public abstract class RepositoryDatabaseBase<T> : IDatabaseRepository<T> where T
     /// <inheritdoc />
     public virtual void Add(T entity)
     {
+        entity.Id = 0;
         this.Context.Add(entity);
         this.Context.SaveChanges();
     }
