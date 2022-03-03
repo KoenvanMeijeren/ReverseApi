@@ -3,7 +3,7 @@
 /// <summary>
 /// Provides an interface for games repository.
 /// </summary>
-public interface IDatabaseGamesRepository<out T> : IGamesRepository<GameEntity>, IDatabaseRepository<GameEntity>
+public interface IDatabaseGamesRepository : IGamesRepository, IDatabaseRepository<GameEntity>
 {
     
 }

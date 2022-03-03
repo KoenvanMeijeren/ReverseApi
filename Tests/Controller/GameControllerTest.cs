@@ -612,7 +612,7 @@ public class GameControllerTest
     }
 }
 
-internal class GamesRepositoryEmptyTest :  RepositoryBase<GameEntity>, IGamesRepository<GameEntity>
+internal class GamesRepositoryEmptyTest :  RepositoryBase<GameEntity>, IGamesRepository
 {
     
     /// <inheritdoc />

@@ -7,7 +7,7 @@ namespace ReversiApi.Repository;
 /// <summary>
 /// Provides a repository for the game.
 /// </summary>
-public class PlayersDatabaseRepository : RepositoryDatabaseBase<PlayerEntity>, IPlayersDatabaseRepository<PlayerEntity>
+public class PlayersDatabaseRepository : RepositoryDatabaseBase<PlayerEntity>, IPlayersDatabaseRepository
 {
     
     public PlayersDatabaseRepository(GamesDataAccess context) : base(context)

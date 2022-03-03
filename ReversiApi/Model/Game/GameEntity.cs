@@ -26,7 +26,7 @@ public class GameEntity : IEntity
     public string Board { get; set; }
     
     [Required]
-    public Status Status { get; private set; }
+    public Status Status { get; set; }
 
     [NotMapped]
     public IGame Game { get; }

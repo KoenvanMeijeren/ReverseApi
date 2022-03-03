@@ -27,9 +27,9 @@ builder.Services.AddCors(p => p.AddPolicy("corsapp", corsPolicyBuilder =>
     corsPolicyBuilder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
 }));
 
-builder.Services.AddScoped<IDatabaseGamesRepository<GameEntity>, GamesDatabaseRepository>();
-builder.Services.AddScoped<IGamesRepository<GameEntity>, GamesRepository>();
-builder.Services.AddScoped<IPlayersRepository<PlayerEntity>, PlayersRepository>();
+builder.Services.AddScoped<IDatabaseGamesRepository, GamesDatabaseRepository>();
+builder.Services.AddScoped<IGamesRepository, GamesRepository>();
+builder.Services.AddScoped<IPlayersRepository, PlayersRepository>();
 
 var app = builder.Build();
 

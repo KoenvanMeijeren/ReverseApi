@@ -3,14 +3,14 @@
 /// <summary>
 /// Provides an interface for games repository.
 /// </summary>
-public interface IGamesRepository<out T> : IRepository<GameEntity>
+public interface IGamesRepository : IRepository<GameEntity>
 {
 
     /// <summary>
     /// Returns all games of the queue.
     /// </summary>
     /// <returns></returns>
-    IEnumerable<T> AllInQueue();
+    IEnumerable<GameEntity> AllInQueue();
 
     /// <summary>
     /// Determines if the game exists.
@@ -24,19 +24,19 @@ public interface IGamesRepository<out T> : IRepository<GameEntity>
     /// </summary>
     /// <param name="token">The unique token of the game.</param>
     /// <returns>The game.</returns>
-    T? Get(string? token);
+    GameEntity? Get(string? token);
     
     /// <summary>
     /// Gets the game by the token of player one.
     /// </summary>
     /// <param name="token">The unique token of the game.</param>
     /// <returns>The game.</returns>
-    T? GetByPlayerOne(string? token);
+    GameEntity? GetByPlayerOne(string? token);
     
     /// <summary>
     /// Gets the game by the token of player two.
     /// </summary>
     /// <param name="token">The unique token of the game.</param>
     /// <returns>The game.</returns>
-    T? GetByPlayerTwo(string? token);
+    GameEntity? GetByPlayerTwo(string? token);
 }

@@ -9,10 +9,10 @@ namespace ReversiApi.Controllers;
 public class GameController : ControllerBase
 {
 
-    private readonly IGamesRepository<GameEntity> _repository;
-    private readonly IPlayersRepository<PlayerEntity> _playersRepository;
+    private readonly IGamesRepository _repository;
+    private readonly IPlayersRepository _playersRepository;
 
-    public GameController(IGamesRepository<GameEntity> repository, IPlayersRepository<PlayerEntity> playersRepository)
+    public GameController(IGamesRepository repository, IPlayersRepository playersRepository)
     {
         this._repository = repository;
         this._playersRepository = playersRepository;

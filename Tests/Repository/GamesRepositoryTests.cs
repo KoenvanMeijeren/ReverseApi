@@ -11,7 +11,7 @@ namespace Tests.Repository;
 public class GamesRepositoryTests
 {
 
-    private readonly IGamesRepository<GameEntity> _repository = new GamesRepository();
+    private readonly IGamesRepository _repository = new GamesRepository();
 
     [Test]
     public void AllGames()
@@ -121,6 +121,41 @@ public class GamesRepositoryTests
         Assert.Contains(game2, repository.All().ToList());
         Assert.AreEqual(game1, repository.Get(game1.Token));
         Assert.AreEqual(game2, repository.Get(game2.Token));
+    }
+    
+    [Test]
+    public void UpdateGame()
+    {
+        // Arrange
+        var entity = this._repository.All().First();
+        var game1 = new GameEntity();
+        
+        // Act
+        entity.Game.Status = Status.Finished;
+        var successful = this._repository.Update(entity);
+
+        // Assert
+        Assert.IsTrue(successful);
+        Assert.AreEqual(Status.Finished, this._repository.All().First().Status);
+    }
+    
+    [Test]
+    public void DeleteGame()
+    {
+        // Arrange
+        var repository = new GamesRepository();
+        var entity = this._repository.All().First();
+        repository.Add(entity);
+        repository.Add(new GameEntity());
+        
+        // Act
+        entity.Game.Status = Status.Finished;
+        repository.Update(entity);
+        var successful = repository.Delete(entity);
+
+        // Assert
+        Assert.IsTrue(successful);
+        Assert.AreEqual(Status.Created, repository.All().First().Status);
     }
 
 }

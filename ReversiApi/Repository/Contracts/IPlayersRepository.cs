@@ -3,7 +3,7 @@
 /// <summary>
 /// Provides an interface for games repository.
 /// </summary>
-public interface IPlayersRepository<out T> : IRepository<PlayerEntity>
+public interface IPlayersRepository : IRepository<PlayerEntity>
 {
 
     /// <summary>
@@ -25,6 +25,6 @@ public interface IPlayersRepository<out T> : IRepository<PlayerEntity>
     /// </summary>
     /// <param name="token">The unique token of the game.</param>
     /// <returns>The game.</returns>
-    T? Get(string? token);
+    PlayerEntity? Get(string? token);
     
 }
