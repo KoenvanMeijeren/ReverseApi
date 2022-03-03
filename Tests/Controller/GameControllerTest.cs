@@ -31,11 +31,14 @@ public class GameControllerTest
         
         // Assert
         Assert.IsInstanceOf<OkObjectResult>(response.Result);
-        Assert.IsTrue(json.Contains("Result"));
         Assert.IsTrue(json.Contains("Status"));
+        Assert.IsTrue(json.Contains("Potje snel reveri, dus niet lang nadenken"));
         Assert.IsTrue(json.Contains("PlayerOne"));
+        Assert.IsTrue(json.Contains("abcdef"));
+        Assert.IsTrue(json.Contains("[[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,1,2,0,0,0],[0,0,0,2,1,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]"));
         Assert.IsTrue(json.Contains("PlayerTwo"));
         Assert.IsTrue(json.Contains("CurrentPlayer"));
+        Assert.IsTrue(json.Contains("Created"));
     }
     
     [Test]
@@ -67,9 +70,14 @@ public class GameControllerTest
         
         // Assert
         Assert.IsInstanceOf<OkObjectResult>(response.Result);
-        Assert.IsTrue(json.Contains("Result"));
-        Assert.IsTrue(json.Contains("Value"));
-        Assert.IsTrue(json.Contains("Potje snel reveri"));
+        Assert.IsTrue(json.Contains("Status"));
+        Assert.IsTrue(json.Contains("Potje snel reveri, dus niet lang nadenken"));
+        Assert.IsTrue(json.Contains("PlayerOne"));
+        Assert.IsTrue(json.Contains("abcdef"));
+        Assert.IsTrue(json.Contains("[[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,1,2,0,0,0],[0,0,0,2,1,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]"));
+        Assert.IsTrue(json.Contains("PlayerTwo"));
+        Assert.IsTrue(json.Contains("CurrentPlayer"));
+        Assert.IsTrue(json.Contains("Created"));
     }
     
     [Test]
@@ -103,9 +111,14 @@ public class GameControllerTest
         
         // Assert
         Assert.IsInstanceOf<OkObjectResult>(response.Result);
-        Assert.IsTrue(json.Contains("Result"));
-        Assert.IsTrue(json.Contains("Value"));
-        Assert.IsTrue(json.Contains("Potje snel reveri"));
+        Assert.IsTrue(json.Contains("Status"));
+        Assert.IsTrue(json.Contains("Potje snel reveri, dus niet lang nadenken"));
+        Assert.IsTrue(json.Contains("PlayerOne"));
+        Assert.IsTrue(json.Contains("abcdef"));
+        Assert.IsTrue(json.Contains("[[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,1,2,0,0,0],[0,0,0,2,1,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]"));
+        Assert.IsTrue(json.Contains("PlayerTwo"));
+        Assert.IsTrue(json.Contains("CurrentPlayer"));
+        Assert.IsTrue(json.Contains("Created"));
     }
     
     [Test]
@@ -139,9 +152,14 @@ public class GameControllerTest
         
         // Assert
         Assert.IsInstanceOf<OkObjectResult>(response.Result);
-        Assert.IsTrue(json.Contains("Result"));
-        Assert.IsTrue(json.Contains("Value"));
+        Assert.IsTrue(json.Contains("Status"));
         Assert.IsTrue(json.Contains("Ik zoek een"));
+        Assert.IsTrue(json.Contains("PlayerOne"));
+        Assert.IsTrue(json.Contains("mnopqr"));
+        Assert.IsTrue(json.Contains("[[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,1,2,0,0,0],[0,0,0,2,1,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]"));
+        Assert.IsTrue(json.Contains("PlayerTwo"));
+        Assert.IsTrue(json.Contains("CurrentPlayer"));
+        Assert.IsTrue(json.Contains("Created"));
     }
     
     [Test]
@@ -172,7 +190,7 @@ public class GameControllerTest
         var dto = new GameCreateDto
         {
             Description = "test",
-            TokenPlayerOne = "abcdef"
+            TokenPlayerOne = "qwerty"
         };
 
         // Act
@@ -190,6 +208,9 @@ public class GameControllerTest
         Assert.IsTrue(json.Contains("Description"));
         Assert.IsTrue(json.Contains("Token"));
         Assert.IsTrue(json.Contains("PlayerOne"));
+        Assert.IsTrue(json.Contains("test"));
+        Assert.IsTrue(json.Contains("qwerty"));
+        Assert.IsTrue(json.Contains("Created"));
     }
     
     [Test]
@@ -222,11 +243,14 @@ public class GameControllerTest
         
         // Assert
         Assert.IsInstanceOf<OkObjectResult>(response.Result);
-        Assert.IsTrue(json.Contains("Result"));
-        Assert.IsTrue(json.Contains("Value"));
         Assert.IsTrue(json.Contains("Board"));
+        Assert.IsTrue(json.Contains("[[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,1,2,0,0,0],[0,0,0,2,1,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]"));
         Assert.IsTrue(json.Contains("CurrentPlayer"));
+        Assert.IsTrue(json.Contains("Color"));
+        Assert.IsTrue(json.Contains("None"));
+        Assert.IsTrue(json.Contains("Token"));
         Assert.IsTrue(json.Contains("Status"));
+        Assert.IsTrue(json.Contains("Created"));
     }
     
     [Test]
@@ -258,15 +282,26 @@ public class GameControllerTest
         var dto = new GameAddPlayerDto()
         {
             Token = entity.Token,
-            PlayerToken = "abcdef"
+            PlayerToken = "uiop"
         };
 
         // Act
         repository.Add(entity);
         var response = controller.AddPlayerOneToGame(dto);
+        var json = response.ToJson();
         
         // Assert
         Assert.IsInstanceOf<OkObjectResult>(response.Result);
+        Assert.IsTrue(json.Contains("Board"));
+        Assert.IsTrue(json.Contains("[[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,1,2,0,0,0],[0,0,0,2,1,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]"));
+        Assert.IsTrue(json.Contains("CurrentPlayer"));
+        Assert.IsTrue(json.Contains("Color"));
+        Assert.IsTrue(json.Contains("None"));
+        Assert.IsTrue(json.Contains("Token"));
+        Assert.IsTrue(json.Contains("Status"));
+        Assert.IsTrue(json.Contains("Created"));
+        Assert.IsTrue(json.Contains("uiop"));
+        Assert.IsTrue(json.Contains(entity.Token));
     }
     
     [Test]
@@ -302,15 +337,26 @@ public class GameControllerTest
         var dto = new GameAddPlayerDto()
         {
             Token = entity.Token,
-            PlayerToken = "abcdef"
+            PlayerToken = "vbnm"
         };
 
         // Act
         repository.Add(entity);
         var response = controller.AddPlayerTwoToGame(dto);
+        var json = response.ToJson();
         
         // Assert
         Assert.IsInstanceOf<OkObjectResult>(response.Result);
+        Assert.IsTrue(json.Contains("Board"));
+        Assert.IsTrue(json.Contains("[[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,1,2,0,0,0],[0,0,0,2,1,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]"));
+        Assert.IsTrue(json.Contains("CurrentPlayer"));
+        Assert.IsTrue(json.Contains("Color"));
+        Assert.IsTrue(json.Contains("None"));
+        Assert.IsTrue(json.Contains("Token"));
+        Assert.IsTrue(json.Contains("Status"));
+        Assert.IsTrue(json.Contains("Created"));
+        Assert.IsTrue(json.Contains("vbnm"));
+        Assert.IsTrue(json.Contains(entity.Token));
     }
     
     [Test]
@@ -406,6 +452,13 @@ public class GameControllerTest
         // Assert
         Assert.IsInstanceOf<OkObjectResult>(response.Result);
         Assert.IsTrue(json.Contains(Status.Playing.ToString()));
+        Assert.IsTrue(json.Contains("[0,0,0,1,1,1,0,0],[0,0,0,2,1,0,0,0]"));
+        Assert.IsTrue(json.Contains("CurrentPlayer"));
+        Assert.IsTrue(json.Contains("Color"));
+        Assert.IsTrue(json.Contains("Black"));
+        Assert.IsTrue(json.Contains("Token"));
+        Assert.IsTrue(json.Contains("Status"));
+        Assert.IsTrue(json.Contains("Playing"));
     }
     
     [Test]
@@ -467,8 +520,8 @@ public class GameControllerTest
         var controller = new GameController(repository, playerRepository);
         var entity = new GameEntity()
         {
-            PlayerOne = new PlayerEntity(new PlayerOne()),
-            PlayerTwo = new PlayerEntity(new PlayerTwo())
+            PlayerOne = new PlayerEntity(new PlayerOne("abcdef")),
+            PlayerTwo = new PlayerEntity(new PlayerTwo("qwerty"))
         };
 
         // Act 
@@ -482,6 +535,13 @@ public class GameControllerTest
         // Assert
         Assert.IsInstanceOf<OkObjectResult>(response.Result);
         Assert.IsTrue(json.Contains(Status.Quit.ToString()));
+        Assert.IsTrue(json.Contains("CurrentPlayer"));
+        Assert.IsTrue(json.Contains("Color"));
+        Assert.IsTrue(json.Contains("White"));
+        Assert.IsTrue(json.Contains("Token"));
+        Assert.IsTrue(json.Contains("abcdef"));
+        Assert.IsFalse(json.Contains("qwerty"));
+        Assert.IsTrue(json.Contains("Status"));
     }
     
     [Test]
@@ -510,8 +570,8 @@ public class GameControllerTest
         var controller = new GameController(repository, playerRepository);
         var entity = new GameEntity()
         {
-            PlayerOne = new PlayerEntity(new PlayerOne()),
-            PlayerTwo = new PlayerEntity(new PlayerTwo())
+            PlayerOne = new PlayerEntity(new PlayerOne("abcdef")),
+            PlayerTwo = new PlayerEntity(new PlayerTwo("qwerty"))
         };
 
         // Act 
@@ -520,9 +580,18 @@ public class GameControllerTest
         entity.UpdateEntity();
         
         var response = controller.IsFinishedGame(entity.Token);
+        var json = response.ToJson();
         
         // Assert
         Assert.IsInstanceOf<OkObjectResult>(response.Result);
+        Assert.IsTrue(json.Contains("[0,0,0,1,2,0,0,0],[0,0,0,2,1,0,0,0]"));
+        Assert.IsTrue(json.Contains("CurrentPlayer"));
+        Assert.IsTrue(json.Contains("Color"));
+        Assert.IsTrue(json.Contains("White"));
+        Assert.IsTrue(json.Contains("Token"));
+        Assert.IsTrue(json.Contains("abcdef"));
+        Assert.IsTrue(json.Contains("Status"));
+        Assert.IsTrue(json.Contains("Playing"));
     }
     
     [Test]
