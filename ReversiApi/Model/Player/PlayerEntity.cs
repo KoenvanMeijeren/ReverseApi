@@ -20,16 +20,16 @@ public class PlayerEntity : IEntity
     public ICollection<GameEntity> GamesPlayerOne { get; set; }
     public ICollection<GameEntity> GamesPlayerTwo { get; set; }
 
-    public PlayerEntity()
+    public PlayerEntity(IPlayer player, int id = IEntity.IdUndefined) : this(id, player.Token, player.Color)
     {
         
     }
-
-    public PlayerEntity(IPlayer player)
-    {
-        this.Token = player.Token;
-        this.Color = player.Color;
-    }
     
+    public PlayerEntity(int id = IEntity.IdUndefined, string token = "", Color color = Color.None)
+    {
+        this.Id = id;
+        this.Token = token;
+        this.Color = color;
+    }
     
 }
