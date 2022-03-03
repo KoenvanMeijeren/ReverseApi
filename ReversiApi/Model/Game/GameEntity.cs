@@ -38,6 +38,7 @@ public class GameEntity : IEntity
     
     public GameEntity(IGame game)
     {
+        this.Id = IEntity.IdUndefined;
         this.Game = game;
         this.Board = JsonConvert.SerializeObject(game.Board);
         this.Status = game.Status;

@@ -30,6 +30,8 @@ public class PlayerEntity : IEntity
         this.Id = id;
         this.Token = token;
         this.Color = color;
+        this.GamesPlayerOne = new List<GameEntity>();
+        this.GamesPlayerTwo = new List<GameEntity>();
     }
     
 }

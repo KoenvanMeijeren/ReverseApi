@@ -47,15 +47,6 @@ public class Game : IGame
         this.Status = Status.Created;
     }
 
-    public Game(Color[,] board, Status status, PlayerOne playerOne, PlayerTwo playerTwo, IPlayer currentPlayer)
-    {
-        this.Board = board;
-        this.Status = status;
-        this.PlayerOne = playerOne;
-        this.PlayerTwo = playerTwo;
-        this.CurrentPlayer = currentPlayer;
-    }
-
     #endregion
 
     #region Status

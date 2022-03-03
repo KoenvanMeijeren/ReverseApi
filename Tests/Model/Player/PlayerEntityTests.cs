@@ -21,6 +21,8 @@ public class PlayerEntityTests
         Assert.AreEqual(IEntity.IdUndefined, player.Id);
         Assert.AreEqual(Color.None, player.Color);
         Assert.AreEqual("", player.Token);
+        Assert.IsEmpty(player.GamesPlayerOne);
+        Assert.IsEmpty(player.GamesPlayerTwo);
         Assert.IsInstanceOf<int>(player.GetHashCode());
     }
     
