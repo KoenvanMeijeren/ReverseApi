@@ -8,8 +8,13 @@ public static class GameValidator
     /// <param name="games">The games.</param>
     /// <param name="playerEntity">The player.</param>
     /// <returns>True if the player does not play another game.</returns>
-    public static bool PlayerDoesNotPlayAGame(IEnumerable<GameEntity> games, PlayerEntity playerEntity)
+    public static bool PlayerDoesNotPlayAGame(IEnumerable<GameEntity> games, PlayerEntity? playerEntity)
     {
+        if (playerEntity == null)
+        {
+            return true;
+        }
+        
         bool playsAGame = false;
         foreach (var entity in games)
         {

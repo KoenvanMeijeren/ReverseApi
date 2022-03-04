@@ -46,7 +46,7 @@ public class GamesDatabaseRepository : RepositoryDatabaseBase<GameEntity>, IData
     }
 
     /// <inheritdoc />
-    public bool DoesNotPlayAGame(PlayerEntity playerEntity)
+    public bool DoesNotPlayAGame(PlayerEntity? playerEntity)
     {
         return GameValidator.PlayerDoesNotPlayAGame(this.All(), playerEntity);
     }

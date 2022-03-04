@@ -17,7 +17,7 @@ public interface IGamesRepository : IRepository<GameEntity>
     /// </summary>
     /// <param name="playerEntity">The player.</param>
     /// <returns>True if the player does not play another game.</returns>
-    bool DoesNotPlayAGame(PlayerEntity playerEntity);
+    bool DoesNotPlayAGame(PlayerEntity? playerEntity);
     
     /// <summary>
     /// Determines if the game exists.

@@ -39,9 +39,7 @@ public abstract class RepositoryDatabaseBase<T> : IDatabaseRepository<T> where T
     /// <inheritdoc />
     public virtual T? Get(int id)
     {
-        bool Find(T entity) => entity.Id == id;
-        
-        return this.DbSet.Find((Func<T, bool>) Find);
+        return this.DbSet.SingleOrDefault(entity => entity.Id == id);
     }
 
     /// <inheritdoc />

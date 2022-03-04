@@ -20,9 +20,6 @@ public class GameInfoDto
     public GameInfoDto(GameEntity? entity)
     {
         this._entity = entity;
-
-        var playerOne = this.PlayerOne;
-        var playerTwo = this.PlayerTwo;
     }
     
 }
