@@ -3,6 +3,7 @@ using NUnit.Framework;
 using ReversiApi.Model.Game;
 using ReversiApi.Model.Player;
 using ReversiApi.Repository;
+using ReversiApi.Repository.Contracts;
 
 namespace Tests.Repository;
 
@@ -17,7 +18,7 @@ public class GamesRepositoryTests
     {
         var games = this._repository.All();
         
-        Assert.AreEqual(3, games.Count);
+        Assert.AreEqual(3, games.Count());
         Assert.AreEqual("abcdef", games.First().PlayerOne.Token);
     }
     
@@ -104,22 +105,57 @@ public class GamesRepositoryTests
     public void AddGame()
     {
         var repository = new GamesRepository();
-        var game1 = new Game();
-        var game2 = new Game();
+        var game1 = new GameEntity();
+        var game2 = new GameEntity();
         
-        game1.PlayerOne = new PlayerOne("fdask");
+        game1.PlayerOne = new PlayerEntity(new PlayerOne("fdask"));
         game1.Description = "Potje snel reveri, dus niet lang nadenken";
-        game2.PlayerOne = new PlayerOne("qwert");
-        game2.PlayerTwo = new PlayerTwo("fdask");
+        game2.PlayerOne =  new PlayerEntity(new PlayerOne("qwert"));
+        game2.PlayerTwo = new PlayerEntity(new PlayerTwo("fdask"));
         game2.Description = "Ik zoek een gevorderde tegenspeler!";
         
         repository.Add(game1);
         repository.Add(game2);
         
-        Assert.Contains(game1, repository.All());
-        Assert.Contains(game2, repository.All());
+        Assert.Contains(game1, repository.All().ToList());
+        Assert.Contains(game2, repository.All().ToList());
         Assert.AreEqual(game1, repository.Get(game1.Token));
         Assert.AreEqual(game2, repository.Get(game2.Token));
+    }
+    
+    [Test]
+    public void UpdateGame()
+    {
+        // Arrange
+        var entity = this._repository.All().First();
+        var game1 = new GameEntity();
+        
+        // Act
+        entity.Game.Status = Status.Finished;
+        var successful = this._repository.Update(entity);
+
+        // Assert
+        Assert.IsTrue(successful);
+        Assert.AreEqual(Status.Finished, this._repository.All().First().Status);
+    }
+    
+    [Test]
+    public void DeleteGame()
+    {
+        // Arrange
+        var repository = new GamesRepository();
+        var entity = this._repository.All().First();
+        repository.Add(entity);
+        repository.Add(new GameEntity());
+        
+        // Act
+        entity.Game.Status = Status.Finished;
+        repository.Update(entity);
+        var successful = repository.Delete(entity);
+
+        // Assert
+        Assert.IsTrue(successful);
+        Assert.AreEqual(Status.Created, repository.All().First().Status);
     }
 
 }

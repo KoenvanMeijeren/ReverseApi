@@ -1,46 +1,51 @@
-﻿namespace ReversiApi.Repository;
+﻿using ReversiApi.Helpers.Validators;
+using ReversiApi.Repository.Contracts;
+
+namespace ReversiApi.Repository;
 
 /// <summary>
 /// Provides a repository for the game.
 /// </summary>
-public class GamesRepository : IGamesRepository
+public class GamesRepository : RepositoryBase<GameEntity>, IGamesRepository
 {
-
-    private readonly List<IGame> _games;
-
     public GamesRepository()
     {
-        IGame game1 = new Game();
-        IGame game2 = new Game();
-        IGame game3 = new Game();
+        GameEntity entity1 = new GameEntity();
+        GameEntity entity2 = new GameEntity();
+        GameEntity entity3 = new GameEntity();
 
-        game1.PlayerOne = new PlayerOne("abcdef");
-        game1.Description = "Potje snel reveri, dus niet lang nadenken";
-        game2.PlayerOne = new PlayerOne("ghijkl");
-        game2.PlayerTwo = new PlayerTwo("mnopqr");
-        game2.Description = "Ik zoek een gevorderde tegenspeler!";
-        game3.PlayerOne = new PlayerOne("stuvwx");
-        game3.Description = "Na dit spel wil ik er nog een paar spelen tegen zelfde tegenstander";
+        entity1.Description = "Potje snel reveri, dus niet lang nadenken";
+        entity1.PlayerOne = new PlayerEntity(new PlayerOne("abcdef"));
 
-        this._games = new List<IGame> {game1, game2, game3};
+        entity2.Description = "Ik zoek een gevorderde tegenspeler!";
+        entity2.PlayerOne = new PlayerEntity(new PlayerOne("ghijkl"));
+        entity2.PlayerTwo = new PlayerEntity(new PlayerTwo("mnopqr"));
+        
+        entity3.PlayerOne = new PlayerEntity(new PlayerOne("stuvwx"));
+
+        this.Add(entity1);
+        this.Add(entity2);
+        this.Add(entity3);
+    }
+
+    /// <inheritdoc />
+    public override void Add(GameEntity entity)
+    {
+        entity.UpdateGame();
+        
+        base.Add(entity);
+    }
+
+    /// <inheritdoc />
+    public IEnumerable<GameEntity> AllInQueue()
+    {
+        return this.All().Where(entity => entity.Game.IsQueued());
     }
     
     /// <inheritdoc />
-    public void Add(IGame game)
+    public bool DoesNotPlayAGame(PlayerEntity playerEntity)
     {
-        this._games.Add(game);
-    }
-
-    /// <inheritdoc />
-    public List<IGame> All()
-    {
-        return this._games;
-    }
-
-    /// <inheritdoc />
-    public IEnumerable<IGame> AllInQueue()
-    {
-        return this.All().Where(game => game.IsQueued());
+        return GameValidator.PlayerDoesNotPlayAGame(this.All(), playerEntity);
     }
 
     /// <inheritdoc />
@@ -50,20 +55,29 @@ public class GamesRepository : IGamesRepository
     }
 
     /// <inheritdoc />
-    public IGame? Get(string? token)
+    public GameEntity? Get(string? token)
     {
-        return this._games.Find(game => game.Token.Equals(token));
+        return this.Items.SingleOrDefault(entity => entity.Token.Equals(token));
     }
     
     /// <inheritdoc />
-    public IGame? GetByPlayerOne(string? token)
+    public GameEntity? GetByPlayerOne(string? token)
     {
-        return this._games.Find(game => game.PlayerOne != null && game.PlayerOne.Token.Equals(token));
+        return this.Items.SingleOrDefault(entity => entity.PlayerOne != null && entity.PlayerOne.Token.Equals(token));
     }
     
     /// <inheritdoc />
-    public IGame? GetByPlayerTwo(string? token)
+    public GameEntity? GetByPlayerTwo(string? token)
     {
-        return this._games.Find(game => game.PlayerTwo != null && game.PlayerTwo.Token.Equals(token));
+        return this.Items.SingleOrDefault(entity => entity.PlayerTwo != null && entity.PlayerTwo.Token.Equals(token));
+    }
+    
+    /// <inheritdoc />
+    public override bool Update(GameEntity entity)
+    {
+        entity.UpdateEntity();
+        entity.UpdateGame();
+
+        return base.Update(entity);
     }
 }

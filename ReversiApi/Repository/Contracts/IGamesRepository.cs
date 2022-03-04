@@ -1,28 +1,24 @@
-﻿namespace ReversiApi.Repository;
+﻿namespace ReversiApi.Repository.Contracts;
 
 /// <summary>
 /// Provides an interface for games repository.
 /// </summary>
-public interface IGamesRepository
+public interface IGamesRepository : IRepository<GameEntity>
 {
-    /// <summary>
-    /// Adds a new game to the repository.
-    /// </summary>
-    /// <param name="game">The game.</param>
-    void Add(IGame game);
-
-    /// <summary>
-    /// Returns all games of the repository.
-    /// </summary>
-    /// <returns>The games.</returns>
-    List<IGame> All();
 
     /// <summary>
     /// Returns all games of the queue.
     /// </summary>
     /// <returns></returns>
-    IEnumerable<IGame> AllInQueue();
+    IEnumerable<GameEntity> AllInQueue();
 
+    /// <summary>
+    /// Determines if this player does not player another game.
+    /// </summary>
+    /// <param name="playerEntity">The player.</param>
+    /// <returns>True if the player does not play another game.</returns>
+    bool DoesNotPlayAGame(PlayerEntity playerEntity);
+    
     /// <summary>
     /// Determines if the game exists.
     /// </summary>
@@ -35,19 +31,19 @@ public interface IGamesRepository
     /// </summary>
     /// <param name="token">The unique token of the game.</param>
     /// <returns>The game.</returns>
-    IGame? Get(string? token);
+    GameEntity? Get(string? token);
     
     /// <summary>
     /// Gets the game by the token of player one.
     /// </summary>
     /// <param name="token">The unique token of the game.</param>
     /// <returns>The game.</returns>
-    IGame? GetByPlayerOne(string? token);
+    GameEntity? GetByPlayerOne(string? token);
     
     /// <summary>
     /// Gets the game by the token of player two.
     /// </summary>
     /// <param name="token">The unique token of the game.</param>
     /// <returns>The game.</returns>
-    IGame? GetByPlayerTwo(string? token);
+    GameEntity? GetByPlayerTwo(string? token);
 }
