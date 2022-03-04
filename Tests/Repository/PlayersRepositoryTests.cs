@@ -42,11 +42,13 @@ public class PlayersRepositoryTests
     public void FirstOrCreate()
     {
         // Arrange
+        var repository = new PlayersRepository();
+        Assert.AreEqual(4, repository.All().Count());
         
         // Act
-        var player = this._repository.FirstOrCreate(new PlayerEntity(new PlayerOne("hjikl")));
-        player = this._repository.FirstOrCreate(new PlayerEntity(new PlayerOne("hjikl")));
-        var players = this._repository.All();
+        var player = repository.FirstOrCreate(new PlayerEntity(new PlayerOne("hjikl")));
+        player = repository.FirstOrCreate(new PlayerEntity(new PlayerOne("hjikl")));
+        var players = repository.All();
         
         // Assert
         Assert.AreEqual(5, players.Count());
