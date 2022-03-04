@@ -1,5 +1,6 @@
 ﻿#nullable enable
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol;
@@ -612,6 +613,7 @@ public class GameControllerTest
     }
 }
 
+[ExcludeFromCodeCoverage]
 internal class GamesRepositoryEmptyTest :  RepositoryBase<GameEntity>, IGamesRepository
 {
     
