@@ -46,7 +46,7 @@ public class PlayerEntity : IEntity
     
     public override bool Equals(object? obj)
     {
-        if (obj is IPlayer player)
+        if (obj is PlayerEntity player)
         {
             return this.Token.Equals(player.Token) 
                    && this.Color.Equals(player.Color);
