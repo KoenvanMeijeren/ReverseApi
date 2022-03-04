@@ -157,5 +157,27 @@ public class GameEntityTests
         Assert.AreEqual("[[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,1,1,1,0,0],[0,0,0,2,1,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]]", entity.Board);
         Assert.AreNotEqual(previousCurrentPlayer, entity.CurrentPlayer);
     }
+
+    [Test]
+    public void CreateGameEntity_NotEmpty_StatusChangesToPending()
+    {
+        // Arrange
+        var entity = new GameEntity
+        {
+            Id = 12,
+            Description = "test",
+            PlayerOneId = 13,
+            PlayerTwoId = 15,
+            PlayerOne = new PlayerEntity(new PlayerOne("abcdef")),
+            PlayerTwo = new PlayerEntity(new PlayerTwo("qwerty"))
+        };
+        entity.UpdateGame();
+        
+        // Act
+        entity.UpdateEntity();
+        
+        // Assert
+        Assert.AreEqual(Status.Pending, entity.Status);
+    }
     
 }
