@@ -53,7 +53,7 @@ public class PlayersDatabaseRepositoryTests
         // Arrange
         
         // Act
-        this._repository.Add(new PlayerEntity(new PlayerOne("qwerty")));
+        this._repository.Add(new PlayerEntity(token: "qwerty"));
         var players = this._repository.All();
         
         // Assert
@@ -68,8 +68,8 @@ public class PlayersDatabaseRepositoryTests
         Assert.AreEqual(5, this._repository.All().Count());
         
         // Act
-        var player = this._repository.FirstOrCreate(new PlayerEntity(new PlayerOne("hjikl")));
-        player = this._repository.FirstOrCreate(new PlayerEntity(new PlayerOne("hjikl")));
+        var player = this._repository.FirstOrCreate(new PlayerEntity(token: "hjikl"));
+        player = this._repository.FirstOrCreate(new PlayerEntity(token: "hjikl"));
         var players = this._repository.All();
         
         // Assert

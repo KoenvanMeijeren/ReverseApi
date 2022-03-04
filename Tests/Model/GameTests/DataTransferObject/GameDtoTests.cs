@@ -33,7 +33,7 @@ public class GameDtoTests
     {
         GameEntity entity = new GameEntity
         {
-            PlayerOne = new PlayerEntity(new PlayerOne("abcdef")),
+            PlayerOne = new PlayerEntity(token: "abcdef"),
             Description = "Potje snel reveri, dus niet lang nadenken"
         };
         entity.UpdateGame();
@@ -71,7 +71,7 @@ public class GameDtoTests
     {
         GameEntity entity = new GameEntity
         {
-            PlayerOne = new PlayerEntity(new PlayerOne("abcdef"))
+            PlayerOne = new PlayerEntity(token: "abcdef")
         };
         entity.CurrentPlayer = entity.PlayerOne;
         entity.Description = "Potje snel reveri, dus niet lang nadenken";

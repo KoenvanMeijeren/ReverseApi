@@ -273,7 +273,7 @@ public class GameControllerTest
         var controller = new GameController(repository, playerRepository);
         
         var entity = new GameEntity();
-        var player = new PlayerEntity(new PlayerOne("dfasfda"));
+        var player = new PlayerEntity(token: "dfasfda");
         var dto = new GameAddPlayerDto()
         {
             Token = entity.Token,
@@ -331,7 +331,7 @@ public class GameControllerTest
         var playerRepository = new PlayersRepository();
         var controller = new GameController(repository, playerRepository);
         var entity = new GameEntity();
-        var player = new PlayerEntity(new PlayerTwo("vafdas"));
+        var player = new PlayerEntity(token: "vafdas");
 
         // Act
         playerRepository.Add(player);
@@ -359,8 +359,8 @@ public class GameControllerTest
         var controller = new GameController(repository, playerRepository);
         var entity = new GameEntity();
         var entity1 = new GameEntity();
-        var player = new PlayerEntity(new PlayerOne("uiipfdass"));
-        var player2 = new PlayerEntity(new PlayerTwo("vafdas"));
+        var player = new PlayerEntity(token: "uiipfdass");
+        var player2 = new PlayerEntity(token: "vafdas");
 
         // Act
         playerRepository.Add(player);
@@ -394,7 +394,7 @@ public class GameControllerTest
         var controller = new GameController(repository, playerRepository);
         
         var entity = new GameEntity();
-        var player = new PlayerEntity(new PlayerTwo("vafdas"));
+        var player = new PlayerEntity(token: "vafdas");
         var dto = new GameAddPlayerDto()
         {
             Token = entity.Token,
@@ -452,7 +452,7 @@ public class GameControllerTest
         var playerRepository = new PlayersRepository();
         var controller = new GameController(repository, playerRepository);
         var entity = new GameEntity();
-        var player = new PlayerEntity(new PlayerTwo("vafdas"));
+        var player = new PlayerEntity(token: "vafdas");
 
         // Act
         playerRepository.Add(player);
@@ -480,8 +480,8 @@ public class GameControllerTest
         var controller = new GameController(repository, playerRepository);
         var entity = new GameEntity();
         var entity1 = new GameEntity();
-        var player = new PlayerEntity(new PlayerOne("uiipfdass"));
-        var player2 = new PlayerEntity(new PlayerTwo("vafdas"));
+        var player = new PlayerEntity(token: "uiipfdass");
+        var player2 = new PlayerEntity(token: "vafdas");
 
         // Act
         playerRepository.Add(player);
@@ -515,8 +515,8 @@ public class GameControllerTest
         var controller = new GameController(repository, playerRepository);
         var entity = new GameEntity()
         {
-            PlayerOne = new PlayerEntity(new PlayerOne()),
-            PlayerTwo = new PlayerEntity(new PlayerTwo())
+            PlayerOne = new PlayerEntity(),
+            PlayerTwo = new PlayerEntity()
         };
 
         // Act 
@@ -556,8 +556,8 @@ public class GameControllerTest
         var controller = new GameController(repository, playerRepository);
         var entity = new GameEntity()
         {
-            PlayerOne = new PlayerEntity(new PlayerOne()),
-            PlayerTwo = new PlayerEntity(new PlayerTwo())
+            PlayerOne = new PlayerEntity(),
+            PlayerTwo = new PlayerEntity()
         };
 
         // Act 
@@ -595,8 +595,8 @@ public class GameControllerTest
         var controller = new GameController(repository, playerRepository);
         var entity = new GameEntity()
         {
-            PlayerOne = new PlayerEntity(new PlayerOne("qweruty")),
-            PlayerTwo = new PlayerEntity(new PlayerTwo())
+            PlayerOne = new PlayerEntity(token: "qweruty"),
+            PlayerTwo = new PlayerEntity()
         };
 
         // Act 
@@ -654,8 +654,8 @@ public class GameControllerTest
         var controller = new GameController(repository, playerRepository);
         var entity = new GameEntity()
         {
-            PlayerOne = new PlayerEntity(new PlayerOne("abcdef")),
-            PlayerTwo = new PlayerEntity(new PlayerTwo("qwerty"))
+            PlayerOne = new PlayerEntity(token: "abcdef"),
+            PlayerTwo = new PlayerEntity(token: "qwerty")
         };
 
         // Act 
@@ -704,8 +704,8 @@ public class GameControllerTest
         var controller = new GameController(repository, playerRepository);
         var entity = new GameEntity()
         {
-            PlayerOne = new PlayerEntity(new PlayerOne("abcdef")),
-            PlayerTwo = new PlayerEntity(new PlayerTwo("qwerty"))
+            PlayerOne = new PlayerEntity(token: "abcdef"),
+            PlayerTwo = new PlayerEntity(token: "qwerty")
         };
 
         // Act 

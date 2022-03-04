@@ -40,8 +40,8 @@ public class GameEntityTests
             Description = "test",
             PlayerOneId = 13,
             PlayerTwoId = 15,
-            PlayerOne = new PlayerEntity(new PlayerOne("abcdef")),
-            PlayerTwo = new PlayerEntity(new PlayerTwo("qwerty"))
+            PlayerOne = new PlayerEntity(token: "abcdef"),
+            PlayerTwo = new PlayerEntity(token: "qwerty")
         };
 
         // Act
@@ -71,8 +71,8 @@ public class GameEntityTests
             Description = "test",
             PlayerOneId = 13,
             PlayerTwoId = 15,
-            PlayerOne = new PlayerEntity(new PlayerOne("abcdef")),
-            PlayerTwo = new PlayerEntity(new PlayerTwo("qwerty"))
+            PlayerOne = new PlayerEntity(token: "abcdef"),
+            PlayerTwo = new PlayerEntity(token: "qwerty")
         };
         entity.UpdateGame();
 
@@ -105,8 +105,8 @@ public class GameEntityTests
             Description = "test",
             PlayerOneId = 13,
             PlayerTwoId = 15,
-            PlayerOne = new PlayerEntity(new PlayerOne("abcdef")),
-            PlayerTwo = new PlayerEntity(new PlayerTwo("qwerty"))
+            PlayerOne = new PlayerEntity(token: "abcdef"),
+            PlayerTwo = new PlayerEntity(token: "qwerty")
         };
         entity.UpdateGame();
 
@@ -134,8 +134,8 @@ public class GameEntityTests
             Description = "test",
             PlayerOneId = 13,
             PlayerTwoId = 15,
-            PlayerOne = new PlayerEntity(new PlayerOne("abcdef")),
-            PlayerTwo = new PlayerEntity(new PlayerTwo("qwerty"))
+            PlayerOne = new PlayerEntity(token: "abcdef"),
+            PlayerTwo = new PlayerEntity(token: "qwerty")
         };
         entity.UpdateGame();
 
@@ -164,8 +164,8 @@ public class GameEntityTests
             Description = "test",
             PlayerOneId = 13,
             PlayerTwoId = 15,
-            PlayerOne = new PlayerEntity(new PlayerOne("abcdef")),
-            PlayerTwo = new PlayerEntity(new PlayerTwo("qwerty"))
+            PlayerOne = new PlayerEntity(token: "abcdef"),
+            PlayerTwo = new PlayerEntity(token: "qwerty")
         };
         entity.UpdateGame();
         
