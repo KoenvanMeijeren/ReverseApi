@@ -108,10 +108,10 @@ public class GamesRepositoryTests
         var game1 = new GameEntity();
         var game2 = new GameEntity();
         
-        game1.PlayerOne = new PlayerEntity(new PlayerOne("fdask"));
+        game1.PlayerOne = new PlayerEntity(token: "fdask");
         game1.Description = "Potje snel reveri, dus niet lang nadenken";
-        game2.PlayerOne =  new PlayerEntity(new PlayerOne("qwert"));
-        game2.PlayerTwo = new PlayerEntity(new PlayerTwo("fdask"));
+        game2.PlayerOne =  new PlayerEntity(token: "qwert");
+        game2.PlayerTwo = new PlayerEntity(token: "fdask");
         game2.Description = "Ik zoek een gevorderde tegenspeler!";
         
         repository.Add(game1);

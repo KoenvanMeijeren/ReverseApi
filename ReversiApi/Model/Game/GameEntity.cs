@@ -52,12 +52,12 @@ public class GameEntity : IEntity
         this.Game.Board = JsonConvert.DeserializeObject<Color[,]>(this.Board);
         this.Game.Status = this.Status;
 
-        if (this.PlayerOne is {Color: Color.White})
+        if (this.PlayerOne != null)
         {
             this.Game.PlayerOne = new PlayerOne(this.PlayerOne.Token);
         }
         
-        if (this.PlayerTwo is {Color: Color.Black})
+        if (this.PlayerTwo != null)
         {
             this.Game.PlayerTwo = new PlayerTwo(this.PlayerTwo.Token);
         }

@@ -145,10 +145,10 @@ public class GamesDatabaseRepositoryTests
         var game1 = new GameEntity();
         var game2 = new GameEntity();
         
-        game1.PlayerOne = new PlayerEntity(new PlayerOne("fdask"));
+        game1.PlayerOne = new PlayerEntity(token: "fdask");
         game1.Description = "Potje snel reveri, dus niet lang nadenken";
-        game2.PlayerOne =  new PlayerEntity(new PlayerOne("qwert"));
-        game2.PlayerTwo = new PlayerEntity(new PlayerTwo("fdask"));
+        game2.PlayerOne =  new PlayerEntity(token: "qwert");
+        game2.PlayerTwo = new PlayerEntity(token: "fdask");
         game2.Description = "Ik zoek een gevorderde tegenspeler!";
         
         this._repository.Add(game1);
@@ -198,24 +198,23 @@ public class GamesDatabaseRepositoryTests
     [Test]
     public void Game_PlayerDoesPlayAGame()
     {
-        Assert.IsFalse(this._repository.DoesNotPlayAGame(new PlayerEntity(new PlayerOne("abcdef"))));
-        Assert.IsFalse(this._repository.DoesNotPlayAGame(new PlayerEntity(new PlayerOne("ghijkl"))));
-        Assert.IsFalse(this._repository.DoesNotPlayAGame(new PlayerEntity(new PlayerTwo("mnopqr"))));
-        Assert.IsFalse(this._repository.DoesNotPlayAGame(new PlayerEntity(new PlayerOne("stuvwx"))));
+        Assert.IsFalse(this._repository.DoesNotPlayAGame(new PlayerEntity(token: "abcdef")));
+        Assert.IsFalse(this._repository.DoesNotPlayAGame(new PlayerEntity(token: "ghijkl")));
+        Assert.IsFalse(this._repository.DoesNotPlayAGame(new PlayerEntity(token: "mnopqr")));
+        Assert.IsFalse(this._repository.DoesNotPlayAGame(new PlayerEntity(token: "stuvwx")));
+        Assert.IsFalse(this._repository.DoesNotPlayAGame(new PlayerEntity(token: "abcdef")));
+        Assert.IsFalse(this._repository.DoesNotPlayAGame(new PlayerEntity(token: "ghijkl")));
+        Assert.IsFalse(this._repository.DoesNotPlayAGame(new PlayerEntity(token: "mnopqr")));
+        Assert.IsFalse(this._repository.DoesNotPlayAGame(new PlayerEntity(token: "stuvwx")));
     }
     
     [Test]
     public void Game_PlayerDoesNotPlayAGame()
     {
-        Assert.IsTrue(this._repository.DoesNotPlayAGame(new PlayerEntity(new PlayerTwo("abcdef"))));
-        Assert.IsTrue(this._repository.DoesNotPlayAGame(new PlayerEntity(new PlayerTwo("ghijkl"))));
-        Assert.IsTrue(this._repository.DoesNotPlayAGame(new PlayerEntity(new PlayerOne("mnopqr"))));
-        Assert.IsTrue(this._repository.DoesNotPlayAGame(new PlayerEntity(new PlayerTwo("stuvwx"))));
-
-        Assert.IsTrue(this._repository.DoesNotPlayAGame(new PlayerEntity(new PlayerOne("fdadfa"))));
-        Assert.IsTrue(this._repository.DoesNotPlayAGame(new PlayerEntity(new PlayerOne("czcz"))));
-        Assert.IsTrue(this._repository.DoesNotPlayAGame(new PlayerEntity(new PlayerOne("fda"))));
-        Assert.IsTrue(this._repository.DoesNotPlayAGame(new PlayerEntity(new PlayerUndefined())));
+        Assert.IsTrue(this._repository.DoesNotPlayAGame(new PlayerEntity(token: "fdadfa")));
+        Assert.IsTrue(this._repository.DoesNotPlayAGame(new PlayerEntity(token: "czcz")));
+        Assert.IsTrue(this._repository.DoesNotPlayAGame(new PlayerEntity(token: "fda")));
+        Assert.IsTrue(this._repository.DoesNotPlayAGame(new PlayerEntity()));
         
         Assert.IsTrue(this._repository.DoesNotPlayAGame(null));
     }

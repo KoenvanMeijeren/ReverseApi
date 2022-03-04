@@ -147,16 +147,11 @@ public class GameController : ControllerBase
             throw new InvalidOperationException("Speler 1 is al ingesteld!");
         }
         
-        PlayerEntity player = new PlayerEntity(new PlayerOne(gameAddPlayer.PlayerToken));
+        PlayerEntity player = new PlayerEntity(token: gameAddPlayer.PlayerToken, name: gameAddPlayer.Name);
         player = this._playersRepository.FirstOrCreate(player);
         if (!this._repository.DoesNotPlayAGame(player))
         {
             throw new InvalidOperationException("Deze speler speelt al een Reversi potje!");
-        }
-        
-        if (!player.ValidPlayerOne())
-        {
-            throw new ArgumentException("De gevonden speler is niet ingesteld als speler 1!");
         }
         
         entity.PlayerOne = player;
@@ -184,16 +179,11 @@ public class GameController : ControllerBase
             throw new InvalidOperationException("Speler 2 is al ingesteld!");
         }
     
-        PlayerEntity player = new PlayerEntity(new PlayerTwo(gameAddPlayer.PlayerToken));
+        PlayerEntity player = new PlayerEntity(token: gameAddPlayer.PlayerToken, name: gameAddPlayer.Name);
         player = this._playersRepository.FirstOrCreate(player);
         if (!this._repository.DoesNotPlayAGame(player))
         {
             throw new InvalidOperationException("Deze speler speelt al een Reversi potje!");
-        }
-        
-        if (!player.ValidPlayerTwo())
-        {
-            throw new ArgumentException("De gevonden speler is niet ingesteld als speler 2!");
         }
 
         entity.PlayerTwo = player;

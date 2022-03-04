@@ -40,8 +40,8 @@ public class GameEntityTests
             Description = "test",
             PlayerOneId = 13,
             PlayerTwoId = 15,
-            PlayerOne = new PlayerEntity(new PlayerOne("abcdef")),
-            PlayerTwo = new PlayerEntity(new PlayerTwo("qwerty"))
+            PlayerOne = new PlayerEntity(token: "abcdef"),
+            PlayerTwo = new PlayerEntity(token: "qwerty")
         };
 
         // Act
@@ -51,9 +51,7 @@ public class GameEntityTests
         Assert.AreEqual(13, entity.PlayerOneId);
         Assert.AreEqual(15, entity.PlayerTwoId);
         Assert.AreEqual("abcdef", entity.PlayerOne.Token);
-        Assert.AreEqual(Color.White, entity.PlayerOne.Color);
         Assert.AreEqual("qwerty", entity.PlayerTwo.Token);
-        Assert.AreEqual(Color.Black, entity.PlayerTwo.Color);
         Assert.AreEqual(Status.Created, entity.Status);
         Assert.AreEqual("[[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,1,2,0,0,0],[0,0,0,2,1,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]]", entity.Board);
         Assert.IsInstanceOf<IGame>(entity.Game);
@@ -73,8 +71,8 @@ public class GameEntityTests
             Description = "test",
             PlayerOneId = 13,
             PlayerTwoId = 15,
-            PlayerOne = new PlayerEntity(new PlayerOne("abcdef")),
-            PlayerTwo = new PlayerEntity(new PlayerTwo("qwerty"))
+            PlayerOne = new PlayerEntity(token: "abcdef"),
+            PlayerTwo = new PlayerEntity(token: "qwerty")
         };
         entity.UpdateGame();
 
@@ -86,11 +84,9 @@ public class GameEntityTests
         Assert.AreEqual(15, entity.PlayerTwoId);
         Assert.AreEqual("abcdef", entity.PlayerOne.Token);
         Assert.AreEqual("abcdef", entity.Game.PlayerOne.Token);
-        Assert.AreEqual(Color.White, entity.PlayerOne.Color);
         Assert.AreEqual(Color.White, entity.Game.PlayerOne.Color);
         Assert.AreEqual("qwerty", entity.PlayerTwo.Token);
         Assert.AreEqual("qwerty", entity.Game.PlayerTwo.Token);
-        Assert.AreEqual(Color.Black, entity.PlayerTwo.Color);
         Assert.AreEqual(Color.Black, entity.Game.PlayerTwo.Color);
         Assert.AreEqual(Status.Created, entity.Status);
         Assert.AreEqual("[[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,1,2,0,0,0],[0,0,0,2,1,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]]", entity.Board);
@@ -109,8 +105,8 @@ public class GameEntityTests
             Description = "test",
             PlayerOneId = 13,
             PlayerTwoId = 15,
-            PlayerOne = new PlayerEntity(new PlayerOne("abcdef")),
-            PlayerTwo = new PlayerEntity(new PlayerTwo("qwerty"))
+            PlayerOne = new PlayerEntity(token: "abcdef"),
+            PlayerTwo = new PlayerEntity(token: "qwerty")
         };
         entity.UpdateGame();
 
@@ -138,8 +134,8 @@ public class GameEntityTests
             Description = "test",
             PlayerOneId = 13,
             PlayerTwoId = 15,
-            PlayerOne = new PlayerEntity(new PlayerOne("abcdef")),
-            PlayerTwo = new PlayerEntity(new PlayerTwo("qwerty"))
+            PlayerOne = new PlayerEntity(token: "abcdef"),
+            PlayerTwo = new PlayerEntity(token: "qwerty")
         };
         entity.UpdateGame();
 
@@ -168,8 +164,8 @@ public class GameEntityTests
             Description = "test",
             PlayerOneId = 13,
             PlayerTwoId = 15,
-            PlayerOne = new PlayerEntity(new PlayerOne("abcdef")),
-            PlayerTwo = new PlayerEntity(new PlayerTwo("qwerty"))
+            PlayerOne = new PlayerEntity(token: "abcdef"),
+            PlayerTwo = new PlayerEntity(token: "qwerty")
         };
         entity.UpdateGame();
         

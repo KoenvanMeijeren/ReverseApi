@@ -15,13 +15,13 @@ public class GamesRepository : RepositoryBase<GameEntity>, IGamesRepository
         GameEntity entity3 = new GameEntity();
 
         entity1.Description = "Potje snel reveri, dus niet lang nadenken";
-        entity1.PlayerOne = new PlayerEntity(new PlayerOne("abcdef"));
+        entity1.PlayerOne = new PlayerEntity(token: "abcdef");
 
         entity2.Description = "Ik zoek een gevorderde tegenspeler!";
-        entity2.PlayerOne = new PlayerEntity(new PlayerOne("ghijkl"));
-        entity2.PlayerTwo = new PlayerEntity(new PlayerTwo("mnopqr"));
+        entity2.PlayerOne = new PlayerEntity(token: "ghijkl");
+        entity2.PlayerTwo = new PlayerEntity(token: "mnopqr");
         
-        entity3.PlayerOne = new PlayerEntity(new PlayerOne("stuvwx"));
+        entity3.PlayerOne = new PlayerEntity(token: "stuvwx");
 
         this.Add(entity1);
         this.Add(entity2);

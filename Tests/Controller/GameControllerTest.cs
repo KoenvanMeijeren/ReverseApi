@@ -243,7 +243,6 @@ public class GameControllerTest
         Assert.IsTrue(json.Contains("CurrentPlayer"));
         Assert.IsTrue(json.Contains("Color"));
         Assert.IsTrue(json.Contains("None"));
-        Assert.IsTrue(json.Contains("Token"));
         Assert.IsTrue(json.Contains("Status"));
         Assert.IsTrue(json.Contains("Created"));
     }
@@ -274,7 +273,7 @@ public class GameControllerTest
         var controller = new GameController(repository, playerRepository);
         
         var entity = new GameEntity();
-        var player = new PlayerEntity(new PlayerOne("dfasfda"));
+        var player = new PlayerEntity(token: "dfasfda");
         var dto = new GameAddPlayerDto()
         {
             Token = entity.Token,
@@ -332,7 +331,7 @@ public class GameControllerTest
         var playerRepository = new PlayersRepository();
         var controller = new GameController(repository, playerRepository);
         var entity = new GameEntity();
-        var player = new PlayerEntity(new PlayerTwo("vafdas"));
+        var player = new PlayerEntity(token: "vafdas");
 
         // Act
         playerRepository.Add(player);
@@ -360,8 +359,8 @@ public class GameControllerTest
         var controller = new GameController(repository, playerRepository);
         var entity = new GameEntity();
         var entity1 = new GameEntity();
-        var player = new PlayerEntity(new PlayerOne("uiipfdass"));
-        var player2 = new PlayerEntity(new PlayerTwo("vafdas"));
+        var player = new PlayerEntity(token: "uiipfdass");
+        var player2 = new PlayerEntity(token: "vafdas");
 
         // Act
         playerRepository.Add(player);
@@ -385,32 +384,7 @@ public class GameControllerTest
         Exception ex = Assert.Throws<InvalidOperationException>(delegate { controller.AddPlayerOneToGame(dto); });
         Assert.That(ex.Message, Is.EqualTo("Deze speler speelt al een Reversi potje!"));
     }
-    
-    [Test]
-    public void AddPlayerOneToGame_CannotSetPlayerOneWhoIsConfiguredAsPlayerTwo()
-    {
-        // Arrange
-        var repository = new GamesRepository();
-        var playerRepository = new PlayersRepository();
-        var controller = new GameController(repository, playerRepository);
-        var entity = new GameEntity();
-        var player = new PlayerEntity(new PlayerTwo("uiipfdass"));
 
-        // Act
-        playerRepository.Add(player);
-        repository.Add(entity);
-        
-        var dto = new GameAddPlayerDto()
-        {
-            Token = entity.Token,
-            PlayerToken = player.Token
-        };
-        
-        // Assert
-        Exception ex = Assert.Throws<ArgumentException>(delegate { controller.AddPlayerOneToGame(dto); });
-        Assert.That(ex.Message, Is.EqualTo("De gevonden speler is niet ingesteld als speler 1!"));
-    }
-    
     [Test]
     public void AddPlayerTwoToGame_Valid()
     {
@@ -420,7 +394,7 @@ public class GameControllerTest
         var controller = new GameController(repository, playerRepository);
         
         var entity = new GameEntity();
-        var player = new PlayerEntity(new PlayerTwo("vafdas"));
+        var player = new PlayerEntity(token: "vafdas");
         var dto = new GameAddPlayerDto()
         {
             Token = entity.Token,
@@ -478,7 +452,7 @@ public class GameControllerTest
         var playerRepository = new PlayersRepository();
         var controller = new GameController(repository, playerRepository);
         var entity = new GameEntity();
-        var player = new PlayerEntity(new PlayerTwo("vafdas"));
+        var player = new PlayerEntity(token: "vafdas");
 
         // Act
         playerRepository.Add(player);
@@ -506,8 +480,8 @@ public class GameControllerTest
         var controller = new GameController(repository, playerRepository);
         var entity = new GameEntity();
         var entity1 = new GameEntity();
-        var player = new PlayerEntity(new PlayerOne("uiipfdass"));
-        var player2 = new PlayerEntity(new PlayerTwo("vafdas"));
+        var player = new PlayerEntity(token: "uiipfdass");
+        var player2 = new PlayerEntity(token: "vafdas");
 
         // Act
         playerRepository.Add(player);
@@ -531,31 +505,6 @@ public class GameControllerTest
         Exception ex = Assert.Throws<InvalidOperationException>(delegate { controller.AddPlayerTwoToGame(dto); });
         Assert.That(ex.Message, Is.EqualTo("Deze speler speelt al een Reversi potje!"));
     }
-    
-    [Test]
-    public void AddPlayerTwoToGame_CannotSetPlayerTwoWhoIsConfiguredAsPlayerOne()
-    {
-        // Arrange
-        var repository = new GamesRepository();
-        var playerRepository = new PlayersRepository();
-        var controller = new GameController(repository, playerRepository);
-        var entity = new GameEntity();
-        var player = new PlayerEntity(new PlayerOne("uiipfdass"));
-
-        // Act
-        playerRepository.Add(player);
-        repository.Add(entity);
-        
-        var dto = new GameAddPlayerDto()
-        {
-            Token = entity.Token,
-            PlayerToken = player.Token
-        };
-        
-        // Assert
-        Exception ex = Assert.Throws<ArgumentException>(delegate { controller.AddPlayerTwoToGame(dto); });
-        Assert.That(ex.Message, Is.EqualTo("De gevonden speler is niet ingesteld als speler 2!"));
-    }
 
     [Test]
     public void Can_StartGame()
@@ -566,8 +515,8 @@ public class GameControllerTest
         var controller = new GameController(repository, playerRepository);
         var entity = new GameEntity()
         {
-            PlayerOne = new PlayerEntity(new PlayerOne()),
-            PlayerTwo = new PlayerEntity(new PlayerTwo())
+            PlayerOne = new PlayerEntity(),
+            PlayerTwo = new PlayerEntity()
         };
 
         // Act 
@@ -607,8 +556,8 @@ public class GameControllerTest
         var controller = new GameController(repository, playerRepository);
         var entity = new GameEntity()
         {
-            PlayerOne = new PlayerEntity(new PlayerOne()),
-            PlayerTwo = new PlayerEntity(new PlayerTwo())
+            PlayerOne = new PlayerEntity(),
+            PlayerTwo = new PlayerEntity()
         };
 
         // Act 
@@ -646,8 +595,8 @@ public class GameControllerTest
         var controller = new GameController(repository, playerRepository);
         var entity = new GameEntity()
         {
-            PlayerOne = new PlayerEntity(new PlayerOne("qweruty")),
-            PlayerTwo = new PlayerEntity(new PlayerTwo())
+            PlayerOne = new PlayerEntity(token: "qweruty"),
+            PlayerTwo = new PlayerEntity()
         };
 
         // Act 
@@ -705,8 +654,8 @@ public class GameControllerTest
         var controller = new GameController(repository, playerRepository);
         var entity = new GameEntity()
         {
-            PlayerOne = new PlayerEntity(new PlayerOne("abcdef")),
-            PlayerTwo = new PlayerEntity(new PlayerTwo("qwerty"))
+            PlayerOne = new PlayerEntity(token: "abcdef"),
+            PlayerTwo = new PlayerEntity(token: "qwerty")
         };
 
         // Act 
@@ -755,8 +704,8 @@ public class GameControllerTest
         var controller = new GameController(repository, playerRepository);
         var entity = new GameEntity()
         {
-            PlayerOne = new PlayerEntity(new PlayerOne("abcdef")),
-            PlayerTwo = new PlayerEntity(new PlayerTwo("qwerty"))
+            PlayerOne = new PlayerEntity(token: "abcdef"),
+            PlayerTwo = new PlayerEntity(token: "qwerty")
         };
 
         // Act 
