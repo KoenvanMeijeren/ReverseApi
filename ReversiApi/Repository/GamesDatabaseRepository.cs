@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using ReversiApi.DataAccess;
+using ReversiApi.Helpers.Validators;
 using ReversiApi.Repository.Contracts;
 
 namespace ReversiApi.Repository;
@@ -47,44 +48,9 @@ public class GamesDatabaseRepository : RepositoryDatabaseBase<GameEntity>, IData
     /// <inheritdoc />
     public bool DoesNotPlayAGame(PlayerEntity playerEntity)
     {
-        bool playsAGame = false;
-        foreach (var entity in this.All())
-        {
-            if (entity.PlayerOne != null && DoesPlayerPlayAGame(playerEntity, entity))
-            {
-                playsAGame = true;
-            }
-            
-            if (entity.PlayerTwo != null && DoesPlayerPlayAGame(playerEntity, entity))
-            {
-                playsAGame = true;
-            }
-        }
-
-        return !playsAGame;
+        return GameValidator.PlayerDoesNotPlayAGame(this.All(), playerEntity);
     }
 
-    /// <summary>
-    /// Determines if the player plays the current game.
-    /// </summary>
-    /// <param name="playerEntity">The player.</param>
-    /// <param name="gameEntity">The game.</param>
-    /// <returns>True if the player plays the game.</returns>
-    private static bool DoesPlayerPlayAGame(PlayerEntity playerEntity, GameEntity gameEntity)
-    {
-        if (gameEntity.PlayerOne != null && gameEntity.PlayerOne.Equals(playerEntity))
-        {
-            return !gameEntity.Game.IsQuit() && !gameEntity.Game.IsFinished();
-        }
-        
-        if (gameEntity.PlayerTwo != null && gameEntity.PlayerTwo.Equals(playerEntity))
-        {
-            return !gameEntity.Game.IsQuit() && !gameEntity.Game.IsFinished();
-        }
-
-        return false;
-    }
-    
     /// <inheritdoc />
     public bool Exists(string? token)
     {

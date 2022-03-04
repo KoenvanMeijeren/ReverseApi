@@ -1,4 +1,5 @@
 ﻿#nullable enable
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol;
 using NUnit.Framework;
 using ReversiApi.Controllers;
+using ReversiApi.Helpers.Validators;
 using ReversiApi.Model.Game;
 using ReversiApi.Model.Game.DataTransferObject;
 using ReversiApi.Model.Player;
@@ -323,6 +325,93 @@ public class GameControllerTest
     }
     
     [Test]
+    public void AddPlayerOneToGame_CannotOverrideExistingPlayerOne()
+    {
+        // Arrange
+        var repository = new GamesRepository();
+        var playerRepository = new PlayersRepository();
+        var controller = new GameController(repository, playerRepository);
+        var entity = new GameEntity();
+        var player = new PlayerEntity(new PlayerTwo("vafdas"));
+
+        // Act
+        playerRepository.Add(player);
+        repository.Add(entity);
+        
+        entity.PlayerOne = player;
+        
+        var dto = new GameAddPlayerDto()
+        {
+            Token = entity.Token,
+            PlayerToken = player.Token
+        };
+        
+        // Assert
+        Exception ex = Assert.Throws<InvalidOperationException>(delegate { controller.AddPlayerOneToGame(dto); });
+        Assert.That(ex.Message, Is.EqualTo("Speler 1 is al ingesteld!"));
+    }
+    
+    [Test]
+    public void AddPlayerOneToGame_CannotSetPlayerOneWhoIsPlayingOtherGame()
+    {
+        // Arrange
+        var repository = new GamesRepository();
+        var playerRepository = new PlayersRepository();
+        var controller = new GameController(repository, playerRepository);
+        var entity = new GameEntity();
+        var entity1 = new GameEntity();
+        var player = new PlayerEntity(new PlayerOne("uiipfdass"));
+        var player2 = new PlayerEntity(new PlayerTwo("vafdas"));
+
+        // Act
+        playerRepository.Add(player);
+        playerRepository.Add(player2);
+        repository.Add(entity);
+        repository.Add(entity1);
+        
+        entity.PlayerOne = player;
+        entity.PlayerTwo = player2;
+        entity.UpdateGame();
+        entity.Game.Start();
+        entity.UpdateEntity();
+
+        var dto = new GameAddPlayerDto()
+        {
+            Token = entity1.Token,
+            PlayerToken = player.Token
+        };
+        
+        // Assert
+        Exception ex = Assert.Throws<InvalidOperationException>(delegate { controller.AddPlayerOneToGame(dto); });
+        Assert.That(ex.Message, Is.EqualTo("Deze speler speelt al een Reversi potje!"));
+    }
+    
+    [Test]
+    public void AddPlayerOneToGame_CannotSetPlayerOneWhoIsConfiguredAsPlayerTwo()
+    {
+        // Arrange
+        var repository = new GamesRepository();
+        var playerRepository = new PlayersRepository();
+        var controller = new GameController(repository, playerRepository);
+        var entity = new GameEntity();
+        var player = new PlayerEntity(new PlayerTwo("uiipfdass"));
+
+        // Act
+        playerRepository.Add(player);
+        repository.Add(entity);
+        
+        var dto = new GameAddPlayerDto()
+        {
+            Token = entity.Token,
+            PlayerToken = player.Token
+        };
+        
+        // Assert
+        Exception ex = Assert.Throws<ArgumentException>(delegate { controller.AddPlayerOneToGame(dto); });
+        Assert.That(ex.Message, Is.EqualTo("De gevonden speler is niet ingesteld als speler 1!"));
+    }
+    
+    [Test]
     public void AddPlayerTwoToGame_Valid()
     {
         // Arrange
@@ -381,6 +470,93 @@ public class GameControllerTest
         Assert.IsInstanceOf<NotFoundResult>(response1.Result);
     }
     
+    [Test]
+    public void AddPlayerTwoToGame_CannotOverrideExistingPlayerTwo()
+    {
+        // Arrange
+        var repository = new GamesRepository();
+        var playerRepository = new PlayersRepository();
+        var controller = new GameController(repository, playerRepository);
+        var entity = new GameEntity();
+        var player = new PlayerEntity(new PlayerTwo("vafdas"));
+
+        // Act
+        playerRepository.Add(player);
+        repository.Add(entity);
+        
+        entity.PlayerTwo = player;
+        
+        var dto = new GameAddPlayerDto()
+        {
+            Token = entity.Token,
+            PlayerToken = player.Token
+        };
+        
+        // Assert
+        Exception ex = Assert.Throws<InvalidOperationException>(delegate { controller.AddPlayerTwoToGame(dto); });
+        Assert.That(ex.Message, Is.EqualTo("Speler 2 is al ingesteld!"));
+    }
+    
+    [Test]
+    public void AddPlayerTwoToGame_CannotSetPlayerTwoWhoIsPlayingOtherGame()
+    {
+        // Arrange
+        var repository = new GamesRepository();
+        var playerRepository = new PlayersRepository();
+        var controller = new GameController(repository, playerRepository);
+        var entity = new GameEntity();
+        var entity1 = new GameEntity();
+        var player = new PlayerEntity(new PlayerOne("uiipfdass"));
+        var player2 = new PlayerEntity(new PlayerTwo("vafdas"));
+
+        // Act
+        playerRepository.Add(player);
+        playerRepository.Add(player2);
+        repository.Add(entity);
+        repository.Add(entity1);
+        
+        entity.PlayerOne = player;
+        entity.PlayerTwo = player2;
+        entity.UpdateGame();
+        entity.Game.Start();
+        entity.UpdateEntity();
+
+        var dto = new GameAddPlayerDto()
+        {
+            Token = entity1.Token,
+            PlayerToken = player2.Token
+        };
+        
+        // Assert
+        Exception ex = Assert.Throws<InvalidOperationException>(delegate { controller.AddPlayerTwoToGame(dto); });
+        Assert.That(ex.Message, Is.EqualTo("Deze speler speelt al een Reversi potje!"));
+    }
+    
+    [Test]
+    public void AddPlayerTwoToGame_CannotSetPlayerTwoWhoIsConfiguredAsPlayerOne()
+    {
+        // Arrange
+        var repository = new GamesRepository();
+        var playerRepository = new PlayersRepository();
+        var controller = new GameController(repository, playerRepository);
+        var entity = new GameEntity();
+        var player = new PlayerEntity(new PlayerOne("uiipfdass"));
+
+        // Act
+        playerRepository.Add(player);
+        repository.Add(entity);
+        
+        var dto = new GameAddPlayerDto()
+        {
+            Token = entity.Token,
+            PlayerToken = player.Token
+        };
+        
+        // Assert
+        Exception ex = Assert.Throws<ArgumentException>(delegate { controller.AddPlayerTwoToGame(dto); });
+        Assert.That(ex.Message, Is.EqualTo("De gevonden speler is niet ingesteld als speler 2!"));
+    }
+
     [Test]
     public void Can_StartGame()
     {
@@ -506,10 +682,18 @@ public class GameControllerTest
             Token = entity.Token
         });
         var response1 = controller.DoMoveGame(null);
+        var response2 = controller.DoMoveGame(new GameDoMoveDto()
+        {
+            Token = "dfaadf",
+            PlayerToken = "abcfd",
+            Row = 3,
+            Column = 5
+        });
 
         // Assert
         Assert.IsInstanceOf<BadRequestResult>(response.Result);
         Assert.IsInstanceOf<BadRequestResult>(response1.Result);
+        Assert.IsInstanceOf<NotFoundResult>(response2.Result);
     }
     
     [Test]
@@ -634,42 +818,7 @@ internal class GamesRepositoryEmptyTest :  RepositoryBase<GameEntity>, IGamesRep
     /// <inheritdoc />
     public bool DoesNotPlayAGame(PlayerEntity playerEntity)
     {
-        bool playsAGame = false;
-        foreach (var entity in this.All())
-        {
-            if (entity.PlayerOne != null && DoesPlayerPlayAGame(playerEntity, entity))
-            {
-                playsAGame = true;
-            }
-            
-            if (entity.PlayerTwo != null && DoesPlayerPlayAGame(playerEntity, entity))
-            {
-                playsAGame = true;
-            }
-        }
-
-        return !playsAGame;
-    }
-
-    /// <summary>
-    /// Determines if the player plays the current game.
-    /// </summary>
-    /// <param name="playerEntity">The player.</param>
-    /// <param name="gameEntity">The game.</param>
-    /// <returns>True if the player plays the game.</returns>
-    private static bool DoesPlayerPlayAGame(PlayerEntity playerEntity, GameEntity gameEntity)
-    {
-        if (gameEntity.PlayerOne != null && gameEntity.PlayerOne.Equals(playerEntity))
-        {
-            return !gameEntity.Game.IsQuit() && !gameEntity.Game.IsFinished();
-        }
-        
-        if (gameEntity.PlayerTwo != null && gameEntity.PlayerTwo.Equals(playerEntity))
-        {
-            return !gameEntity.Game.IsQuit() && !gameEntity.Game.IsFinished();
-        }
-
-        return false;
+        return GameValidator.PlayerDoesNotPlayAGame(this.All(), playerEntity);
     }
 
     /// <inheritdoc />
