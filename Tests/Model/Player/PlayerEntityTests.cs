@@ -19,6 +19,7 @@ public class PlayerEntityTests
         // Assert
         Assert.AreEqual(IEntity.IdUndefined, player.Id);
         Assert.AreEqual("", player.Token);
+        Assert.AreEqual("", player.Name);
         Assert.IsEmpty(player.GamesPlayerOne);
         Assert.IsEmpty(player.GamesPlayerTwo);
         Assert.IsInstanceOf<int>(player.GetHashCode());
@@ -35,6 +36,7 @@ public class PlayerEntityTests
         // Assert
         Assert.AreEqual(11, player.Id);
         Assert.AreEqual("test", player.Token);
+        Assert.AreEqual("Teddy", player.Name);
         Assert.IsInstanceOf<int>(player.GetHashCode());
     }
     

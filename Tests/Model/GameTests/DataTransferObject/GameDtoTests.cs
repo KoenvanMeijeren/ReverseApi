@@ -101,11 +101,13 @@ public class GameDtoTests
         var dto = new GameAddPlayerDto()
         {
             Token = "test",
-            PlayerToken = "qwert"
+            PlayerToken = "qwert",
+            Name = "Teddy"
         };
 
         Assert.AreEqual("test", dto.Token);
         Assert.AreEqual("qwert", dto.PlayerToken);
+        Assert.AreEqual("Teddy", dto.Name);
     }
     
     [Test]
@@ -115,6 +117,7 @@ public class GameDtoTests
         
         Assert.IsNull(dto.Token);
         Assert.IsNull(dto.PlayerToken);
+        Assert.IsNull(dto.Name);
     }
     
     [Test]
