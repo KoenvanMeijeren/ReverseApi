@@ -45,20 +45,41 @@ public class GamesRepository : RepositoryBase<GameEntity>, IGamesRepository
     public bool DoesNotPlayAGame(PlayerEntity playerEntity)
     {
         bool playsAGame = false;
-        foreach (var entity in this.Items)
+        foreach (var entity in this.All())
         {
-            if (!entity.PlayerOne.Equals(playerEntity) && !entity.PlayerTwo.Equals(playerEntity))
+            if (entity.PlayerOne != null && DoesPlayerPlayAGame(playerEntity, entity))
             {
-                continue;
+                playsAGame = true;
             }
-
-            if (entity.Game.IsPlaying())
+            
+            if (entity.PlayerTwo != null && DoesPlayerPlayAGame(playerEntity, entity))
             {
                 playsAGame = true;
             }
         }
 
-        return playsAGame;
+        return !playsAGame;
+    }
+
+    /// <summary>
+    /// Determines if the player plays the current game.
+    /// </summary>
+    /// <param name="playerEntity">The player.</param>
+    /// <param name="gameEntity">The game.</param>
+    /// <returns>True if the player plays the game.</returns>
+    private static bool DoesPlayerPlayAGame(PlayerEntity playerEntity, GameEntity gameEntity)
+    {
+        if (gameEntity.PlayerOne != null && gameEntity.PlayerOne.Equals(playerEntity))
+        {
+            return !gameEntity.Game.IsQuit() && !gameEntity.Game.IsFinished();
+        }
+        
+        if (gameEntity.PlayerTwo != null && gameEntity.PlayerTwo.Equals(playerEntity))
+        {
+            return !gameEntity.Game.IsQuit() && !gameEntity.Game.IsFinished();
+        }
+
+        return false;
     }
 
     /// <inheritdoc />

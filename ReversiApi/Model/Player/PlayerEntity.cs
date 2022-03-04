@@ -46,9 +46,10 @@ public class PlayerEntity : IEntity
     
     public override bool Equals(object? obj)
     {
-        if (obj is PlayerEntity player)
+        if (obj is IPlayer player)
         {
-            return this.Id.Equals(player.Id);
+            return this.Token.Equals(player.Token) 
+                   && this.Color.Equals(player.Color);
         }
         
         return false;
@@ -56,7 +57,7 @@ public class PlayerEntity : IEntity
     
     public override int GetHashCode()
     {
-        return HashCode.Combine(this.Id);
+        return HashCode.Combine(this.Token, (int) this.Color);
     }
     
 }

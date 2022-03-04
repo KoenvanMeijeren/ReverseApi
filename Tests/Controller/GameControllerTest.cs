@@ -197,12 +197,7 @@ public class GameControllerTest
         var json = response.ToJson();
         
         // Assert
-        Assert.IsInstanceOf<CreatedAtRouteResult>(response);
-        Assert.IsTrue(json.Contains("Value"));
-        Assert.IsTrue(json.Contains("RouteName"));
-        Assert.IsTrue(json.Contains("getGameByTokenRoute"));
-        Assert.IsTrue(json.Contains("RouteValues"));
-        Assert.IsTrue(json.Contains("token"));
+        Assert.IsInstanceOf<OkObjectResult>(response.Result);
         Assert.IsTrue(json.Contains("Id"));
         Assert.IsTrue(json.Contains("Description"));
         Assert.IsTrue(json.Contains("Token"));
@@ -221,10 +216,9 @@ public class GameControllerTest
 
         // Act
         var response = controller.CreateGame(null);
-        var json = response.ToJson();
         
         // Assert
-        Assert.IsInstanceOf<BadRequestResult>(response);
+        Assert.IsInstanceOf<BadRequestResult>(response.Result);
     }
     
     [Test]
@@ -277,14 +271,17 @@ public class GameControllerTest
         var controller = new GameController(repository, playerRepository);
         
         var entity = new GameEntity();
+        var player = new PlayerEntity(new PlayerOne("dfasfda"));
         var dto = new GameAddPlayerDto()
         {
             Token = entity.Token,
-            PlayerToken = "uiop"
+            PlayerToken = player.Token
         };
 
         // Act
+        playerRepository.Add(player);
         repository.Add(entity);
+        
         var response = controller.AddPlayerOneToGame(dto);
         var json = response.ToJson();
         
@@ -298,7 +295,7 @@ public class GameControllerTest
         Assert.IsTrue(json.Contains("Token"));
         Assert.IsTrue(json.Contains("Status"));
         Assert.IsTrue(json.Contains("Created"));
-        Assert.IsTrue(json.Contains("uiop"));
+        Assert.IsTrue(json.Contains(player.Token));
         Assert.IsTrue(json.Contains(entity.Token));
     }
     
@@ -331,15 +328,19 @@ public class GameControllerTest
         var repository = new GamesRepository();
         var playerRepository = new PlayersRepository();
         var controller = new GameController(repository, playerRepository);
+        
         var entity = new GameEntity();
+        var player = new PlayerEntity(new PlayerTwo("vafdas"));
         var dto = new GameAddPlayerDto()
         {
             Token = entity.Token,
-            PlayerToken = "vbnm"
+            PlayerToken = player.Token
         };
 
         // Act
+        playerRepository.Add(player);
         repository.Add(entity);
+        
         var response = controller.AddPlayerTwoToGame(dto);
         var json = response.ToJson();
         
@@ -353,7 +354,7 @@ public class GameControllerTest
         Assert.IsTrue(json.Contains("Token"));
         Assert.IsTrue(json.Contains("Status"));
         Assert.IsTrue(json.Contains("Created"));
-        Assert.IsTrue(json.Contains("vbnm"));
+        Assert.IsTrue(json.Contains(player.Token));
         Assert.IsTrue(json.Contains(entity.Token));
     }
     
@@ -496,16 +497,17 @@ public class GameControllerTest
         var repository = new GamesRepository();
         var playerRepository = new PlayersRepository();
         var controller = new GameController(repository, playerRepository);
-
+        var entity = repository.All().First();
+        
         // Act 
         var response = controller.DoMoveGame(new GameDoMoveDto()
         {
-            Token = "test"
+            Token = entity.Token
         });
         var response1 = controller.DoMoveGame(null);
 
         // Assert
-        Assert.IsInstanceOf<NotFoundResult>(response.Result);
+        Assert.IsInstanceOf<BadRequestResult>(response.Result);
         Assert.IsInstanceOf<BadRequestResult>(response1.Result);
     }
     
@@ -631,20 +633,41 @@ internal class GamesRepositoryEmptyTest :  RepositoryBase<GameEntity>, IGamesRep
     public bool DoesNotPlayAGame(PlayerEntity playerEntity)
     {
         bool playsAGame = false;
-        foreach (var entity in this.Items)
+        foreach (var entity in this.All())
         {
-            if (!entity.PlayerOne.Equals(playerEntity) && !entity.PlayerTwo.Equals(playerEntity))
+            if (entity.PlayerOne != null && DoesPlayerPlayAGame(playerEntity, entity))
             {
-                continue;
+                playsAGame = true;
             }
-
-            if (entity.Game.IsPlaying())
+            
+            if (entity.PlayerTwo != null && DoesPlayerPlayAGame(playerEntity, entity))
             {
                 playsAGame = true;
             }
         }
 
-        return playsAGame;
+        return !playsAGame;
+    }
+
+    /// <summary>
+    /// Determines if the player plays the current game.
+    /// </summary>
+    /// <param name="playerEntity">The player.</param>
+    /// <param name="gameEntity">The game.</param>
+    /// <returns>True if the player plays the game.</returns>
+    private static bool DoesPlayerPlayAGame(PlayerEntity playerEntity, GameEntity gameEntity)
+    {
+        if (gameEntity.PlayerOne != null && gameEntity.PlayerOne.Equals(playerEntity))
+        {
+            return !gameEntity.Game.IsQuit() && !gameEntity.Game.IsFinished();
+        }
+        
+        if (gameEntity.PlayerTwo != null && gameEntity.PlayerTwo.Equals(playerEntity))
+        {
+            return !gameEntity.Game.IsQuit() && !gameEntity.Game.IsFinished();
+        }
+
+        return false;
     }
 
     /// <inheritdoc />
