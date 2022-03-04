@@ -10,10 +10,10 @@ public class PlayersRepository : RepositoryBase<PlayerEntity>, IPlayersRepositor
     
     public PlayersRepository()
     {
-        this.Add(new PlayerEntity(new PlayerOne("abcdef")));
-        this.Add(new PlayerEntity(new PlayerOne("ghijkl")));
-        this.Add(new PlayerEntity(new PlayerTwo("mnopqr")));
-        this.Add(new PlayerEntity(new PlayerOne("stuvwx")));
+        this.Add(new PlayerEntity(token: "abcdef"));
+        this.Add(new PlayerEntity(token: "ghijkl"));
+        this.Add(new PlayerEntity(token: "mnopqr"));
+        this.Add(new PlayerEntity(token: "stuvwx"));
     }
 
     public PlayerEntity FirstOrCreate(PlayerEntity playerEntity)

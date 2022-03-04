@@ -243,7 +243,6 @@ public class GameControllerTest
         Assert.IsTrue(json.Contains("CurrentPlayer"));
         Assert.IsTrue(json.Contains("Color"));
         Assert.IsTrue(json.Contains("None"));
-        Assert.IsTrue(json.Contains("Token"));
         Assert.IsTrue(json.Contains("Status"));
         Assert.IsTrue(json.Contains("Created"));
     }
@@ -385,32 +384,7 @@ public class GameControllerTest
         Exception ex = Assert.Throws<InvalidOperationException>(delegate { controller.AddPlayerOneToGame(dto); });
         Assert.That(ex.Message, Is.EqualTo("Deze speler speelt al een Reversi potje!"));
     }
-    
-    [Test]
-    public void AddPlayerOneToGame_CannotSetPlayerOneWhoIsConfiguredAsPlayerTwo()
-    {
-        // Arrange
-        var repository = new GamesRepository();
-        var playerRepository = new PlayersRepository();
-        var controller = new GameController(repository, playerRepository);
-        var entity = new GameEntity();
-        var player = new PlayerEntity(new PlayerTwo("uiipfdass"));
 
-        // Act
-        playerRepository.Add(player);
-        repository.Add(entity);
-        
-        var dto = new GameAddPlayerDto()
-        {
-            Token = entity.Token,
-            PlayerToken = player.Token
-        };
-        
-        // Assert
-        Exception ex = Assert.Throws<ArgumentException>(delegate { controller.AddPlayerOneToGame(dto); });
-        Assert.That(ex.Message, Is.EqualTo("De gevonden speler is niet ingesteld als speler 1!"));
-    }
-    
     [Test]
     public void AddPlayerTwoToGame_Valid()
     {
@@ -530,31 +504,6 @@ public class GameControllerTest
         // Assert
         Exception ex = Assert.Throws<InvalidOperationException>(delegate { controller.AddPlayerTwoToGame(dto); });
         Assert.That(ex.Message, Is.EqualTo("Deze speler speelt al een Reversi potje!"));
-    }
-    
-    [Test]
-    public void AddPlayerTwoToGame_CannotSetPlayerTwoWhoIsConfiguredAsPlayerOne()
-    {
-        // Arrange
-        var repository = new GamesRepository();
-        var playerRepository = new PlayersRepository();
-        var controller = new GameController(repository, playerRepository);
-        var entity = new GameEntity();
-        var player = new PlayerEntity(new PlayerOne("uiipfdass"));
-
-        // Act
-        playerRepository.Add(player);
-        repository.Add(entity);
-        
-        var dto = new GameAddPlayerDto()
-        {
-            Token = entity.Token,
-            PlayerToken = player.Token
-        };
-        
-        // Assert
-        Exception ex = Assert.Throws<ArgumentException>(delegate { controller.AddPlayerTwoToGame(dto); });
-        Assert.That(ex.Message, Is.EqualTo("De gevonden speler is niet ingesteld als speler 2!"));
     }
 
     [Test]

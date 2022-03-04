@@ -6,14 +6,14 @@ namespace ReversiApi.Model.Game.DataTransferObject;
 public class GameStatusDto
 {
 
-    private readonly GameEntity? _game;
-    public string Board => JsonConvert.SerializeObject(this._game?.Game.Board);
-    public PlayerInfoDto CurrentPlayer => new PlayerInfoDto(this._game?.Game.CurrentPlayer);
-    public string? Status => this._game?.Status.ToString();
+    private readonly GameEntity? _entity;
+    public string Board => JsonConvert.SerializeObject(this._entity?.Game.Board);
+    public PlayerInfoDto CurrentPlayer => new PlayerInfoDto(this._entity?.Game.CurrentPlayer, this._entity?.CurrentPlayer);
+    public string? Status => this._entity?.Status.ToString();
     
-    public GameStatusDto(GameEntity? game)
+    public GameStatusDto(GameEntity? entity)
     {
-        this._game = game;
+        this._entity = entity;
     }
     
 }

@@ -202,16 +202,15 @@ public class GamesDatabaseRepositoryTests
         Assert.IsFalse(this._repository.DoesNotPlayAGame(new PlayerEntity(new PlayerOne("ghijkl"))));
         Assert.IsFalse(this._repository.DoesNotPlayAGame(new PlayerEntity(new PlayerTwo("mnopqr"))));
         Assert.IsFalse(this._repository.DoesNotPlayAGame(new PlayerEntity(new PlayerOne("stuvwx"))));
+        Assert.IsFalse(this._repository.DoesNotPlayAGame(new PlayerEntity(new PlayerTwo("abcdef"))));
+        Assert.IsFalse(this._repository.DoesNotPlayAGame(new PlayerEntity(new PlayerTwo("ghijkl"))));
+        Assert.IsFalse(this._repository.DoesNotPlayAGame(new PlayerEntity(new PlayerOne("mnopqr"))));
+        Assert.IsFalse(this._repository.DoesNotPlayAGame(new PlayerEntity(new PlayerTwo("stuvwx"))));
     }
     
     [Test]
     public void Game_PlayerDoesNotPlayAGame()
     {
-        Assert.IsTrue(this._repository.DoesNotPlayAGame(new PlayerEntity(new PlayerTwo("abcdef"))));
-        Assert.IsTrue(this._repository.DoesNotPlayAGame(new PlayerEntity(new PlayerTwo("ghijkl"))));
-        Assert.IsTrue(this._repository.DoesNotPlayAGame(new PlayerEntity(new PlayerOne("mnopqr"))));
-        Assert.IsTrue(this._repository.DoesNotPlayAGame(new PlayerEntity(new PlayerTwo("stuvwx"))));
-
         Assert.IsTrue(this._repository.DoesNotPlayAGame(new PlayerEntity(new PlayerOne("fdadfa"))));
         Assert.IsTrue(this._repository.DoesNotPlayAGame(new PlayerEntity(new PlayerOne("czcz"))));
         Assert.IsTrue(this._repository.DoesNotPlayAGame(new PlayerEntity(new PlayerOne("fda"))));

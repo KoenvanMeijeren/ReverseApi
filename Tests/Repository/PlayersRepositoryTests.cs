@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using NUnit.Framework;
-using ReversiApi.Model.Game;
 using ReversiApi.Model.Player;
 using ReversiApi.Repository;
 using ReversiApi.Repository.Contracts;
@@ -18,7 +17,6 @@ public class PlayersRepositoryTests
         var players = this._repository.All();
         
         Assert.AreEqual(4, players.Count());
-        Assert.AreEqual(Color.White, players.First().Color);
         Assert.AreEqual("abcdef", players.First().Token);
     }
     
@@ -29,12 +27,11 @@ public class PlayersRepositoryTests
         var repository = new PlayersRepository();
         
         // Act
-        repository.Add(new PlayerEntity(new PlayerOne("qwerty")));
+        repository.Add(new PlayerEntity(token: "qwerty"));
         var players = repository.All();
         
         // Assert
         Assert.AreEqual(5, players.Count());
-        Assert.AreEqual(Color.White, players.Last().Color);
         Assert.AreEqual("qwerty", players.Last().Token);
     }
     
@@ -46,13 +43,12 @@ public class PlayersRepositoryTests
         Assert.AreEqual(4, repository.All().Count());
         
         // Act
-        var player = repository.FirstOrCreate(new PlayerEntity(new PlayerOne("hjikl")));
-        player = repository.FirstOrCreate(new PlayerEntity(new PlayerOne("hjikl")));
+        var player = repository.FirstOrCreate(new PlayerEntity(token: "hjikl"));
+        player = repository.FirstOrCreate(new PlayerEntity(token: "hjikl"));
         var players = repository.All();
         
         // Assert
         Assert.AreEqual(5, players.Count());
-        Assert.AreEqual(Color.White, player.Color);
         Assert.AreEqual("hjikl", player.Token);
     }
     
