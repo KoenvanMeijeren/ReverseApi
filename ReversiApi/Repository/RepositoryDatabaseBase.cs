@@ -9,9 +9,12 @@ public abstract class RepositoryDatabaseBase<T> : IDatabaseRepository<T> where T
 {
     protected readonly GamesDataAccess Context;
 
-    protected RepositoryDatabaseBase(GamesDataAccess context)
+    protected readonly DbSet<T> DbSet;
+
+    protected RepositoryDatabaseBase(GamesDataAccess context, DbSet<T> dbSet)
     {
         this.Context = context;
+        this.DbSet = dbSet;
     }
 
     /// <inheritdoc />
@@ -24,7 +27,7 @@ public abstract class RepositoryDatabaseBase<T> : IDatabaseRepository<T> where T
     /// <inheritdoc />
     public virtual IEnumerable<T> All()
     {
-        return this.GetDbSet().ToList();
+        return this.DbSet.ToList();
     }
 
     /// <inheritdoc />
@@ -38,13 +41,13 @@ public abstract class RepositoryDatabaseBase<T> : IDatabaseRepository<T> where T
     {
         bool Find(T entity) => entity.Id == id;
         
-        return this.GetDbSet().Find((Func<T, bool>) Find);
+        return this.DbSet.Find((Func<T, bool>) Find);
     }
 
     /// <inheritdoc />
     public virtual bool Update(T entity)
     {
-        this.GetDbSet().Update(entity);
+        this.DbSet.Update(entity);
         
         return this.Context.SaveChanges() > 0;
     }
@@ -52,14 +55,8 @@ public abstract class RepositoryDatabaseBase<T> : IDatabaseRepository<T> where T
     /// <inheritdoc />
     public virtual bool Delete(T entity)
     {
-        this.GetDbSet().Remove(entity);
+        this.DbSet.Remove(entity);
         
         return this.Context.SaveChanges() > 0;
     }
-
-    /// <summary>
-    /// Gets the Db Set.
-    /// </summary>
-    /// <returns>The Db Set</returns>
-    protected abstract DbSet<T> GetDbSet();
 }

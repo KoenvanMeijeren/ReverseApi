@@ -11,7 +11,7 @@ namespace ReversiApi.Repository;
 public class GamesDatabaseRepository : RepositoryDatabaseBase<GameEntity>, IDatabaseGamesRepository
 {
     
-    public GamesDatabaseRepository(GamesDataAccess context) : base(context)
+    public GamesDatabaseRepository(GamesDataAccess context) : base(context, context.Games)
     {
         
     }
@@ -27,7 +27,7 @@ public class GamesDatabaseRepository : RepositoryDatabaseBase<GameEntity>, IData
     /// <inheritdoc />
     public override IEnumerable<GameEntity> All()
     {
-        var entities = this.GetDbSet()
+        var entities = this.DbSet
             .Include(entity => entity.PlayerOne)
             .Include(entity => entity.PlayerTwo)
             .ToList();
@@ -120,11 +120,5 @@ public class GamesDatabaseRepository : RepositoryDatabaseBase<GameEntity>, IData
         entity.UpdateGame();
 
         return base.Update(entity);
-    }
-
-    /// <inheritdoc />
-    protected override DbSet<GameEntity> GetDbSet()
-    {
-        return this.Context.Games;
     }
 }

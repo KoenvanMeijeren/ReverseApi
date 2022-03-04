@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ReversiApi.DataAccess;
+﻿using ReversiApi.DataAccess;
 using ReversiApi.Repository.Contracts;
 
 namespace ReversiApi.Repository;
@@ -10,7 +9,7 @@ namespace ReversiApi.Repository;
 public class PlayersDatabaseRepository : RepositoryDatabaseBase<PlayerEntity>, IPlayersDatabaseRepository
 {
     
-    public PlayersDatabaseRepository(GamesDataAccess context) : base(context)
+    public PlayersDatabaseRepository(GamesDataAccess context) : base(context, context.Players)
     {
         
     }
@@ -38,11 +37,5 @@ public class PlayersDatabaseRepository : RepositoryDatabaseBase<PlayerEntity>, I
     public PlayerEntity? Get(string? token)
     {
         return this.Context.Players.SingleOrDefault(player => player.Token.Equals(token));
-    }
-
-    /// <inheritdoc />
-    protected override DbSet<PlayerEntity> GetDbSet()
-    {
-        return this.Context.Players;
     }
 }
