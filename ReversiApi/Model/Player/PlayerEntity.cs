@@ -33,5 +33,30 @@ public class PlayerEntity : IEntity
         this.GamesPlayerOne = new List<GameEntity>();
         this.GamesPlayerTwo = new List<GameEntity>();
     }
+
+    public bool ValidPlayerOne()
+    {
+        return this.Color.Equals(Color.White);
+    }
+    
+    public bool ValidPlayerTwo()
+    {
+        return this.Color.Equals(Color.Black);
+    }
+    
+    public override bool Equals(object? obj)
+    {
+        if (obj is PlayerEntity player)
+        {
+            return this.Id.Equals(player.Id);
+        }
+        
+        return false;
+    }
+    
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(this.Id);
+    }
     
 }

@@ -190,7 +190,6 @@ public class GameControllerTest
         var dto = new GameCreateDto
         {
             Description = "test",
-            TokenPlayerOne = "qwerty"
         };
 
         // Act
@@ -209,7 +208,6 @@ public class GameControllerTest
         Assert.IsTrue(json.Contains("Token"));
         Assert.IsTrue(json.Contains("PlayerOne"));
         Assert.IsTrue(json.Contains("test"));
-        Assert.IsTrue(json.Contains("qwerty"));
         Assert.IsTrue(json.Contains("Created"));
     }
     
@@ -627,6 +625,26 @@ internal class GamesRepositoryEmptyTest :  RepositoryBase<GameEntity>, IGamesRep
     public IEnumerable<GameEntity> AllInQueue()
     {
         return this.All().Where(entity => entity.Game.IsQueued());
+    }
+    
+    /// <inheritdoc />
+    public bool DoesNotPlayAGame(PlayerEntity playerEntity)
+    {
+        bool playsAGame = false;
+        foreach (var entity in this.Items)
+        {
+            if (!entity.PlayerOne.Equals(playerEntity) && !entity.PlayerTwo.Equals(playerEntity))
+            {
+                continue;
+            }
+
+            if (entity.Game.IsPlaying())
+            {
+                playsAGame = true;
+            }
+        }
+
+        return playsAGame;
     }
 
     /// <inheritdoc />

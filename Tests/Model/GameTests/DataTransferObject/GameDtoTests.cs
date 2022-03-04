@@ -15,11 +15,9 @@ public class GameDtoTests
         var dto = new GameCreateDto
         {
             Description = "test",
-            TokenPlayerOne = "abcdef"
         };
         
         Assert.AreEqual("test", dto.Description);
-        Assert.AreEqual("abcdef", dto.TokenPlayerOne);
     }
     
     [Test]
@@ -28,7 +26,6 @@ public class GameDtoTests
         var dto = new GameCreateDto();
         
         Assert.IsNull(dto.Description);
-        Assert.IsNull(dto.TokenPlayerOne);
     }
 
     [Test]

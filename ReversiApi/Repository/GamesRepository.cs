@@ -40,6 +40,26 @@ public class GamesRepository : RepositoryBase<GameEntity>, IGamesRepository
     {
         return this.All().Where(entity => entity.Game.IsQueued());
     }
+    
+    /// <inheritdoc />
+    public bool DoesNotPlayAGame(PlayerEntity playerEntity)
+    {
+        bool playsAGame = false;
+        foreach (var entity in this.Items)
+        {
+            if (!entity.PlayerOne.Equals(playerEntity) && !entity.PlayerTwo.Equals(playerEntity))
+            {
+                continue;
+            }
+
+            if (entity.Game.IsPlaying())
+            {
+                playsAGame = true;
+            }
+        }
+
+        return playsAGame;
+    }
 
     /// <inheritdoc />
     public bool Exists(string? token)

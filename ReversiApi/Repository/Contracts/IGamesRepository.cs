@@ -13,6 +13,13 @@ public interface IGamesRepository : IRepository<GameEntity>
     IEnumerable<GameEntity> AllInQueue();
 
     /// <summary>
+    /// Determines if this player does not player another game.
+    /// </summary>
+    /// <param name="playerEntity">The player.</param>
+    /// <returns>True if the player does not play another game.</returns>
+    bool DoesNotPlayAGame(PlayerEntity playerEntity);
+    
+    /// <summary>
     /// Determines if the game exists.
     /// </summary>
     /// <param name="token">The unique token of the game.</param>

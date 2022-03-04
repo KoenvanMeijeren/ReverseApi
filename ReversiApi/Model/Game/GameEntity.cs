@@ -7,7 +7,7 @@ namespace ReversiApi.Model.Game;
 public class GameEntity : IEntity
 {
     [Key]
-    public int Id { get; set; }
+    public int Id { get; set;  }
     
     public string? Description { get; set; }
     
@@ -31,14 +31,14 @@ public class GameEntity : IEntity
     [NotMapped]
     public IGame Game { get; }
 
-    public GameEntity() : this(new Game())
+    public GameEntity(int id = IEntity.IdUndefined) : this(new Game(), id)
     {
         
     }
     
-    public GameEntity(IGame game)
+    public GameEntity(IGame game, int id = IEntity.IdUndefined)
     {
-        this.Id = IEntity.IdUndefined;
+        this.Id = id;
         this.Game = game;
         this.Board = JsonConvert.SerializeObject(game.Board);
         this.Status = game.Status;
