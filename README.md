@@ -1,2 +1,2 @@
 # Reversi Api
-This is the repository for the reversi api. This api provides the functionality for the reversi game.
+This is the repository for the Reversi API. This API provides the functionality for the reversi game.
