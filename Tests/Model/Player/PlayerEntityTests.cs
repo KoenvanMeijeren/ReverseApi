@@ -24,7 +24,7 @@ public class PlayerEntityTests
         Assert.IsEmpty(player.GamesPlayerTwo);
         Assert.IsInstanceOf<int>(player.GetHashCode());
     }
-    
+
     [Test]
     public void CreatePlayerEntity_NotEmpty()
     {
@@ -39,7 +39,7 @@ public class PlayerEntityTests
         Assert.AreEqual("Teddy", player.Name);
         Assert.IsInstanceOf<int>(player.GetHashCode());
     }
-    
+
     [Test]
     public void CreatePlayerEntity_FromPlayerOne()
     {
@@ -53,7 +53,7 @@ public class PlayerEntityTests
         Assert.AreEqual("abcdef", player.Token);
         Assert.IsInstanceOf<int>(player.GetHashCode());
     }
-    
+
     [Test]
     public void CreatePlayerEntity_FromPlayerTwo()
     {
@@ -97,15 +97,15 @@ public class PlayerEntityTests
         Assert.IsTrue(player.Equals(new PlayerEntity(token: "abcdef")));
         Assert.IsTrue(player.Equals(new PlayerEntity(1, "abcdef", "Teddy")));
         Assert.IsTrue(player.Equals(new PlayerEntity(21, "abcdef", "Teddy")));
-        
+
         Assert.IsTrue(player2.Equals(new PlayerEntity(token: "qwerty")));
         Assert.IsTrue(player2.Equals(new PlayerEntity(2, "qwerty", "Hein")));
         Assert.IsTrue(player2.Equals(new PlayerEntity(2, "qwerty", "Jessica")));
-        
+
         Assert.IsTrue(player3.Equals(new PlayerEntity()));
         Assert.IsTrue(player3.Equals(new PlayerEntity(3)));
     }
-    
+
     [Test]
     public void Player_IsNotEqual()
     {
@@ -120,14 +120,14 @@ public class PlayerEntityTests
         // Assert
         Assert.IsFalse(player.Equals(new PlayerEntity(token: "adfdas")));
         Assert.IsFalse(player.Equals(new PlayerEntity(1, "fdasfas", "John")));
-        
+
         Assert.IsFalse(player2.Equals(new PlayerEntity(token: "fdafderqw")));
         Assert.IsFalse(player2.Equals(new PlayerEntity(2, "vczafda", "Jessica")));
-        
+
         Assert.IsFalse(player3.Equals(new PlayerEntity(3, "test")));
-        
+
         Assert.IsFalse(player.Equals(null));
         Assert.IsFalse(player.Equals("test"));
     }
-    
+
 }

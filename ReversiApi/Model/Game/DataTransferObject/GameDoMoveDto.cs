@@ -18,5 +18,5 @@ public class GameDoMoveDto
                && this.Row > 0
                && this.Column > 0;
     }
-    
+
 }

@@ -34,7 +34,7 @@ public class GameTest
         Exception ex = Assert.Throws<Exception>(delegate { game.SkipTurn(); });
         Assert.That(ex.Message, Is.EqualTo("Kleur mag niet gelijk aan Geen zijn!"));
     }
-        
+
     [Test]
     public void AreMovesPossible_ColorNone_ThrowsException()
     {
@@ -61,7 +61,7 @@ public class GameTest
         Assert.IsFalse(game.IsMovePossible(3, 3));
         Assert.IsFalse(game.IsMovePossible(3, 4));
     }
-        
+
     [Test]
     public void ZetMogelijk__BuitenBord_Exception()
     {
@@ -1648,7 +1648,7 @@ public class GameTest
         // Assert
         Assert.AreEqual(Color.Black, game.CurrentPlayer.Color);
     }
-        
+
     [Test]
     public void Pas_WitAanZetEnZetMogelijk_ThrowsException()
     {
@@ -1674,7 +1674,7 @@ public class GameTest
         Exception ex = Assert.Throws<Exception>(delegate { game.SkipTurn(); });
         Assert.That(ex.Message, Is.EqualTo("Passen mag niet, er is nog een zet mogelijk"));
     }
-        
+
     [Test]
     public void Pas_ZwartAanZetEnZetMogelijk_ThrowsException()
     {
@@ -1930,7 +1930,7 @@ public class GameTest
         game.PlayerTwo = new PlayerTwo();
         game.Start();
         game.CurrentPlayer = game.PlayerOne;
-        
+
         var actual = game.PredominantColor();
         // Assert
         Assert.AreEqual(Color.None, actual);
@@ -1963,7 +1963,7 @@ public class GameTest
         game.PlayerTwo = new PlayerTwo();
         game.Start();
         game.CurrentPlayer = game.PlayerOne;
-        
+
         var actual = game.PredominantColor();
         // Assert
         Assert.AreEqual(Color.Black, actual);

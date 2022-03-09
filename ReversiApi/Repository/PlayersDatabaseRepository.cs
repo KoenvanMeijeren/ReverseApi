@@ -8,10 +8,10 @@ namespace ReversiApi.Repository;
 /// </summary>
 public class PlayersDatabaseRepository : RepositoryDatabaseBase<PlayerEntity>, IPlayersDatabaseRepository
 {
-    
+
     public PlayersDatabaseRepository(GamesDataAccess context) : base(context, context.Players)
     {
-        
+
     }
 
     public PlayerEntity FirstOrCreate(PlayerEntity playerEntity)
@@ -21,7 +21,7 @@ public class PlayersDatabaseRepository : RepositoryDatabaseBase<PlayerEntity>, I
         {
             return dbPlayer;
         }
-        
+
         this.Add(playerEntity);
 
         return playerEntity;
@@ -32,7 +32,7 @@ public class PlayersDatabaseRepository : RepositoryDatabaseBase<PlayerEntity>, I
     {
         return this.Context.Players.SingleOrDefault(player => player.Token.Equals(token)) != null;
     }
-    
+
     /// <inheritdoc />
     public PlayerEntity? Get(string? token)
     {

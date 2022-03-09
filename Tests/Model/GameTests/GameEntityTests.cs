@@ -13,7 +13,7 @@ public class GameEntityTests
     {
         // Arrange
         var entity = new GameEntity();
-        
+
         // Act
 
         // Assert
@@ -29,7 +29,7 @@ public class GameEntityTests
         Assert.IsNull(entity.PlayerTwoId);
         Assert.IsNull(entity.CurrentPlayer);
     }
-    
+
     [Test]
     public void CreateGameEntity_NotEmpty_WithoutUpdatingToGameModel()
     {
@@ -60,7 +60,7 @@ public class GameEntityTests
         Assert.IsNull(entity.Game.PlayerTwo);
         Assert.IsInstanceOf<PlayerUndefined>(entity.Game.CurrentPlayer);
     }
-    
+
     [Test]
     public void CreateGameEntity_NotEmpty_WithUpdatingToGameModel()
     {
@@ -94,7 +94,7 @@ public class GameEntityTests
         Assert.IsNotEmpty(entity.Token);
         Assert.IsInstanceOf<PlayerUndefined>(entity.Game.CurrentPlayer);
     }
-    
+
     [Test]
     public void CreateGameEntity_NotEmpty_WithoutUpdatingToEntity()
     {
@@ -118,12 +118,12 @@ public class GameEntityTests
         var previousCurrentPlayer = entity.CurrentPlayer;
         entity.Game.Start();
         entity.Game.DoMove(3, 5);
-        
+
         Assert.AreEqual(Status.Created, entity.Status);
         Assert.AreEqual("[[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,1,2,0,0,0],[0,0,0,2,1,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]]", entity.Board);
         Assert.AreEqual(previousCurrentPlayer, entity.CurrentPlayer);
     }
-    
+
     [Test]
     public void CreateGameEntity_NotEmpty_WithUpdatingToEntity()
     {
@@ -148,7 +148,7 @@ public class GameEntityTests
         entity.Game.Start();
         entity.Game.DoMove(3, 5);
         entity.UpdateEntity();
-        
+
         Assert.AreEqual(Status.Playing, entity.Status);
         Assert.AreEqual("[[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,1,1,1,0,0],[0,0,0,2,1,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]]", entity.Board);
         Assert.AreNotEqual(previousCurrentPlayer, entity.CurrentPlayer);
@@ -168,12 +168,12 @@ public class GameEntityTests
             PlayerTwo = new PlayerEntity(token: "qwerty")
         };
         entity.UpdateGame();
-        
+
         // Act
         entity.UpdateEntity();
-        
+
         // Assert
         Assert.AreEqual(Status.Pending, entity.Status);
     }
-    
+
 }

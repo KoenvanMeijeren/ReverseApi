@@ -16,14 +16,14 @@ public interface IRepository<T> where T : class
     /// </summary>
     /// <returns>The entities.</returns>
     IEnumerable<T> All();
-    
+
     /// <summary>
     /// Updates the entity.
     /// </summary>
     /// <param name="entity">The entity.</param>
     /// <returns>Whether the update was successful or not.</returns>
     bool Update(T entity);
-    
+
     /// <summary>
     /// Deletes the entity.
     /// </summary>

@@ -29,71 +29,71 @@ public class PlayersDatabaseRepositoryTests
 
         // Create the schema and seed some data
         var context = new GamesDataAccess(contextOptions);
-        
+
         context.Database.EnsureCreated();
 
         context.Players.AddRange((new PlayersRepository()).All());
         context.SaveChanges();
-            
+
         this._repository = new PlayersDatabaseRepository(context);
     }
-    
+
     [Test]
     public void All()
     {
         var players = this._repository.All();
-        
+
         Assert.AreEqual(5, players.Count());
         Assert.AreEqual("abcdef", players.First().Token);
     }
-    
+
     [Test]
     public void Add()
     {
         // Arrange
-        
+
         // Act
         this._repository.Add(new PlayerEntity(token: "qwerty"));
         var players = this._repository.All();
-        
+
         // Assert
         Assert.AreEqual(5, players.Count());
         Assert.AreEqual("qwerty", players.Last().Token);
     }
-    
+
     [Test]
     public void FirstOrCreate()
     {
         // Arrange
         Assert.AreEqual(5, this._repository.All().Count());
-        
+
         // Act
         var player = this._repository.FirstOrCreate(new PlayerEntity(token: "hjikl"));
         player = this._repository.FirstOrCreate(new PlayerEntity(token: "hjikl"));
         var players = this._repository.All();
-        
+
         // Assert
         Assert.AreEqual(6, players.Count());
         Assert.AreEqual("hjikl", player.Token);
     }
-    
+
     [Test]
     public void Exists_True()
     {
         // Arrange
-        
+
         // Act
 
         // Assert
         Assert.IsTrue(this._repository.Exists("abcdef"));
         Assert.IsTrue(this._repository.Exists("ghijkl"));
     }
-    
+
     [Test]
     public void Exists_False()
     {
         // Arrange
-        
+
         // Act
 
         // Assert

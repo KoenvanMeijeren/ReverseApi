@@ -13,12 +13,12 @@ public interface IDatabaseRepository<T> : IRepository<T> where T : class, IEntit
     /// <param name="id">The unique id of the entity.</param>
     /// <returns>Whether the game exists or not.</returns>
     bool Exists(int id);
-    
+
     /// <summary>
     /// Gets the entity.
     /// </summary>
     /// <param name="id">The unique id of the entity.</param>
     /// <returns>The entity.</returns>
     T? Get(int id);
-    
+
 }

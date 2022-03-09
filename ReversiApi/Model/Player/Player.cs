@@ -2,17 +2,17 @@
 
 public class PlayerOne : Player
 {
-    public PlayerOne(string token = ""): base(Color.White, token)
+    public PlayerOne(string token = "") : base(Color.White, token)
     {
-        
+
     }
 }
 
 public class PlayerTwo : Player
 {
-    public PlayerTwo(string token = ""): base(Color.Black, token)
+    public PlayerTwo(string token = "") : base(Color.Black, token)
     {
-        
+
     }
 }
 
@@ -20,7 +20,7 @@ public class PlayerUndefined : Player
 {
     public PlayerUndefined() : base(Color.None)
     {
-        
+
     }
 }
 
@@ -39,15 +39,15 @@ public abstract class Player : IPlayer
     {
         if (obj is IPlayer player)
         {
-            return this.Token.Equals(player.Token) 
+            return this.Token.Equals(player.Token)
                    && this.Color.Equals(player.Color);
         }
-        
+
         return false;
     }
-    
+
     public override int GetHashCode()
     {
-        return HashCode.Combine(this.Token, (int) this.Color);
+        return HashCode.Combine(this.Token, (int)this.Color);
     }
 }

@@ -5,5 +5,5 @@
 /// </summary>
 public interface IDatabaseGamesRepository : IGamesRepository, IDatabaseRepository<GameEntity>
 {
-    
+
 }

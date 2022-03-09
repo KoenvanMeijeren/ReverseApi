@@ -46,7 +46,7 @@ public abstract class RepositoryDatabaseBase<T> : IDatabaseRepository<T> where T
     public virtual bool Update(T entity)
     {
         this.DbSet.Update(entity);
-        
+
         return this.Context.SaveChanges() > 0;
     }
 
@@ -54,7 +54,7 @@ public abstract class RepositoryDatabaseBase<T> : IDatabaseRepository<T> where T
     public virtual bool Delete(T entity)
     {
         this.DbSet.Remove(entity);
-        
+
         return this.Context.SaveChanges() > 0;
     }
 }

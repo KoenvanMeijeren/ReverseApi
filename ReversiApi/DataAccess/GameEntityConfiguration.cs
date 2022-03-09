@@ -10,7 +10,7 @@ public class GameEntityConfiguration : IEntityTypeConfiguration<GameEntity>
     public void Configure(EntityTypeBuilder<GameEntity> builder)
     {
         builder.Property(game => game.Id).Metadata.IsPrimaryKey();
-        
+
         builder.HasOne(game => game.PlayerOne)
             .WithMany(player => player.GamesPlayerOne)
             .HasForeignKey(game => game.PlayerOneId);

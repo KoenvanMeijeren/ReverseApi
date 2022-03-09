@@ -7,9 +7,9 @@ public class Game : IGame
 {
     #region Fields
 
-    private const int 
+    private const int
         BoardSize = 8;
-        
+
     private readonly int[,] _direction = {
         {  0,  1 },         // rightwards
         {  0, -1 },         // leftwards
@@ -66,10 +66,10 @@ public class Game : IGame
             {
                 this.Status = Status.Pending;
             }
-            
+
             return;
         }
-        
+
         this.Status = Status.Queued;
     }
 
@@ -92,7 +92,7 @@ public class Game : IGame
         {
             throw new Exception("Game is al een keer gestart!");
         }
-        
+
         switch (this.PlayerOne)
         {
             case null when this.PlayerTwo == null:
@@ -100,14 +100,14 @@ public class Game : IGame
             case null:
                 throw new Exception("Game kan niet gestart worden omdat speler 1 niet gekoppeld is.");
             default:
-            {
-                if (this.PlayerTwo == null)
                 {
-                    throw new Exception("Game kan niet gestart worden omdat speler 2 niet gekoppeld is.");
-                }
+                    if (this.PlayerTwo == null)
+                    {
+                        throw new Exception("Game kan niet gestart worden omdat speler 2 niet gekoppeld is.");
+                    }
 
-                break;
-            }
+                    break;
+                }
         }
 
         this.Status = Status.Playing;
@@ -115,7 +115,7 @@ public class Game : IGame
         {
             return;
         }
-        
+
         this.CurrentPlayer = this.PlayerOne;
     }
 
@@ -124,7 +124,7 @@ public class Game : IGame
     {
         return this.Status == Status.Playing;
     }
-    
+
     /// <inheritdoc/>
     public void Quit()
     {
@@ -132,7 +132,7 @@ public class Game : IGame
         {
             throw new Exception("De game is nog niet gestart!");
         }
-        
+
         this.Status = Status.Quit;
     }
 
@@ -149,7 +149,7 @@ public class Game : IGame
         {
             for (int column = 0; column < BoardSize; column++)
             {
-                if (this.IsMovePossible(row, column, Color.Black) 
+                if (this.IsMovePossible(row, column, Color.Black)
                     || this.IsMovePossible(row, column, Color.White))
                 {
                     return false;
@@ -208,7 +208,7 @@ public class Game : IGame
         {
             return Color.Black;
         }
-            
+
         return Color.None;
     }
 
@@ -219,12 +219,12 @@ public class Game : IGame
         {
             throw new Exception("Game is nog niet gestart!");
         }
-        
+
         if (!Game.PositionInsideBoardBoundaries(row, column))
         {
             throw new Exception($"Zet ({row},{column}) ligt buiten het bord!");
         }
-            
+
         return this.IsMovePossible(row, column, this.CurrentPlayer.Color);
     }
 
@@ -235,7 +235,7 @@ public class Game : IGame
         {
             throw new Exception("Game is nog niet gestart!");
         }
-        
+
         if (!this.IsMovePossible(row, column))
         {
             throw new Exception($"Zet ({row},{column}) is niet mogelijk!");
@@ -248,7 +248,7 @@ public class Game : IGame
 
             this.FlipOpponentStones(row, column, this.CurrentPlayer.Color, rowDirection, columnDirection);
         }
-            
+
         this.Board[row, column] = this.CurrentPlayer.Color;
         this.ChangeTurn();
     }
@@ -257,7 +257,7 @@ public class Game : IGame
 
     #region Game action executors
 
-     /// <summary>
+    /// <summary>
     /// Changes the turn to the opposite player.
     /// </summary>
     private void ChangeTurn()
@@ -292,7 +292,7 @@ public class Game : IGame
         {
             throw new Exception("Kleur mag niet gelijk aan Geen zijn!");
         }
-            
+
         // Checks if there is a move possible for a color.
         for (int row = 0; row < BoardSize; row++)
         {
@@ -323,7 +323,7 @@ public class Game : IGame
                 return true;
             }
         }
-            
+
         return false;
     }
 
@@ -337,7 +337,7 @@ public class Game : IGame
     {
         return row is >= 0 and < BoardSize && column is >= 0 and < BoardSize;
     }
-        
+
     /// <summary>
     /// Determines if the position is not filled.
     /// </summary>
@@ -375,7 +375,7 @@ public class Game : IGame
         {
             return false;
         }
-            
+
         // Initializes the row and column on the index before the first box next to the move.
         var currentRow = row + rowDirection;
         var currentColumn = column + columnDirection;
@@ -397,8 +397,8 @@ public class Game : IGame
         // Nu kijk je hoe je geeindigt bent met bovenstaande loop. Alleen
         // als alle drie onderstaande condities waar zijn, zijn er in de
         // opgegeven richting stenen in te sluiten.
-        return Game.PositionInsideBoardBoundaries(currentRow, currentColumn) 
-               && this.Board[currentRow, currentColumn] == colorPlayer 
+        return Game.PositionInsideBoardBoundaries(currentRow, currentColumn)
+               && this.Board[currentRow, currentColumn] == colorPlayer
                && adjacentOpponentStones > 0;
     }
 
@@ -417,7 +417,7 @@ public class Game : IGame
         {
             return false;
         }
-         
+
         Color colorOpponent = Game.GetColorOpponent(colorPlayer);
         var currentRow = row + rowDirection;
         var currentColumn = column + columnDirection;
@@ -430,10 +430,10 @@ public class Game : IGame
             currentRow += rowDirection;
             currentColumn += columnDirection;
         }
-            
+
         return true;
     }
 
     #endregion
-    
+
 }

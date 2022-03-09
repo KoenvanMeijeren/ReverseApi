@@ -10,13 +10,13 @@ public class PlayerEntity : IEntity
 {
     [Key]
     public int Id { get; set; }
-    
+
     [Required]
     public string Token { get; set; }
-    
+
     [Required]
     public string Name { get; set; }
-    
+
     public ICollection<GameEntity> GamesPlayerOne { get; set; }
     public ICollection<GameEntity> GamesPlayerTwo { get; set; }
 
@@ -35,13 +35,13 @@ public class PlayerEntity : IEntity
         {
             return this.Token.Equals(player.Token);
         }
-        
+
         return false;
     }
-    
+
     public override int GetHashCode()
     {
         return HashCode.Combine(this.Token);
     }
-    
+
 }

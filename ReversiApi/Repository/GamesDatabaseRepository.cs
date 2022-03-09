@@ -10,12 +10,12 @@ namespace ReversiApi.Repository;
 /// </summary>
 public class GamesDatabaseRepository : RepositoryDatabaseBase<GameEntity>, IDatabaseGamesRepository
 {
-    
+
     public GamesDatabaseRepository(GamesDataAccess context) : base(context, context.Games)
     {
-        
+
     }
-    
+
     /// <inheritdoc />
     public override void Add(GameEntity entity)
     {
@@ -78,7 +78,7 @@ public class GamesDatabaseRepository : RepositoryDatabaseBase<GameEntity>, IData
 
         return PrepareForReturn(entity);
     }
-    
+
     /// <inheritdoc />
     public GameEntity? GetByPlayerTwo(string? token)
     {
@@ -96,12 +96,12 @@ public class GamesDatabaseRepository : RepositoryDatabaseBase<GameEntity>, IData
         {
             return null;
         }
-        
+
         entity.UpdateGame();
-        
+
         return entity;
     }
-    
+
     private static IEnumerable<GameEntity> PrepareForReturn(IList<GameEntity> entities)
     {
         // Todo figure out how to avoid this.

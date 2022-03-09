@@ -18,28 +18,28 @@ public interface IGamesRepository : IRepository<GameEntity>
     /// <param name="playerEntity">The player.</param>
     /// <returns>True if the player does not play another game.</returns>
     bool DoesNotPlayAGame(PlayerEntity? playerEntity);
-    
+
     /// <summary>
     /// Determines if the game exists.
     /// </summary>
     /// <param name="token">The unique token of the game.</param>
     /// <returns>Whether the game exists or not.</returns>
     bool Exists(string? token);
-    
+
     /// <summary>
     /// Gets the game by the token.
     /// </summary>
     /// <param name="token">The unique token of the game.</param>
     /// <returns>The game.</returns>
     GameEntity? Get(string? token);
-    
+
     /// <summary>
     /// Gets the game by the token of player one.
     /// </summary>
     /// <param name="token">The unique token of the game.</param>
     /// <returns>The game.</returns>
     GameEntity? GetByPlayerOne(string? token);
-    
+
     /// <summary>
     /// Gets the game by the token of player two.
     /// </summary>

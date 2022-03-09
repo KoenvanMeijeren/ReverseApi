@@ -14,7 +14,7 @@ public static class GameValidator
         {
             return true;
         }
-        
+
         bool playsAGame = false;
         foreach (var entity in games)
         {
@@ -22,7 +22,7 @@ public static class GameValidator
             {
                 playsAGame = true;
             }
-            
+
             if (entity.PlayerTwo != null && DoesPlayerPlayAGame(playerEntity, entity))
             {
                 playsAGame = true;
@@ -44,7 +44,7 @@ public static class GameValidator
         {
             return !gameEntity.Game.IsQuit() && !gameEntity.Game.IsFinished();
         }
-        
+
         if (gameEntity.PlayerTwo != null && gameEntity.PlayerTwo.Equals(playerEntity))
         {
             return !gameEntity.Game.IsQuit() && !gameEntity.Game.IsFinished();

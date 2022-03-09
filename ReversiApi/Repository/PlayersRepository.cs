@@ -7,7 +7,7 @@ namespace ReversiApi.Repository;
 /// </summary>
 public class PlayersRepository : RepositoryBase<PlayerEntity>, IPlayersRepository
 {
-    
+
     public PlayersRepository()
     {
         this.Add(new PlayerEntity(token: "abcdef"));
@@ -23,7 +23,7 @@ public class PlayersRepository : RepositoryBase<PlayerEntity>, IPlayersRepositor
         {
             return dbPlayer;
         }
-        
+
         this.Add(playerEntity);
 
         return playerEntity;
@@ -34,7 +34,7 @@ public class PlayersRepository : RepositoryBase<PlayerEntity>, IPlayersRepositor
     {
         return this.Items.SingleOrDefault(player => player.Token.Equals(token)) != null;
     }
-    
+
     /// <inheritdoc />
     public PlayerEntity? Get(string? token)
     {

@@ -24,7 +24,7 @@ public class PlayerTests
         Assert.IsTrue(player.Equals(player1));
         Assert.IsFalse(player.Equals(player1.Color));
     }
-    
+
     [Test]
     public void CreatePlayerTwo()
     {
@@ -41,7 +41,7 @@ public class PlayerTests
         Assert.IsTrue(player.Equals(player1));
         Assert.IsFalse(player.Equals(player1.Color));
     }
-    
+
     [Test]
     public void CreatePlayerUndefined()
     {
@@ -58,5 +58,5 @@ public class PlayerTests
         Assert.IsTrue(player.Equals(player1));
         Assert.IsFalse(player.Equals(player1.Color));
     }
-    
+
 }

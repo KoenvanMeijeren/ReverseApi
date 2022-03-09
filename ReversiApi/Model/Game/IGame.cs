@@ -2,8 +2,8 @@
 
 public enum Color
 {
-    None, 
-    White, 
+    None,
+    White,
     Black
 }
 
@@ -24,7 +24,7 @@ public interface IGame
     IPlayer CurrentPlayer { get; set; }
     Color[,] Board { get; set; }
     Status Status { get; set; }
-        
+
     /// <summary>
     /// Allows the player to skip his turn, if possible. Otherwise throws an exception if there are moves possible. 
     /// </summary>
@@ -35,12 +35,12 @@ public interface IGame
     /// </summary>
     /// <returns>True if the game is created.</returns>
     bool IsCreated();
-    
+
     /// <summary>
     /// Changes the status to queued if one of the players is not set.
     /// </summary>
     void Queue();
-    
+
     /// <summary>
     /// Whether the game has been queued or not.
     /// </summary>
@@ -52,7 +52,7 @@ public interface IGame
     /// </summary>
     /// <returns>True if the game is pending.</returns>
     bool IsPending();
-    
+
     /// <summary>
     /// Whether the game is played by the players or not.
     /// </summary>
@@ -63,12 +63,12 @@ public interface IGame
     /// Starts the game if both players are initialized.
     /// </summary>
     void Start();
-    
+
     /// <summary>
     /// The current player quits the game.
     /// </summary>
     void Quit();
-    
+
     /// <summary>
     /// Whether the game has been quit or not.
     /// </summary>
@@ -80,7 +80,7 @@ public interface IGame
     /// </summary>
     /// <returns>True if the game is finished.</returns>
     bool IsFinished();
-    
+
     /// <summary>
     /// Which color occurs the most on the game board.
     /// </summary>
@@ -94,12 +94,12 @@ public interface IGame
     /// <param name="column">The column of the row.</param>
     /// <returns></returns>
     bool IsMovePossible(int row, int column);
-        
+
     /// <summary>
     /// Moves the player to a new position.
     /// </summary>
     /// <param name="row">The row to move to.</param>
     /// <param name="column">The column of the row.</param>
     void DoMove(int row, int column);
-        
+
 }

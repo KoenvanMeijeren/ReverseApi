@@ -14,5 +14,5 @@ public class GameAddPlayerDto
     {
         return this.Token != null && this.PlayerToken != null;
     }
-    
+
 }

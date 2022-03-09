@@ -12,5 +12,5 @@ public class GameCreateDto
     {
         return this.Description != null;
     }
-    
+
 }

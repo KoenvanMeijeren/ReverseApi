@@ -19,7 +19,7 @@ namespace Tests.Controller;
 [TestFixture]
 public class GameControllerTest
 {
-    
+
     [Test]
     public void NotEmpty_GetGamesInQueue()
     {
@@ -31,7 +31,7 @@ public class GameControllerTest
         // Act
         var response = controller.GetGamesInQueue();
         var json = response.ToJson();
-        
+
         // Assert
         Assert.IsInstanceOf<OkObjectResult>(response.Result);
         Assert.IsTrue(json.Contains("Status"));
@@ -43,7 +43,7 @@ public class GameControllerTest
         Assert.IsTrue(json.Contains("CurrentPlayer"));
         Assert.IsTrue(json.Contains("Created"));
     }
-    
+
     [Test]
     public void Empty_GetOfGamesInQueue()
     {
@@ -54,7 +54,7 @@ public class GameControllerTest
 
         // Act
         var response = controller.GetGamesInQueue();
-        
+
         // Assert
         Assert.IsInstanceOf<NotFoundResult>(response.Result);
     }
@@ -70,7 +70,7 @@ public class GameControllerTest
         // Act
         var response = controller.GetByToken(repository.All().First().Token);
         var json = response.ToJson();
-        
+
         // Assert
         Assert.IsInstanceOf<OkObjectResult>(response.Result);
         Assert.IsTrue(json.Contains("Status"));
@@ -82,7 +82,7 @@ public class GameControllerTest
         Assert.IsTrue(json.Contains("CurrentPlayer"));
         Assert.IsTrue(json.Contains("Created"));
     }
-    
+
     [Test]
     public void Empty_GetGameByToken()
     {
@@ -94,7 +94,7 @@ public class GameControllerTest
         // Act
         var response = controller.GetByToken("test");
         var response1 = controller.GetByToken(null);
-        
+
         // Assert
         Assert.IsInstanceOf<NotFoundResult>(response.Result);
         Assert.IsInstanceOf<BadRequestResult>(response1.Result);
@@ -111,7 +111,7 @@ public class GameControllerTest
         // Act
         var response = controller.GetByPlayerOneToken("abcdef");
         var json = response.ToJson();
-        
+
         // Assert
         Assert.IsInstanceOf<OkObjectResult>(response.Result);
         Assert.IsTrue(json.Contains("Status"));
@@ -123,7 +123,7 @@ public class GameControllerTest
         Assert.IsTrue(json.Contains("CurrentPlayer"));
         Assert.IsTrue(json.Contains("Created"));
     }
-    
+
     [Test]
     public void Empty_GetGameByPlayerOneToken()
     {
@@ -135,12 +135,12 @@ public class GameControllerTest
         // Act
         var response = controller.GetByPlayerOneToken("test");
         var response1 = controller.GetByPlayerOneToken(null);
-        
+
         // Assert
         Assert.IsInstanceOf<NotFoundResult>(response.Result);
         Assert.IsInstanceOf<BadRequestResult>(response1.Result);
     }
-    
+
     [Test]
     public void NotEmpty_GetGameByPlayerTwoToken()
     {
@@ -152,7 +152,7 @@ public class GameControllerTest
         // Act
         var response = controller.GetByPlayerTwoToken("mnopqr");
         var json = response.ToJson();
-        
+
         // Assert
         Assert.IsInstanceOf<OkObjectResult>(response.Result);
         Assert.IsTrue(json.Contains("Status"));
@@ -164,7 +164,7 @@ public class GameControllerTest
         Assert.IsTrue(json.Contains("CurrentPlayer"));
         Assert.IsTrue(json.Contains("Created"));
     }
-    
+
     [Test]
     public void Empty_GetGameByPlayerTwoToken()
     {
@@ -176,12 +176,12 @@ public class GameControllerTest
         // Act
         var response = controller.GetByPlayerTwoToken("test");
         var response1 = controller.GetByPlayerTwoToken(null);
-        
+
         // Assert
         Assert.IsInstanceOf<NotFoundResult>(response.Result);
         Assert.IsInstanceOf<BadRequestResult>(response1.Result);
     }
-    
+
     [Test]
     public void PostGame_Valid()
     {
@@ -189,7 +189,7 @@ public class GameControllerTest
         var repository = new GamesRepository();
         var playerRepository = new PlayersRepository();
         var controller = new GameController(repository, playerRepository);
-        
+
         var dto = new GameCreateDto
         {
             Description = "test",
@@ -198,7 +198,7 @@ public class GameControllerTest
         // Act
         var response = controller.CreateGame(dto);
         var json = response.ToJson();
-        
+
         // Assert
         Assert.IsInstanceOf<OkObjectResult>(response.Result);
         Assert.IsTrue(json.Contains("Id"));
@@ -208,7 +208,7 @@ public class GameControllerTest
         Assert.IsTrue(json.Contains("test"));
         Assert.IsTrue(json.Contains("Created"));
     }
-    
+
     [Test]
     public void PostGame_Invalid()
     {
@@ -219,11 +219,11 @@ public class GameControllerTest
 
         // Act
         var response = controller.CreateGame(null);
-        
+
         // Assert
         Assert.IsInstanceOf<BadRequestResult>(response.Result);
     }
-    
+
     [Test]
     public void NotEmpty_GetGameStatus()
     {
@@ -235,7 +235,7 @@ public class GameControllerTest
         // Act
         var response = controller.GetGameStatus(repository.All().First().Token);
         var json = response.ToJson();
-        
+
         // Assert
         Assert.IsInstanceOf<OkObjectResult>(response.Result);
         Assert.IsTrue(json.Contains("Board"));
@@ -246,9 +246,9 @@ public class GameControllerTest
         Assert.IsTrue(json.Contains("Status"));
         Assert.IsTrue(json.Contains("Created"));
     }
-    
+
     [Test]
-    public void Empty_GetGameStatus() 
+    public void Empty_GetGameStatus()
     {
         // Arrange
         var repository = new GamesRepositoryEmptyTest();
@@ -258,12 +258,12 @@ public class GameControllerTest
         // Act
         var response = controller.GetGameStatus("test");
         var response1 = controller.GetGameStatus(null);
-        
+
         // Assert
         Assert.IsInstanceOf<NotFoundResult>(response.Result);
         Assert.IsInstanceOf<BadRequestResult>(response1.Result);
     }
-    
+
     [Test]
     public void AddPlayerOneToGame_Valid()
     {
@@ -271,7 +271,7 @@ public class GameControllerTest
         var repository = new GamesRepository();
         var playerRepository = new PlayersRepository();
         var controller = new GameController(repository, playerRepository);
-        
+
         var entity = new GameEntity();
         var player = new PlayerEntity(token: "dfasfda");
         var dto = new GameAddPlayerDto()
@@ -283,10 +283,10 @@ public class GameControllerTest
         // Act
         playerRepository.Add(player);
         repository.Add(entity);
-        
+
         var response = controller.AddPlayerOneToGame(dto);
         var json = response.ToJson();
-        
+
         // Assert
         Assert.IsInstanceOf<OkObjectResult>(response.Result);
         Assert.IsTrue(json.Contains("Board"));
@@ -300,7 +300,7 @@ public class GameControllerTest
         Assert.IsTrue(json.Contains(player.Token));
         Assert.IsTrue(json.Contains(entity.Token));
     }
-    
+
     [Test]
     public void AddPlayerOneToGame_Invalid()
     {
@@ -313,16 +313,16 @@ public class GameControllerTest
             Token = "testfda",
             PlayerToken = "abcdeffdasf"
         };
-        
+
         // Act
         var response = controller.AddPlayerOneToGame(null);
         var response1 = controller.AddPlayerOneToGame(dto);
-        
+
         // Assert
         Assert.IsInstanceOf<BadRequestResult>(response.Result);
         Assert.IsInstanceOf<NotFoundResult>(response1.Result);
     }
-    
+
     [Test]
     public void AddPlayerOneToGame_CannotOverrideExistingPlayerOne()
     {
@@ -336,20 +336,20 @@ public class GameControllerTest
         // Act
         playerRepository.Add(player);
         repository.Add(entity);
-        
+
         entity.PlayerOne = player;
-        
+
         var dto = new GameAddPlayerDto()
         {
             Token = entity.Token,
             PlayerToken = player.Token
         };
-        
+
         // Assert
         Exception ex = Assert.Throws<InvalidOperationException>(delegate { controller.AddPlayerOneToGame(dto); });
         Assert.That(ex.Message, Is.EqualTo("Speler 1 is al ingesteld!"));
     }
-    
+
     [Test]
     public void AddPlayerOneToGame_CannotSetPlayerOneWhoIsPlayingOtherGame()
     {
@@ -367,7 +367,7 @@ public class GameControllerTest
         playerRepository.Add(player2);
         repository.Add(entity);
         repository.Add(entity1);
-        
+
         entity.PlayerOne = player;
         entity.PlayerTwo = player2;
         entity.UpdateGame();
@@ -379,7 +379,7 @@ public class GameControllerTest
             Token = entity1.Token,
             PlayerToken = player.Token
         };
-        
+
         // Assert
         Exception ex = Assert.Throws<InvalidOperationException>(delegate { controller.AddPlayerOneToGame(dto); });
         Assert.That(ex.Message, Is.EqualTo("Deze speler speelt al een Reversi potje!"));
@@ -392,7 +392,7 @@ public class GameControllerTest
         var repository = new GamesRepository();
         var playerRepository = new PlayersRepository();
         var controller = new GameController(repository, playerRepository);
-        
+
         var entity = new GameEntity();
         var player = new PlayerEntity(token: "vafdas");
         var dto = new GameAddPlayerDto()
@@ -404,10 +404,10 @@ public class GameControllerTest
         // Act
         playerRepository.Add(player);
         repository.Add(entity);
-        
+
         var response = controller.AddPlayerTwoToGame(dto);
         var json = response.ToJson();
-        
+
         // Assert
         Assert.IsInstanceOf<OkObjectResult>(response.Result);
         Assert.IsTrue(json.Contains("Board"));
@@ -421,7 +421,7 @@ public class GameControllerTest
         Assert.IsTrue(json.Contains(player.Token));
         Assert.IsTrue(json.Contains(entity.Token));
     }
-    
+
     [Test]
     public void AddPlayerTwoToGame_Invalid()
     {
@@ -434,16 +434,16 @@ public class GameControllerTest
             Token = "testfda",
             PlayerToken = "abcdeffdasf"
         };
-        
+
         // Act
         var response = controller.AddPlayerTwoToGame(null);
         var response1 = controller.AddPlayerTwoToGame(dto);
-        
+
         // Assert
         Assert.IsInstanceOf<BadRequestResult>(response.Result);
         Assert.IsInstanceOf<NotFoundResult>(response1.Result);
     }
-    
+
     [Test]
     public void AddPlayerTwoToGame_CannotOverrideExistingPlayerTwo()
     {
@@ -457,20 +457,20 @@ public class GameControllerTest
         // Act
         playerRepository.Add(player);
         repository.Add(entity);
-        
+
         entity.PlayerTwo = player;
-        
+
         var dto = new GameAddPlayerDto()
         {
             Token = entity.Token,
             PlayerToken = player.Token
         };
-        
+
         // Assert
         Exception ex = Assert.Throws<InvalidOperationException>(delegate { controller.AddPlayerTwoToGame(dto); });
         Assert.That(ex.Message, Is.EqualTo("Speler 2 is al ingesteld!"));
     }
-    
+
     [Test]
     public void AddPlayerTwoToGame_CannotSetPlayerTwoWhoIsPlayingOtherGame()
     {
@@ -488,7 +488,7 @@ public class GameControllerTest
         playerRepository.Add(player2);
         repository.Add(entity);
         repository.Add(entity1);
-        
+
         entity.PlayerOne = player;
         entity.PlayerTwo = player2;
         entity.UpdateGame();
@@ -500,7 +500,7 @@ public class GameControllerTest
             Token = entity1.Token,
             PlayerToken = player2.Token
         };
-        
+
         // Assert
         Exception ex = Assert.Throws<InvalidOperationException>(delegate { controller.AddPlayerTwoToGame(dto); });
         Assert.That(ex.Message, Is.EqualTo("Deze speler speelt al een Reversi potje!"));
@@ -521,15 +521,15 @@ public class GameControllerTest
 
         // Act 
         repository.Add(entity);
-        
+
         var response = controller.StartGame(entity.Token);
         var json = response.ToJson();
-        
+
         // Assert
         Assert.IsInstanceOf<OkObjectResult>(response.Result);
         Assert.IsTrue(json.Contains(Status.Playing.ToString()));
     }
-    
+
     [Test]
     public void Cannot_StartGame()
     {
@@ -569,11 +569,11 @@ public class GameControllerTest
         {
             Token = entity.Token,
             PlayerToken = "",
-            Row = 3, 
+            Row = 3,
             Column = 5
         });
         var json = response.ToJson();
-        
+
         // Assert
         Assert.IsInstanceOf<OkObjectResult>(response.Result);
         Assert.IsTrue(json.Contains(Status.Playing.ToString()));
@@ -585,7 +585,7 @@ public class GameControllerTest
         Assert.IsTrue(json.Contains("Status"));
         Assert.IsTrue(json.Contains("Playing"));
     }
-    
+
     [Test]
     public void CannotWithInvalidPlayer_DoMoveInGame()
     {
@@ -603,19 +603,19 @@ public class GameControllerTest
         repository.Add(entity);
         entity.Game.Start();
         entity.UpdateEntity();
-        
+
         var response = controller.DoMoveGame(new GameDoMoveDto()
         {
             Token = entity.Token,
             PlayerToken = "test",
-            Row = 3, 
+            Row = 3,
             Column = 5
         });
-        
+
         // Assert
         Assert.IsInstanceOf<BadRequestResult>(response.Result);
     }
-    
+
     [Test]
     public void Cannot_DoMoveInGame()
     {
@@ -624,7 +624,7 @@ public class GameControllerTest
         var playerRepository = new PlayersRepository();
         var controller = new GameController(repository, playerRepository);
         var entity = repository.All().First();
-        
+
         // Act 
         var response = controller.DoMoveGame(new GameDoMoveDto()
         {
@@ -644,7 +644,7 @@ public class GameControllerTest
         Assert.IsInstanceOf<BadRequestResult>(response1.Result);
         Assert.IsInstanceOf<NotFoundResult>(response2.Result);
     }
-    
+
     [Test]
     public void Can_QuitGame()
     {
@@ -662,10 +662,10 @@ public class GameControllerTest
         repository.Add(entity);
         entity.Game.Start();
         entity.UpdateEntity();
-        
+
         var response = controller.QuitGame(entity.Token);
         var json = response.ToJson();
-        
+
         // Assert
         Assert.IsInstanceOf<OkObjectResult>(response.Result);
         Assert.IsTrue(json.Contains(Status.Quit.ToString()));
@@ -677,7 +677,7 @@ public class GameControllerTest
         Assert.IsFalse(json.Contains("qwerty"));
         Assert.IsTrue(json.Contains("Status"));
     }
-    
+
     [Test]
     public void Cannot_QuitGame()
     {
@@ -689,12 +689,12 @@ public class GameControllerTest
         // Act 
         var response = controller.QuitGame("test");
         var response1 = controller.QuitGame(null);
-        
+
         // Assert
         Assert.IsInstanceOf<NotFoundResult>(response.Result);
         Assert.IsInstanceOf<NotFoundResult>(response1.Result);
     }
-    
+
     [Test]
     public void Can_CheckForFinishedGame()
     {
@@ -712,10 +712,10 @@ public class GameControllerTest
         repository.Add(entity);
         entity.Game.Start();
         entity.UpdateEntity();
-        
+
         var response = controller.IsFinishedGame(entity.Token);
         var json = response.ToJson();
-        
+
         // Assert
         Assert.IsInstanceOf<OkObjectResult>(response.Result);
         Assert.IsTrue(json.Contains("[0,0,0,1,2,0,0,0],[0,0,0,2,1,0,0,0]"));
@@ -727,7 +727,7 @@ public class GameControllerTest
         Assert.IsTrue(json.Contains("Status"));
         Assert.IsTrue(json.Contains("Playing"));
     }
-    
+
     [Test]
     public void Cannot_CheckForFinishedGame()
     {
@@ -747,14 +747,14 @@ public class GameControllerTest
 }
 
 [ExcludeFromCodeCoverage]
-internal class GamesRepositoryEmptyTest :  RepositoryBase<GameEntity>, IGamesRepository
+internal class GamesRepositoryEmptyTest : RepositoryBase<GameEntity>, IGamesRepository
 {
-    
+
     /// <inheritdoc />
     public override void Add(GameEntity entity)
     {
         entity.UpdateGame();
-        
+
         base.Add(entity);
     }
 
@@ -763,7 +763,7 @@ internal class GamesRepositoryEmptyTest :  RepositoryBase<GameEntity>, IGamesRep
     {
         return this.All().Where(entity => entity.Game.IsQueued());
     }
-    
+
     /// <inheritdoc />
     public bool DoesNotPlayAGame(PlayerEntity? playerEntity)
     {
@@ -781,17 +781,17 @@ internal class GamesRepositoryEmptyTest :  RepositoryBase<GameEntity>, IGamesRep
     {
         return this.Items.SingleOrDefault(entity => entity.Token.Equals(token));
     }
-    
+
     /// <inheritdoc />
     public GameEntity? GetByPlayerOne(string? token)
     {
         return this.Items.SingleOrDefault(entity => entity.PlayerOne != null && entity.PlayerOne.Token.Equals(token));
     }
-    
+
     /// <inheritdoc />
     public GameEntity? GetByPlayerTwo(string? token)
     {
         return this.Items.SingleOrDefault(entity => entity.PlayerTwo != null && entity.PlayerTwo.Token.Equals(token));
     }
-    
+
 }

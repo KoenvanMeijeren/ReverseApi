@@ -20,7 +20,7 @@ public class GamesRepository : RepositoryBase<GameEntity>, IGamesRepository
         entity2.Description = "Ik zoek een gevorderde tegenspeler!";
         entity2.PlayerOne = new PlayerEntity(token: "ghijkl");
         entity2.PlayerTwo = new PlayerEntity(token: "mnopqr");
-        
+
         entity3.PlayerOne = new PlayerEntity(token: "stuvwx");
 
         this.Add(entity1);
@@ -32,7 +32,7 @@ public class GamesRepository : RepositoryBase<GameEntity>, IGamesRepository
     public override void Add(GameEntity entity)
     {
         entity.UpdateGame();
-        
+
         base.Add(entity);
     }
 
@@ -41,7 +41,7 @@ public class GamesRepository : RepositoryBase<GameEntity>, IGamesRepository
     {
         return this.All().Where(entity => entity.Game.IsQueued());
     }
-    
+
     /// <inheritdoc />
     public bool DoesNotPlayAGame(PlayerEntity? playerEntity)
     {
@@ -59,19 +59,19 @@ public class GamesRepository : RepositoryBase<GameEntity>, IGamesRepository
     {
         return this.Items.SingleOrDefault(entity => entity.Token.Equals(token));
     }
-    
+
     /// <inheritdoc />
     public GameEntity? GetByPlayerOne(string? token)
     {
         return this.Items.SingleOrDefault(entity => entity.PlayerOne != null && entity.PlayerOne.Token.Equals(token));
     }
-    
+
     /// <inheritdoc />
     public GameEntity? GetByPlayerTwo(string? token)
     {
         return this.Items.SingleOrDefault(entity => entity.PlayerTwo != null && entity.PlayerTwo.Token.Equals(token));
     }
-    
+
     /// <inheritdoc />
     public override bool Update(GameEntity entity)
     {

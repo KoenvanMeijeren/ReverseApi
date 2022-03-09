@@ -23,7 +23,7 @@ public class GameStatusTests
         Assert.IsTrue(game.IsQueued());
         Assert.AreEqual(Status.Created, game.Status);
     }
-    
+
     [Test]
     public void QueuedGame()
     {
@@ -37,7 +37,7 @@ public class GameStatusTests
         Assert.AreEqual(Status.Queued, game.Status);
         Assert.IsTrue(game.IsQueued());
     }
-    
+
     [Test]
     public void QueuedGame_CannotIfPlayersArePresent()
     {
@@ -54,7 +54,7 @@ public class GameStatusTests
         Assert.IsTrue(game.IsPending());
         Assert.IsFalse(game.IsQueued());
     }
-    
+
     [Test]
     public void StartGame()
     {
@@ -70,7 +70,7 @@ public class GameStatusTests
         Assert.AreEqual(Status.Playing, game.Status);
         Assert.IsTrue(game.IsPlaying());
     }
-    
+
     [Test]
     public void StartGame_CannotWithEmptyPlayers()
     {
@@ -85,7 +85,7 @@ public class GameStatusTests
         Assert.AreNotEqual(Status.Playing, game.Status);
         Assert.IsFalse(game.IsPlaying());
     }
-    
+
     [Test]
     public void StartGame_CannotWithEmptyPlayerOne()
     {
@@ -101,7 +101,7 @@ public class GameStatusTests
         Assert.AreNotEqual(Status.Playing, game.Status);
         Assert.IsFalse(game.IsPlaying());
     }
-    
+
     [Test]
     public void StartGame_CannotWithEmptyPlayerTwo()
     {
@@ -117,7 +117,7 @@ public class GameStatusTests
         Assert.AreNotEqual(Status.Playing, game.Status);
         Assert.IsFalse(game.IsPlaying());
     }
-    
+
     [Test]
     public void StartGame_CannotDoMove()
     {
@@ -132,7 +132,7 @@ public class GameStatusTests
         Assert.AreNotEqual(Status.Playing, game.Status);
         Assert.IsFalse(game.IsPlaying());
     }
-    
+
     [Test]
     public void StartGame_CannotCheckIfMoveIsPossible()
     {
@@ -147,7 +147,7 @@ public class GameStatusTests
         Assert.AreNotEqual(Status.Playing, game.Status);
         Assert.IsFalse(game.IsPlaying());
     }
-    
+
     [Test]
     public void QuitGame()
     {
@@ -164,7 +164,7 @@ public class GameStatusTests
         Assert.AreEqual(Status.Quit, game.Status);
         Assert.IsTrue(game.IsQuit());
     }
-    
+
     [Test]
     public void QuitGame_CannotIfNotStarted()
     {
@@ -181,7 +181,7 @@ public class GameStatusTests
         Assert.AreEqual(Status.Created, game.Status);
         Assert.IsFalse(game.IsQuit());
     }
-    
+
     [Test]
     public void QuitGame_CannotRestartGame()
     {
@@ -200,5 +200,5 @@ public class GameStatusTests
         Assert.AreNotEqual(Status.Playing, game.Status);
         Assert.IsFalse(game.IsPlaying());
     }
-    
+
 }

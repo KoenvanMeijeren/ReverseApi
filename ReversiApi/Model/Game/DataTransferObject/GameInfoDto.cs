@@ -7,7 +7,7 @@ public class GameInfoDto
 {
 
     private readonly GameEntity? _entity;
-    
+
     public int? Id => this._entity?.Id;
     public string? Description => this._entity?.Description;
     public string? Token => this._entity?.Token;
@@ -16,10 +16,10 @@ public class GameInfoDto
     public string Board => JsonConvert.SerializeObject(this._entity?.Board);
     public PlayerInfoDto CurrentPlayer => new PlayerInfoDto(this._entity?.Game.CurrentPlayer, this._entity?.CurrentPlayer);
     public string? Status => this._entity?.Status.ToString();
-    
+
     public GameInfoDto(GameEntity? entity)
     {
         this._entity = entity;
     }
-    
+
 }
