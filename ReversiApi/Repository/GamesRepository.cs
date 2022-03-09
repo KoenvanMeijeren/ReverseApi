@@ -10,9 +10,9 @@ public class GamesRepository : RepositoryBase<GameEntity>, IGamesRepository
 {
     public GamesRepository()
     {
-        GameEntity entity1 = new GameEntity();
-        GameEntity entity2 = new GameEntity();
-        GameEntity entity3 = new GameEntity();
+        var entity1 = new GameEntity();
+        var entity2 = new GameEntity();
+        var entity3 = new GameEntity();
 
         entity1.Description = "Potje snel reveri, dus niet lang nadenken";
         entity1.PlayerOne = new PlayerEntity(token: "abcdef");

@@ -145,9 +145,9 @@ public class Game : IGame
     /// <inheritdoc/>
     public bool IsFinished()
     {
-        for (int row = 0; row < BoardSize; row++)
+        for (var row = 0; row < BoardSize; row++)
         {
-            for (int column = 0; column < BoardSize; column++)
+            for (var column = 0; column < BoardSize; column++)
             {
                 if (this.IsMovePossible(row, column, Color.Black)
                     || this.IsMovePossible(row, column, Color.White))
@@ -180,9 +180,9 @@ public class Game : IGame
     public Color PredominantColor()
     {
         int whiteCount = 0, blackCount = 0;
-        for (int row = 0; row < BoardSize; row++)
+        for (var row = 0; row < BoardSize; row++)
         {
-            for (int column = 0; column < BoardSize; column++)
+            for (var column = 0; column < BoardSize; column++)
             {
                 switch (this.Board[row, column])
                 {
@@ -241,7 +241,7 @@ public class Game : IGame
             throw new Exception($"Zet ({row},{column}) is niet mogelijk!");
         }
 
-        for (int delta = 0; delta < BoardSize; delta++)
+        for (var delta = 0; delta < BoardSize; delta++)
         {
             var rowDirection = this._direction[delta, 0];
             var columnDirection = this._direction[delta, 1];
@@ -294,9 +294,9 @@ public class Game : IGame
         }
 
         // Checks if there is a move possible for a color.
-        for (int row = 0; row < BoardSize; row++)
+        for (var row = 0; row < BoardSize; row++)
         {
-            for (int column = 0; column < BoardSize; column++)
+            for (var column = 0; column < BoardSize; column++)
             {
                 if (this.IsMovePossible(row, column, color))
                 {
@@ -316,7 +316,7 @@ public class Game : IGame
     /// <returns>True if the move is possible.</returns>
     private bool IsMovePossible(int row, int column, Color color)
     {
-        for (int delta = 0; delta < BoardSize; delta++)
+        for (var delta = 0; delta < BoardSize; delta++)
         {
             if (this.CanMakeMoveAndFlipOpponentStones(row, column, color, this._direction[delta, 0], this._direction[delta, 1]))
             {
@@ -379,9 +379,9 @@ public class Game : IGame
         // Initializes the row and column on the index before the first box next to the move.
         var currentRow = row + rowDirection;
         var currentColumn = column + columnDirection;
-        Color colorOpponent = Game.GetColorOpponent(colorPlayer);
+        var colorOpponent = Game.GetColorOpponent(colorPlayer);
 
-        int adjacentOpponentStones = 0;
+        var adjacentOpponentStones = 0;
         // Zolang Bord[rij,kolom] niet buiten de bordgrenzen ligt, en je in het volgende vakje 
         // steeds de kleur van de tegenstander treft, ga je nog een vakje verder kijken.
         // Bord[rij, kolom] ligt uiteindelijk buiten de bordgrenzen, of heeft niet meer de
@@ -418,7 +418,7 @@ public class Game : IGame
             return false;
         }
 
-        Color colorOpponent = Game.GetColorOpponent(colorPlayer);
+        var colorOpponent = Game.GetColorOpponent(colorPlayer);
         var currentRow = row + rowDirection;
         var currentColumn = column + columnDirection;
 

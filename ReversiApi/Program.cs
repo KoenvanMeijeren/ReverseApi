@@ -1,4 +1,4 @@
-global using ReversiApi.Repository;
+﻿global using ReversiApi.Repository;
 global using Microsoft.AspNetCore.Mvc;
 global using ReversiApi.Model.Game;
 global using ReversiApi.Model.Game.DataTransferObject;

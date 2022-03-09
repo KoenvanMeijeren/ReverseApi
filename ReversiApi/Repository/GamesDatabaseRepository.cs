@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using ReversiApi.DataAccess;
 using ReversiApi.Helpers.Validators;
 using ReversiApi.Repository.Contracts;

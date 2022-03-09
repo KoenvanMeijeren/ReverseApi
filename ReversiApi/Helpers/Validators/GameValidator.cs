@@ -11,11 +11,12 @@ public static class GameValidator
     public static bool PlayerDoesNotPlayAGame(IEnumerable<GameEntity> games, PlayerEntity? playerEntity)
     {
         if (playerEntity == null)
+            
         {
             return true;
         }
 
-        bool playsAGame = false;
+        var playsAGame = false;
         foreach (var entity in games)
         {
             if (entity.PlayerOne != null && DoesPlayerPlayAGame(playerEntity, entity))

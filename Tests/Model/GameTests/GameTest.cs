@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using NUnit.Framework;
 using ReversiApi.Model.Game;
 using ReversiApi.Model.Player;
@@ -31,7 +31,7 @@ public class GameTest
         // Act
         game.CurrentPlayer = new PlayerUndefined();
         // Assert
-        Exception ex = Assert.Throws<Exception>(delegate { game.SkipTurn(); });
+        var ex = Assert.Throws<Exception>(delegate { game.SkipTurn(); });
         Assert.That(ex.Message, Is.EqualTo("Kleur mag niet gelijk aan Geen zijn!"));
     }
 
@@ -84,7 +84,7 @@ public class GameTest
         game.Start();
         game.CurrentPlayer = game.PlayerOne;
         //var actual = spel.ZetMogelijk(8, 8);
-        Exception ex = Assert.Throws<Exception>(delegate { game.IsMovePossible(8, 8); });
+        var ex = Assert.Throws<Exception>(delegate { game.IsMovePossible(8, 8); });
         Assert.That(ex.Message, Is.EqualTo("Zet (8,8) ligt buiten het bord!"));
 
         // Assert
@@ -705,7 +705,7 @@ public class GameTest
         game.Start();
         game.CurrentPlayer = game.PlayerOne;
         //spel.DoeZet(8, 8);
-        Exception ex = Assert.Throws<Exception>(delegate { game.DoMove(8, 8); });
+        var ex = Assert.Throws<Exception>(delegate { game.DoMove(8, 8); });
         Assert.That(ex.Message, Is.EqualTo("Zet (8,8) ligt buiten het bord!"));
 
         // Assert
@@ -768,7 +768,7 @@ public class GameTest
         game.PlayerTwo = new PlayerTwo();
         game.Start();
         game.CurrentPlayer = game.PlayerOne;
-        Exception ex = Assert.Throws<Exception>(delegate { game.DoMove(2, 3); });
+        var ex = Assert.Throws<Exception>(delegate { game.DoMove(2, 3); });
         Assert.That(ex.Message, Is.EqualTo("Zet (2,3) is niet mogelijk!"));
 
         // Assert
@@ -839,7 +839,7 @@ public class GameTest
         game.PlayerTwo = new PlayerTwo();
         game.CurrentPlayer = game.PlayerOne;
         game.Start();
-        Exception ex = Assert.Throws<Exception>(delegate { game.DoMove(0, 3); });
+        var ex = Assert.Throws<Exception>(delegate { game.DoMove(0, 3); });
         Assert.That(ex.Message, Is.EqualTo("Zet (0,3) is niet mogelijk!"));
 
         // Assert
@@ -924,7 +924,7 @@ public class GameTest
         game.PlayerTwo = new PlayerTwo();
         game.Start();
         game.CurrentPlayer = game.PlayerTwo;
-        Exception ex = Assert.Throws<Exception>(delegate { game.DoMove(0, 3); });
+        var ex = Assert.Throws<Exception>(delegate { game.DoMove(0, 3); });
         Assert.That(ex.Message, Is.EqualTo("Zet (0,3) is niet mogelijk!"));
 
         // Assert
@@ -993,7 +993,7 @@ public class GameTest
         game.Start();
         game.CurrentPlayer = game.PlayerOne;
         //spel.DoeZet(4, 7);
-        Exception ex = Assert.Throws<Exception>(delegate { game.DoMove(4, 7); });
+        var ex = Assert.Throws<Exception>(delegate { game.DoMove(4, 7); });
         Assert.That(ex.Message, Is.EqualTo("Zet (4,7) is niet mogelijk!"));
 
 
@@ -1078,7 +1078,7 @@ public class GameTest
         game.Start();
         game.CurrentPlayer = game.PlayerOne;
 
-        Exception ex = Assert.Throws<Exception>(delegate { game.DoMove(4, 7); });
+        var ex = Assert.Throws<Exception>(delegate { game.DoMove(4, 7); });
         Assert.That(ex.Message, Is.EqualTo("Zet (4,7) is niet mogelijk!"));
 
         // Assert
@@ -1131,7 +1131,7 @@ public class GameTest
         game.PlayerTwo = new PlayerTwo();
         game.Start();
         game.CurrentPlayer = game.PlayerOne;
-        Exception ex = Assert.Throws<Exception>(delegate { game.DoMove(2, 2); });
+        var ex = Assert.Throws<Exception>(delegate { game.DoMove(2, 2); });
         Assert.That(ex.Message, Is.EqualTo("Zet (2,2) is niet mogelijk!"));
 
         // Assert
@@ -1164,7 +1164,7 @@ public class GameTest
         game.PlayerTwo = new PlayerTwo();
         game.Start();
         game.CurrentPlayer = game.PlayerTwo;
-        Exception ex = Assert.Throws<Exception>(delegate { game.DoMove(2, 2); });
+        var ex = Assert.Throws<Exception>(delegate { game.DoMove(2, 2); });
         Assert.That(ex.Message, Is.EqualTo("Zet (2,2) is niet mogelijk!"));
 
         // Assert
@@ -1233,7 +1233,7 @@ public class GameTest
         game.PlayerTwo = new PlayerTwo();
         game.Start();
         game.CurrentPlayer = game.PlayerTwo;
-        Exception ex = Assert.Throws<Exception>(delegate { game.DoMove(0, 7); });
+        var ex = Assert.Throws<Exception>(delegate { game.DoMove(0, 7); });
         Assert.That(ex.Message, Is.EqualTo("Zet (0,7) is niet mogelijk!"));
 
         // Assert
@@ -1306,7 +1306,7 @@ public class GameTest
         game.PlayerTwo = new PlayerTwo();
         game.Start();
         game.CurrentPlayer = game.PlayerOne;
-        Exception ex = Assert.Throws<Exception>(delegate { game.DoMove(7, 7); });
+        var ex = Assert.Throws<Exception>(delegate { game.DoMove(7, 7); });
         Assert.That(ex.Message, Is.EqualTo("Zet (7,7) is niet mogelijk!"));
 
         // Assert
@@ -1379,7 +1379,7 @@ public class GameTest
         game.Start();
         game.CurrentPlayer = game.PlayerOne;
         //spel.DoeZet(0, 0);
-        Exception ex = Assert.Throws<Exception>(delegate { game.DoMove(0, 0); });
+        var ex = Assert.Throws<Exception>(delegate { game.DoMove(0, 0); });
         Assert.That(ex.Message, Is.EqualTo("Zet (0,0) is niet mogelijk!"));
 
 
@@ -1453,7 +1453,7 @@ public class GameTest
         game.PlayerTwo = new PlayerTwo();
         game.Start();
         game.CurrentPlayer = game.PlayerTwo;
-        Exception ex = Assert.Throws<Exception>(delegate { game.DoMove(7, 0); });
+        var ex = Assert.Throws<Exception>(delegate { game.DoMove(7, 0); });
         Assert.That(ex.Message, Is.EqualTo("Zet (7,0) is niet mogelijk!"));
 
         // Assert
@@ -1671,7 +1671,7 @@ public class GameTest
         game.Start();
         game.CurrentPlayer = game.PlayerOne;
         // Assert
-        Exception ex = Assert.Throws<Exception>(delegate { game.SkipTurn(); });
+        var ex = Assert.Throws<Exception>(delegate { game.SkipTurn(); });
         Assert.That(ex.Message, Is.EqualTo("Passen mag niet, er is nog een zet mogelijk"));
     }
 
@@ -1697,7 +1697,7 @@ public class GameTest
         game.Start();
         game.CurrentPlayer = game.PlayerTwo;
         // Assert
-        Exception ex = Assert.Throws<Exception>(delegate { game.SkipTurn(); });
+        var ex = Assert.Throws<Exception>(delegate { game.SkipTurn(); });
         Assert.That(ex.Message, Is.EqualTo("Passen mag niet, er is nog een zet mogelijk"));
     }
 

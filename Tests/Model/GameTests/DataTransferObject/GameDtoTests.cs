@@ -31,7 +31,7 @@ public class GameDtoTests
     [Test]
     public void CanCreate_GameInfoDto()
     {
-        GameEntity entity = new GameEntity
+        var entity = new GameEntity
         {
             PlayerOne = new PlayerEntity(token: "abcdef"),
             Description = "Potje snel reveri, dus niet lang nadenken"
@@ -69,7 +69,7 @@ public class GameDtoTests
     [Test]
     public void CanCreate_GameStatusDto()
     {
-        GameEntity entity = new GameEntity
+        var entity = new GameEntity
         {
             PlayerOne = new PlayerEntity(token: "abcdef")
         };

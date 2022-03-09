@@ -78,7 +78,7 @@ public class GameStatusTests
         IGame game = new Game();
 
         // Act
-        Exception ex = Assert.Throws<Exception>(delegate { game.Start(); });
+        var ex = Assert.Throws<Exception>(delegate { game.Start(); });
         Assert.That(ex.Message, Is.EqualTo("Game kan niet gestart worden omdat de spelers nog niet gekoppeld zijn."));
 
         // Assert
@@ -94,7 +94,7 @@ public class GameStatusTests
 
         // Act
         game.PlayerTwo = new PlayerTwo();
-        Exception ex = Assert.Throws<Exception>(delegate { game.Start(); });
+        var ex = Assert.Throws<Exception>(delegate { game.Start(); });
         Assert.That(ex.Message, Is.EqualTo("Game kan niet gestart worden omdat speler 1 niet gekoppeld is."));
 
         // Assert
@@ -110,7 +110,7 @@ public class GameStatusTests
 
         // Act
         game.PlayerOne = new PlayerOne();
-        Exception ex = Assert.Throws<Exception>(delegate { game.Start(); });
+        var ex = Assert.Throws<Exception>(delegate { game.Start(); });
         Assert.That(ex.Message, Is.EqualTo("Game kan niet gestart worden omdat speler 2 niet gekoppeld is."));
 
         // Assert
@@ -125,7 +125,7 @@ public class GameStatusTests
         IGame game = new Game();
 
         // Act
-        Exception ex = Assert.Throws<Exception>(delegate { game.DoMove(2, 3); });
+        var ex = Assert.Throws<Exception>(delegate { game.DoMove(2, 3); });
         Assert.That(ex.Message, Is.EqualTo("Game is nog niet gestart!"));
 
         // Assert
@@ -140,7 +140,7 @@ public class GameStatusTests
         IGame game = new Game();
 
         // Act
-        Exception ex = Assert.Throws<Exception>(delegate { game.IsMovePossible(2, 3); });
+        var ex = Assert.Throws<Exception>(delegate { game.IsMovePossible(2, 3); });
         Assert.That(ex.Message, Is.EqualTo("Game is nog niet gestart!"));
 
         // Assert
@@ -174,7 +174,7 @@ public class GameStatusTests
         // Act
         game.PlayerOne = new PlayerOne();
         game.PlayerTwo = new PlayerTwo();
-        Exception ex = Assert.Throws<Exception>(delegate { game.Quit(); });
+        var ex = Assert.Throws<Exception>(delegate { game.Quit(); });
         Assert.That(ex.Message, Is.EqualTo("De game is nog niet gestart!"));
 
         // Assert
@@ -193,7 +193,7 @@ public class GameStatusTests
         game.PlayerTwo = new PlayerTwo();
         game.Start();
         game.Quit();
-        Exception ex = Assert.Throws<Exception>(delegate { game.Start(); });
+        var ex = Assert.Throws<Exception>(delegate { game.Start(); });
         Assert.That(ex.Message, Is.EqualTo("Game is al een keer gestart!"));
 
         // Assert
