@@ -11,7 +11,7 @@ public static class GameValidator
     public static bool PlayerDoesNotPlayAGame(IEnumerable<GameEntity> games, PlayerEntity? playerEntity)
     {
         if (playerEntity == null)
-            
+
         {
             return true;
         }
