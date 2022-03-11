@@ -41,48 +41,6 @@ public class PlayerEntityTests
     }
 
     [Test]
-    public void CreatePlayerEntity_FromPlayerOne()
-    {
-        // Arrange
-        var player = new PlayerEntity(token: "abcdef", id: 5);
-
-        // Act
-
-        // Assert
-        Assert.AreEqual(5, player.Id);
-        Assert.AreEqual("abcdef", player.Token);
-        Assert.IsInstanceOf<int>(player.GetHashCode());
-    }
-
-    [Test]
-    public void CreatePlayerEntity_FromPlayerTwo()
-    {
-        // Arrange
-        var player = new PlayerEntity(token: "qwerty", id: 5);
-
-        // Act
-
-        // Assert
-        Assert.AreEqual(5, player.Id);
-        Assert.AreEqual("qwerty", player.Token);
-        Assert.IsInstanceOf<int>(player.GetHashCode());
-    }
-
-    [Test]
-    public void CreatePlayerEntity_FromPlayerUndefined()
-    {
-        // Arrange
-        var player = new PlayerEntity(5);
-
-        // Act
-
-        // Assert
-        Assert.AreEqual(5, player.Id);
-        Assert.AreEqual("", player.Token);
-        Assert.IsInstanceOf<int>(player.GetHashCode());
-    }
-
-    [Test]
     public void Player_IsEqual()
     {
         // Arrange
