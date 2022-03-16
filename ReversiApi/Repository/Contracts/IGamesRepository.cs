@@ -9,8 +9,9 @@ public interface IGamesRepository : IRepository<GameEntity>
     /// <summary>
     /// Returns all games of the queue.
     /// </summary>
-    /// <returns></returns>
-    IEnumerable<GameEntity> AllInQueue();
+    /// <param name="status">The status to filter on.</param>
+    /// <returns>The found games.</returns>
+    IEnumerable<GameEntity> AllByStatus(string? status);
 
     /// <summary>
     /// Determines if this player does not player another game.
@@ -37,13 +38,15 @@ public interface IGamesRepository : IRepository<GameEntity>
     /// Gets the game by the token of player one.
     /// </summary>
     /// <param name="token">The unique token of the game.</param>
+    /// <param name="status">The status to filter on.</param>
     /// <returns>The game.</returns>
-    GameEntity? GetByPlayerOne(string? token);
+    GameEntity? GetByPlayerOne(string? token, string? status = null);
 
     /// <summary>
     /// Gets the game by the token of player two.
     /// </summary>
     /// <param name="token">The unique token of the game.</param>
+    /// <param name="status">The status to filter on.</param>
     /// <returns>The game.</returns>
-    GameEntity? GetByPlayerTwo(string? token);
+    GameEntity? GetByPlayerTwo(string? token, string? status = null);
 }
