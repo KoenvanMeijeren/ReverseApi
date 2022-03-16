@@ -56,7 +56,7 @@ public class GamesDatabaseRepositoryTests
         Assert.AreEqual(8, games.Count());
         Assert.AreEqual("abcdef", games.First().PlayerOne.Token);
     }
-    
+
     [Test]
     public void AllGamesByStatus()
     {

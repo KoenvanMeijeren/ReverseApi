@@ -30,7 +30,7 @@ public class GamesRepositoryTests
         Assert.AreEqual(7, games.Count);
         Assert.AreEqual("abcdef", games.First().PlayerOne.Token);
     }
-    
+
     [Test]
     public void AllGamesByStatus()
     {
