@@ -29,7 +29,7 @@ public class GameControllerTest
         var controller = new GameController(repository, playerRepository);
 
         // Act
-        var response = controller.GetGamesInQueue();
+        var response = controller.All();
         var json = response.ToJson();
 
         // Assert
@@ -53,7 +53,7 @@ public class GameControllerTest
         var controller = new GameController(repository, playerRepository);
 
         // Act
-        var response = controller.GetGamesInQueue();
+        var response = controller.All();
 
         // Assert
         Assert.IsInstanceOf<NotFoundResult>(response.Result);
@@ -759,9 +759,19 @@ internal class GamesRepositoryEmptyTest : RepositoryBase<GameEntity>, IGamesRepo
     }
 
     /// <inheritdoc />
-    public IEnumerable<GameEntity> AllInQueue()
+    public IEnumerable<GameEntity> AllByStatus(string? status)
     {
-        return this.All().Where(entity => entity.Game.IsQueued());
+        return status switch
+        {
+            "created" => this.All().Where(entity => entity.Game.IsCreated()),
+            "queued" => this.All().Where(entity => entity.Game.IsQueued()),
+            "pending" => this.All().Where(entity => entity.Game.IsPending()),
+            "playing" => this.All().Where(entity => entity.Game.IsPlaying()),
+            "active" => this.All().Where(entity => !entity.Game.IsQuit() && !entity.Game.IsFinished()),
+            "quit" => this.All().Where(entity => entity.Game.IsQuit()),
+            "finished" => this.All().Where(entity => entity.Game.IsFinished()),
+            _ => this.All()
+        };
     }
 
     /// <inheritdoc />
@@ -783,15 +793,17 @@ internal class GamesRepositoryEmptyTest : RepositoryBase<GameEntity>, IGamesRepo
     }
 
     /// <inheritdoc />
-    public GameEntity? GetByPlayerOne(string? token)
+    public GameEntity? GetByPlayerOne(string? token, string? status = null)
     {
-        return this.Items.SingleOrDefault(entity => entity.PlayerOne != null && entity.PlayerOne.Token.Equals(token));
+        return this.AllByStatus(status)
+            .SingleOrDefault(entity => entity.PlayerOne != null && entity.PlayerOne.Token.Equals(token));
     }
 
     /// <inheritdoc />
-    public GameEntity? GetByPlayerTwo(string? token)
+    public GameEntity? GetByPlayerTwo(string? token, string? status = null)
     {
-        return this.Items.SingleOrDefault(entity => entity.PlayerTwo != null && entity.PlayerTwo.Token.Equals(token));
+        return this.AllByStatus(status)
+            .SingleOrDefault(entity => entity.PlayerTwo != null && entity.PlayerTwo.Token.Equals(token));
     }
 
 }

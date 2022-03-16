@@ -10,9 +10,9 @@ public class GamesRepository : RepositoryBase<GameEntity>, IGamesRepository
 {
     public GamesRepository()
     {
-        var entity1 = new GameEntity();
-        var entity2 = new GameEntity();
-        var entity3 = new GameEntity();
+        var entity1 = new GameEntity(1);
+        var entity2 = new GameEntity(2);
+        var entity3 = new GameEntity(3);
 
         entity1.Description = "Potje snel reveri, dus niet lang nadenken";
         entity1.PlayerOne = new PlayerEntity(token: "abcdef");
@@ -26,6 +26,13 @@ public class GamesRepository : RepositoryBase<GameEntity>, IGamesRepository
         this.Add(entity1);
         this.Add(entity2);
         this.Add(entity3);
+        
+        // Add some entities for testing the status.
+        this.Add(new GameEntity(11) {Status = Status.Created });
+        this.Add(new GameEntity(12) {Status = Status.Queued });
+        this.Add(new GameEntity(13) {Status = Status.Pending });
+        this.Add(new GameEntity(14) {Status = Status.Playing });
+        this.Add(new GameEntity(15) {Status = Status.Quit });
     }
 
     /// <inheritdoc />
@@ -37,9 +44,19 @@ public class GamesRepository : RepositoryBase<GameEntity>, IGamesRepository
     }
 
     /// <inheritdoc />
-    public IEnumerable<GameEntity> AllInQueue()
+    public IEnumerable<GameEntity> AllByStatus(string? status)
     {
-        return this.All().Where(entity => entity.Game.IsQueued());
+        return status switch
+        {
+            "created" => this.All().Where(entity => entity.Game.IsCreated()),
+            "queued" => this.All().Where(entity => entity.Game.IsQueued()),
+            "pending" => this.All().Where(entity => entity.Game.IsPending()),
+            "playing" => this.All().Where(entity => entity.Game.IsPlaying()),
+            "active" => this.All().Where(entity => !entity.Game.IsQuit() && !entity.Game.IsFinished()),
+            "quit" => this.All().Where(entity => entity.Game.IsQuit()),
+            "finished" => this.All().Where(entity => entity.Game.IsFinished()),
+            _ => this.All()
+        };
     }
 
     /// <inheritdoc />
@@ -61,15 +78,17 @@ public class GamesRepository : RepositoryBase<GameEntity>, IGamesRepository
     }
 
     /// <inheritdoc />
-    public GameEntity? GetByPlayerOne(string? token)
+    public GameEntity? GetByPlayerOne(string? token, string? status = null)
     {
-        return this.Items.SingleOrDefault(entity => entity.PlayerOne != null && entity.PlayerOne.Token.Equals(token));
+        return this.AllByStatus(status)
+            .SingleOrDefault(entity => entity.PlayerOne != null && entity.PlayerOne.Token.Equals(token));
     }
 
     /// <inheritdoc />
-    public GameEntity? GetByPlayerTwo(string? token)
+    public GameEntity? GetByPlayerTwo(string? token, string? status = null)
     {
-        return this.Items.SingleOrDefault(entity => entity.PlayerTwo != null && entity.PlayerTwo.Token.Equals(token));
+        return this.AllByStatus(status)
+            .SingleOrDefault(entity => entity.PlayerTwo != null && entity.PlayerTwo.Token.Equals(token));
     }
 
     /// <inheritdoc />

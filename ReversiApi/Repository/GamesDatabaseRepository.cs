@@ -36,13 +36,19 @@ public class GamesDatabaseRepository : RepositoryDatabaseBase<GameEntity>, IData
     }
 
     /// <inheritdoc />
-    public IEnumerable<GameEntity> AllInQueue()
+    public IEnumerable<GameEntity> AllByStatus(string? status)
     {
-        var entities = this.All();
-
-        var filtered = entities.Where(entity => entity.Game.IsQueued() || entity.Game.IsPending()).ToList();
-
-        return PrepareForReturn(filtered);
+        return status switch
+        {
+            "created" => this.All().Where(entity => entity.Game.IsCreated()),
+            "queued" => this.All().Where(entity => entity.Game.IsQueued()),
+            "pending" => this.All().Where(entity => entity.Game.IsPending()),
+            "playing" => this.All().Where(entity => entity.Game.IsPlaying()),
+            "active" => this.All().Where(entity => !entity.Game.IsQuit() && !entity.Game.IsFinished()),
+            "quit" => this.All().Where(entity => entity.Game.IsQuit()),
+            "finished" => this.All().Where(entity => entity.Game.IsFinished()),
+            _ => this.All()
+        };
     }
 
     /// <inheritdoc />
@@ -69,25 +75,17 @@ public class GamesDatabaseRepository : RepositoryDatabaseBase<GameEntity>, IData
     }
 
     /// <inheritdoc />
-    public GameEntity? GetByPlayerOne(string? token)
+    public GameEntity? GetByPlayerOne(string? token, string? status = null)
     {
-        var entity = this.Context.Games
-            .Include(entity => entity.PlayerOne)
-            .Include(entity => entity.PlayerTwo)
+        return this.AllByStatus(status)
             .SingleOrDefault(entity => entity.PlayerOne != null && entity.PlayerOne.Token.Equals(token));
-
-        return PrepareForReturn(entity);
     }
 
     /// <inheritdoc />
-    public GameEntity? GetByPlayerTwo(string? token)
+    public GameEntity? GetByPlayerTwo(string? token, string? status = null)
     {
-        var entity = this.Context.Games
-            .Include(entity => entity.PlayerOne)
-            .Include(entity => entity.PlayerTwo)
+        return this.AllByStatus(status)
             .SingleOrDefault(entity => entity.PlayerTwo != null && entity.PlayerTwo.Token.Equals(token));
-
-        return PrepareForReturn(entity);
     }
 
     private static GameEntity? PrepareForReturn(GameEntity? entity)

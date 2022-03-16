@@ -18,17 +18,32 @@ public class GamesRepositoryTests
     {
         var games = this._repository.All();
 
-        Assert.AreEqual(3, games.Count());
+        Assert.AreEqual(8, games.Count());
         Assert.AreEqual("abcdef", games.First().PlayerOne.Token);
     }
 
     [Test]
     public void AllGamesInQueue()
     {
-        var games = this._repository.AllInQueue().ToList();
+        var games = this._repository.AllByStatus("queued").ToList();
 
-        Assert.AreEqual(2, games.Count);
+        Assert.AreEqual(7, games.Count);
         Assert.AreEqual("abcdef", games.First().PlayerOne.Token);
+    }
+    
+    [Test]
+    public void AllGamesByStatus()
+    {
+        Assert.AreEqual(8, this._repository.AllByStatus(null).Count());
+        Assert.AreEqual(8, this._repository.AllByStatus("test").Count());
+        Assert.AreEqual(8, this._repository.AllByStatus("all").Count());
+        Assert.AreEqual(4, this._repository.AllByStatus("created").Count());
+        Assert.AreEqual(7, this._repository.AllByStatus("queued").Count());
+        Assert.AreEqual(1, this._repository.AllByStatus("pending").Count());
+        Assert.AreEqual(1, this._repository.AllByStatus("playing").Count());
+        Assert.AreEqual(7, this._repository.AllByStatus("active").Count());
+        Assert.AreEqual(1, this._repository.AllByStatus("quit").Count());
+        Assert.AreEqual(0, this._repository.AllByStatus("finished").Count());
     }
 
     [Test]

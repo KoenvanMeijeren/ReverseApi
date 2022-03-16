@@ -18,11 +18,11 @@ public class GameController : ControllerBase
         this._playersRepository = playersRepository;
     }
 
-    // GET api/Game/queue
-    [HttpGet("queue")]
-    public ActionResult<IEnumerable<GameInfoDto>> GetGamesInQueue()
+    // GET api/Game/all/{status?}
+    [HttpGet("all/{status?}")]
+    public ActionResult<IEnumerable<GameInfoDto>> All(string? status = "queued")
     {
-        var entities = from entity in this._repository.AllInQueue() select new GameInfoDto(entity);
+        var entities = from entity in this._repository.AllByStatus(status) select new GameInfoDto(entity);
         if (!entities.Any())
         {
             return this.NotFound();
@@ -52,15 +52,15 @@ public class GameController : ControllerBase
 
     // GET api/Game/player-one/{token}
     [HttpGet]
-    [Route("player-one/{token}", Name = "getGameByPlayerOneTokenRoute")]
-    public ActionResult<GameInfoDto> GetByPlayerOneToken(string? token)
+    [Route("player-one/{token}/{status?}", Name = "getGameByPlayerOneTokenRoute")]
+    public ActionResult<GameInfoDto> GetByPlayerOneToken(string? token, string? status = "all")
     {
         if (token == null)
         {
             return this.BadRequest();
         }
 
-        var entity = this._repository.GetByPlayerOne(token);
+        var entity = this._repository.GetByPlayerOne(token, status);
         if (entity == null)
         {
             return this.NotFound();
@@ -71,15 +71,15 @@ public class GameController : ControllerBase
 
     // GET api/Game/player-two/{token}
     [HttpGet]
-    [Route("player-two/{token}", Name = "getGameByPlayerTwoTokenRoute")]
-    public ActionResult<GameInfoDto> GetByPlayerTwoToken(string? token)
+    [Route("player-two/{token}/{status?}", Name = "getGameByPlayerTwoTokenRoute")]
+    public ActionResult<GameInfoDto> GetByPlayerTwoToken(string? token, string? status = "all")
     {
         if (token == null)
         {
             return this.BadRequest();
         }
 
-        var entity = this._repository.GetByPlayerTwo(token);
+        var entity = this._repository.GetByPlayerTwo(token, status);
         if (entity == null)
         {
             return this.NotFound();
