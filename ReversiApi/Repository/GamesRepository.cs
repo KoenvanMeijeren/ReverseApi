@@ -26,13 +26,13 @@ public class GamesRepository : RepositoryBase<GameEntity>, IGamesRepository
         this.Add(entity1);
         this.Add(entity2);
         this.Add(entity3);
-        
+
         // Add some entities for testing the status.
-        this.Add(new GameEntity(11) {Status = Status.Created });
-        this.Add(new GameEntity(12) {Status = Status.Queued });
-        this.Add(new GameEntity(13) {Status = Status.Pending });
-        this.Add(new GameEntity(14) {Status = Status.Playing });
-        this.Add(new GameEntity(15) {Status = Status.Quit });
+        this.Add(new GameEntity(11) { Status = Status.Created });
+        this.Add(new GameEntity(12) { Status = Status.Queued });
+        this.Add(new GameEntity(13) { Status = Status.Pending });
+        this.Add(new GameEntity(14) { Status = Status.Playing });
+        this.Add(new GameEntity(15) { Status = Status.Quit });
     }
 
     /// <inheritdoc />
