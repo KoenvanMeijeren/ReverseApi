@@ -24,7 +24,15 @@ builder.Services.AddSwaggerGen();
 //services cors
 builder.Services.AddCors(p => p.AddPolicy("corsapp", corsPolicyBuilder =>
 {
-    corsPolicyBuilder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+    corsPolicyBuilder
+        .SetIsOriginAllowed(url =>
+        {
+            var host = new Uri(url).Host;
+
+            return host.Equals("localhost") || host.Equals("nr3353.hbo-ict.org");
+        })
+        .WithMethods("GET", "POST", "PUT")
+        .AllowAnyHeader();
 }));
 
 builder.Services.AddScoped<IGamesRepository, GamesDatabaseRepository>();
