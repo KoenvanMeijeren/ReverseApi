@@ -6,6 +6,7 @@ global using ReversiApi.Model.Player;
 global using ReversiApi.Model.Player.DataTransferObject;
 using Microsoft.EntityFrameworkCore;
 using ReversiApi.DataAccess;
+using ReversiApi.Headers;
 using ReversiApi.Repository.Contracts;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -37,6 +38,11 @@ builder.Services.AddCors(p => p.AddPolicy("corsapp", corsPolicyBuilder =>
 
 builder.Services.AddScoped<IGamesRepository, GamesDatabaseRepository>();
 builder.Services.AddScoped<IPlayersRepository, PlayersDatabaseRepository>();
+
+builder.Services.AddControllers(config => 
+{
+    config.Filters.Add(new ResponseHeadersFilter());
+});
 
 var app = builder.Build();
 
