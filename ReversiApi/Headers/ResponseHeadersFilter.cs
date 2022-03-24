@@ -9,7 +9,7 @@ public class ResponseHeadersFilter : ActionFilterAttribute
     public override void OnActionExecuted(ActionExecutedContext context)
     {
         base.OnActionExecuted(context);
-        
+
         context.HttpContext.Response.Headers.Add("X-Content-Type-Options", "nosniff");
         context.HttpContext.Response.Headers.Add("Cache-control", "no-cache, no-store, must-revalidate");
     }

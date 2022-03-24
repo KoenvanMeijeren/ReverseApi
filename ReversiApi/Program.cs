@@ -39,7 +39,7 @@ builder.Services.AddCors(p => p.AddPolicy("corsapp", corsPolicyBuilder =>
 builder.Services.AddScoped<IGamesRepository, GamesDatabaseRepository>();
 builder.Services.AddScoped<IPlayersRepository, PlayersDatabaseRepository>();
 
-builder.Services.AddControllers(config => 
+builder.Services.AddControllers(config =>
 {
     config.Filters.Add(new ResponseHeadersFilter());
 });
