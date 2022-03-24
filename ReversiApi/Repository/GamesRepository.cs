@@ -74,21 +74,21 @@ public class GamesRepository : RepositoryBase<GameEntity>, IGamesRepository
     /// <inheritdoc />
     public GameEntity? Get(string? token)
     {
-        return this.Items.SingleOrDefault(entity => entity.Token.Equals(token));
+        return this.Items.FirstOrDefault(entity => entity.Token.Equals(token));
     }
 
     /// <inheritdoc />
     public GameEntity? GetByPlayerOne(string? token, string? status = null)
     {
         return this.AllByStatus(status)
-            .SingleOrDefault(entity => entity.PlayerOne != null && entity.PlayerOne.Token.Equals(token));
+            .FirstOrDefault(entity => entity.PlayerOne != null && entity.PlayerOne.Token.Equals(token));
     }
 
     /// <inheritdoc />
     public GameEntity? GetByPlayerTwo(string? token, string? status = null)
     {
         return this.AllByStatus(status)
-            .SingleOrDefault(entity => entity.PlayerTwo != null && entity.PlayerTwo.Token.Equals(token));
+            .FirstOrDefault(entity => entity.PlayerTwo != null && entity.PlayerTwo.Token.Equals(token));
     }
 
     /// <inheritdoc />
