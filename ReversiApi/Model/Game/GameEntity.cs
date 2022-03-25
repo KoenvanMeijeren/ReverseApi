@@ -96,6 +96,11 @@ public class GameEntity : IEntity
         }
     }
 
+    public string GetPossibleMoves()
+    {
+        return JsonConvert.SerializeObject(this.Game.GetPossibleMoves());
+    }
+
     /// <summary>
     /// Generates the token for the game.
     ///
