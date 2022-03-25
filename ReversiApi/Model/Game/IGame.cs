@@ -20,7 +20,7 @@ public enum Status
 public interface IGame
 {
     const int BoardSize = 8;
-    
+
     PlayerOne? PlayerOne { get; set; }
     PlayerTwo? PlayerTwo { get; set; }
     IPlayer CurrentPlayer { get; set; }

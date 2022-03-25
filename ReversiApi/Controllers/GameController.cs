@@ -105,7 +105,7 @@ public class GameController : ControllerBase
 
         return this.Ok(new GameStatusDto(entity));
     }
-    
+
     [HttpGet]
     [Route("move-possible", Name = "isMovePossible")]
     public ActionResult<bool> IsMovePossible([FromBody] GameCanMoveDto? gameCanMoveDto)
@@ -118,7 +118,7 @@ public class GameController : ControllerBase
 
         return this.Ok(entity.Game.IsMovePossible(gameCanMoveDto.Row, gameCanMoveDto.Column));
     }
-    
+
     [HttpGet]
     [Route("{token}/possible-moves", Name = "getPossibleMoves")]
     public ActionResult<bool[,]> GetPossibleMoves(string? token)

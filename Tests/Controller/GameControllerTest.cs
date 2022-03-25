@@ -215,7 +215,7 @@ public class GameControllerTest
         Assert.IsInstanceOf<NotFoundResult>(response.Result);
         Assert.IsInstanceOf<NotFoundResult>(response1.Result);
     }
-    
+
     [Test]
     public void NotEmpty_IsMovePossible()
     {
@@ -228,7 +228,7 @@ public class GameControllerTest
         var entity = repository.All().First();
         entity.Game.PlayerTwo = new PlayerTwo();
         entity.Game.Start();
-        
+
         var response = controller.IsMovePossible(new GameCanMoveDto()
         {
             Token = entity.Token,
@@ -251,14 +251,14 @@ public class GameControllerTest
         var controller = new GameController(repository, playerRepository);
 
         // Act
-        var response = controller.IsMovePossible(new GameCanMoveDto() { Token = "test"});
+        var response = controller.IsMovePossible(new GameCanMoveDto() { Token = "test" });
         var response1 = controller.IsMovePossible(null);
 
         // Assert
         Assert.IsInstanceOf<NotFoundResult>(response.Result);
         Assert.IsInstanceOf<NotFoundResult>(response1.Result);
     }
-    
+
     [Test]
     public void PostGame_Valid()
     {
