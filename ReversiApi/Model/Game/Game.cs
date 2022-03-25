@@ -7,9 +7,6 @@ public class Game : IGame
 {
     #region Fields
 
-    private const int
-        BoardSize = 8;
-
     private readonly int[,] _direction = {
         {  0,  1 },         // rightwards
         {  0, -1 },         // leftwards
@@ -37,7 +34,7 @@ public class Game : IGame
 
     public Game()
     {
-        this.Board = new Color[BoardSize, BoardSize];
+        this.Board = new Color[IGame.BoardSize, IGame.BoardSize];
         this.Board[3, 3] = Color.White;
         this.Board[4, 4] = Color.White;
         this.Board[3, 4] = Color.Black;
@@ -145,9 +142,9 @@ public class Game : IGame
     /// <inheritdoc/>
     public bool IsFinished()
     {
-        for (var row = 0; row < BoardSize; row++)
+        for (var row = 0; row < IGame.BoardSize; row++)
         {
-            for (var column = 0; column < BoardSize; column++)
+            for (var column = 0; column < IGame.BoardSize; column++)
             {
                 if (this.IsMovePossible(row, column, Color.Black)
                     || this.IsMovePossible(row, column, Color.White))
@@ -180,9 +177,9 @@ public class Game : IGame
     public Color PredominantColor()
     {
         int whiteCount = 0, blackCount = 0;
-        for (var row = 0; row < BoardSize; row++)
+        for (var row = 0; row < IGame.BoardSize; row++)
         {
-            for (var column = 0; column < BoardSize; column++)
+            for (var column = 0; column < IGame.BoardSize; column++)
             {
                 switch (this.Board[row, column])
                 {
@@ -228,6 +225,21 @@ public class Game : IGame
         return this.IsMovePossible(row, column, this.CurrentPlayer.Color);
     }
 
+    public bool[,] GetPossibleMoves()
+    {
+        var moves = new bool[IGame.BoardSize, IGame.BoardSize];
+        for (var row = 0; row < IGame.BoardSize; row++)
+        {
+            for (var column = 0; column < IGame.BoardSize; column++)
+            {
+                moves[row, column] = !(this.IsMovePossible(row, column, Color.Black) 
+                                     || this.IsMovePossible(row, column, Color.White));
+            }
+        }
+
+        return moves;
+    }
+
     /// <inheritdoc/>
     public void DoMove(int row, int column)
     {
@@ -241,7 +253,7 @@ public class Game : IGame
             throw new Exception($"Zet ({row},{column}) is niet mogelijk!");
         }
 
-        for (var delta = 0; delta < BoardSize; delta++)
+        for (var delta = 0; delta < IGame.BoardSize; delta++)
         {
             var rowDirection = this._direction[delta, 0];
             var columnDirection = this._direction[delta, 1];
@@ -294,9 +306,9 @@ public class Game : IGame
         }
 
         // Checks if there is a move possible for a color.
-        for (var row = 0; row < BoardSize; row++)
+        for (var row = 0; row < IGame.BoardSize; row++)
         {
-            for (var column = 0; column < BoardSize; column++)
+            for (var column = 0; column < IGame.BoardSize; column++)
             {
                 if (this.IsMovePossible(row, column, color))
                 {
@@ -316,7 +328,7 @@ public class Game : IGame
     /// <returns>True if the move is possible.</returns>
     private bool IsMovePossible(int row, int column, Color color)
     {
-        for (var delta = 0; delta < BoardSize; delta++)
+        for (var delta = 0; delta < IGame.BoardSize; delta++)
         {
             if (this.CanMakeMoveAndFlipOpponentStones(row, column, color, this._direction[delta, 0], this._direction[delta, 1]))
             {
@@ -335,7 +347,7 @@ public class Game : IGame
     /// <returns>True when the position is inside the boundaries.</returns>
     private static bool PositionInsideBoardBoundaries(int row, int column)
     {
-        return row is >= 0 and < BoardSize && column is >= 0 and < BoardSize;
+        return row is >= 0 and < IGame.BoardSize && column is >= 0 and < IGame.BoardSize;
     }
 
     /// <summary>

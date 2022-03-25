@@ -19,6 +19,8 @@ public enum Status
 
 public interface IGame
 {
+    const int BoardSize = 8;
+    
     PlayerOne? PlayerOne { get; set; }
     PlayerTwo? PlayerTwo { get; set; }
     IPlayer CurrentPlayer { get; set; }
@@ -94,6 +96,12 @@ public interface IGame
     /// <param name="column">The column of the row.</param>
     /// <returns></returns>
     bool IsMovePossible(int row, int column);
+
+    /// <summary>
+    /// Gets the possible moves.
+    /// </summary>
+    /// <returns>The possible moves.</returns>
+    bool[,] GetPossibleMoves();
 
     /// <summary>
     /// Moves the player to a new position.

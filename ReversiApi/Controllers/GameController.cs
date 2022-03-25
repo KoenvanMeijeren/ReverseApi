@@ -105,6 +105,32 @@ public class GameController : ControllerBase
 
         return this.Ok(new GameStatusDto(entity));
     }
+    
+    [HttpGet]
+    [Route("move-possible", Name = "isMovePossible")]
+    public ActionResult<bool> IsMovePossible([FromBody] GameCanMoveDto? gameCanMoveDto)
+    {
+        var entity = this._repository.Get(gameCanMoveDto?.Token);
+        if (entity == null || gameCanMoveDto == null || !gameCanMoveDto.ValidData())
+        {
+            return this.NotFound();
+        }
+
+        return this.Ok(entity.Game.IsMovePossible(gameCanMoveDto.Row, gameCanMoveDto.Column));
+    }
+    
+    [HttpGet]
+    [Route("{token}/possible-moves", Name = "getPossibleMoves")]
+    public ActionResult<bool[,]> GetPossibleMoves(string? token)
+    {
+        var entity = this._repository.Get(token);
+        if (entity == null)
+        {
+            return this.NotFound();
+        }
+
+        return this.Ok(entity.GetPossibleMoves());
+    }
 
     // POST: api/Game
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754.

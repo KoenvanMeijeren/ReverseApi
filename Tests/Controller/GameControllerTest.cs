@@ -183,6 +183,83 @@ public class GameControllerTest
     }
 
     [Test]
+    public void NotEmpty_GetPossibleMoves()
+    {
+        // Arrange
+        var repository = new GamesRepository();
+        var playerRepository = new PlayersRepository();
+        var controller = new GameController(repository, playerRepository);
+
+        // Act
+        var response = controller.GetPossibleMoves(repository.All().First().Token);
+        var json = response.ToJson();
+
+        // Assert
+        Assert.IsInstanceOf<OkObjectResult>(response.Result);
+        Assert.IsTrue(json.Contains("[[true,true,true,true,true,true,true,true],[true,true,true,true,true,true,true,true],[true,true,true,false,false,true,true,true],[true,true,false,true,true,false,true,true],[true,true,false,true,true,false,true,true],[true,true,true,false,false,true,true,true],[true,true,true,true,true,true,true,true],[true,true,true,true,true,true,true,true]]"));
+    }
+
+    [Test]
+    public void Empty_GetPossibleMoves()
+    {
+        // Arrange
+        var repository = new GamesRepositoryEmptyTest();
+        var playerRepository = new PlayersRepository();
+        var controller = new GameController(repository, playerRepository);
+
+        // Act
+        var response = controller.GetPossibleMoves("test");
+        var response1 = controller.GetPossibleMoves(null);
+
+        // Assert
+        Assert.IsInstanceOf<NotFoundResult>(response.Result);
+        Assert.IsInstanceOf<NotFoundResult>(response1.Result);
+    }
+    
+    [Test]
+    public void NotEmpty_IsMovePossible()
+    {
+        // Arrange
+        var repository = new GamesRepository();
+        var playerRepository = new PlayersRepository();
+        var controller = new GameController(repository, playerRepository);
+
+        // Act
+        var entity = repository.All().First();
+        entity.Game.PlayerTwo = new PlayerTwo();
+        entity.Game.Start();
+        
+        var response = controller.IsMovePossible(new GameCanMoveDto()
+        {
+            Token = entity.Token,
+            Row = 3,
+            Column = 5
+        });
+        var json = response.ToJson();
+
+        // Assert
+        Assert.IsInstanceOf<OkObjectResult>(response.Result);
+        Assert.IsTrue(json.Contains("false"));
+    }
+
+    [Test]
+    public void Empty_IsMovePossible()
+    {
+        // Arrange
+        var repository = new GamesRepositoryEmptyTest();
+        var playerRepository = new PlayersRepository();
+        var controller = new GameController(repository, playerRepository);
+
+        // Act
+        var response = controller.IsMovePossible(new GameCanMoveDto() { Token = "test"});
+        var response1 = controller.IsMovePossible(null);
+
+        // Assert
+        Assert.IsInstanceOf<NotFoundResult>(response.Result);
+        Assert.IsInstanceOf<NotFoundResult>(response1.Result);
+    }
+    
+    [Test]
     public void PostGame_Valid()
     {
         // Arrange
