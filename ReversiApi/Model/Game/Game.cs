@@ -222,6 +222,7 @@ public class Game : IGame
         return this.IsMovePossible(row, column, color);
     }
 
+    /// <inheritdoc/>
     public bool[,] GetPossibleMoves()
     {
         var moves = new bool[IGame.BoardSize, IGame.BoardSize];
@@ -234,6 +235,23 @@ public class Game : IGame
         }
 
         return moves;
+    }
+
+    /// <inheritdoc/>
+    public bool HasPossibleMoves()
+    {
+        for (var row = 0; row < IGame.BoardSize; row++)
+        {
+            for (var column = 0; column < IGame.BoardSize; column++)
+            {
+                if (this.IsMovePossible(row, column))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     /// <inheritdoc/>

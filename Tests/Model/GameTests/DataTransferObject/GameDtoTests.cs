@@ -46,6 +46,7 @@ public class GameDtoTests
         Assert.AreEqual(new PlayerOne().Color.ToString(), dto.CurrentPlayer.Color);
         Assert.IsTrue(dto.Board.Contains("[[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0"));
         Assert.IsTrue(dto.PossibleMoves.Contains("[[false,false,false,false,false,false,false,false],[false,false,false,false,false,false,false,false],[false,false,false,false,true,false,false,false],[false,false,false,false,false,true,false,false],[false,false,true,false,false,false,false,false],[false,false,false,true,false,false,false,false],[false,false,false,false,false,false,false,false],[false,false,false,false,false,false,false,false]]"));
+        Assert.AreEqual("None", dto.PredominantColor);
         Assert.AreEqual("abcdef", dto.PlayerOne.Token);
         Assert.AreEqual("Potje snel reveri, dus niet lang nadenken", dto.Description);
         Assert.AreEqual(Status.Playing.ToString(), dto.Status);
@@ -61,6 +62,7 @@ public class GameDtoTests
         Assert.IsNull(dto.CurrentPlayer.Token);
         Assert.AreEqual("null", dto.Board);
         Assert.AreEqual("null", dto.PossibleMoves);
+        Assert.IsNull(dto.PredominantColor);
         Assert.IsNull(dto.Description);
         Assert.IsNull(dto.Token);
         Assert.IsNull(dto.Status);

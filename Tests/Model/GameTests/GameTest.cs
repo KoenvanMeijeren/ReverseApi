@@ -1647,6 +1647,7 @@ public class GameTest
         game.SkipTurn();
         // Assert
         Assert.AreEqual(Color.Black, game.CurrentPlayer.Color);
+        Assert.IsFalse(game.HasPossibleMoves());
     }
 
     [Test]

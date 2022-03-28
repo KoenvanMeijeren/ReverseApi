@@ -16,6 +16,7 @@ public class GameInfoDto
     public PlayerInfoDto CurrentPlayer => new PlayerInfoDto(this._entity?.Game.CurrentPlayer, this._entity?.CurrentPlayer);
     public string Board => JsonConvert.SerializeObject(this._entity?.Board);
     public string PossibleMoves => JsonConvert.SerializeObject(this._entity?.Game.GetPossibleMoves());
+    public string? PredominantColor => this._entity?.Game.PredominantColor().ToString();
     public string? Status => this._entity?.Status.ToString();
 
     public GameInfoDto(GameEntity? entity)

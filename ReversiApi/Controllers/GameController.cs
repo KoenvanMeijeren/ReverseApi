@@ -253,6 +253,15 @@ public class GameController : ControllerBase
         }
 
         entity.Game.DoMove(gameDoMove.Row, gameDoMove.Column);
+
+        // Just checking if the game is finished, if so, the status will be automatically updated.
+        entity.Game.IsFinished();
+
+        if (!entity.Game.HasPossibleMoves())
+        {
+            entity.Game.SkipTurn();
+        }
+
         this._repository.Update(entity);
 
         return this.Ok(new GameStatusDto(entity));
