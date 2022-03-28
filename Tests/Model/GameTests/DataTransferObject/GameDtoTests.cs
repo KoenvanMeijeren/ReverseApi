@@ -31,21 +31,24 @@ public class GameDtoTests
     [Test]
     public void CanCreate_GameInfoDto()
     {
-        var entity = new GameEntity
+        var entity = new GameEntity()
         {
             PlayerOne = new PlayerEntity(token: "abcdef"),
-            Description = "Potje snel reveri, dus niet lang nadenken"
+            PlayerTwo = new PlayerEntity(token: "qwerty"),
+            Description = "Potje snel reveri, dus niet lang nadenken",
+            Status = Status.Playing
         };
         entity.UpdateGame();
 
         var dto = new GameInfoDto(entity);
 
         Assert.IsNotNull(dto.Token);
-        Assert.AreEqual(new PlayerUndefined().Color.ToString(), dto.CurrentPlayer.Color);
-        Assert.IsTrue(dto.Board?.Contains("[[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0"));
+        Assert.AreEqual(new PlayerOne().Color.ToString(), dto.CurrentPlayer.Color);
+        Assert.IsTrue(dto.Board.Contains("[[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0"));
+        Assert.IsTrue(dto.PossibleMoves.Contains("[[false,false,false,false,false,false,false,false],[false,false,false,false,false,false,false,false],[false,false,false,false,true,false,false,false],[false,false,false,false,false,true,false,false],[false,false,true,false,false,false,false,false],[false,false,false,true,false,false,false,false],[false,false,false,false,false,false,false,false],[false,false,false,false,false,false,false,false]]"));
         Assert.AreEqual("abcdef", dto.PlayerOne.Token);
         Assert.AreEqual("Potje snel reveri, dus niet lang nadenken", dto.Description);
-        Assert.AreEqual(Status.Created.ToString(), dto.Status);
+        Assert.AreEqual(Status.Playing.ToString(), dto.Status);
     }
 
     [Test]
@@ -57,6 +60,7 @@ public class GameDtoTests
         Assert.IsNull(dto.CurrentPlayer.Color);
         Assert.IsNull(dto.CurrentPlayer.Token);
         Assert.AreEqual("null", dto.Board);
+        Assert.AreEqual("null", dto.PossibleMoves);
         Assert.IsNull(dto.Description);
         Assert.IsNull(dto.Token);
         Assert.IsNull(dto.Status);
