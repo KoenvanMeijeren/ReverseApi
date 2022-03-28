@@ -108,7 +108,7 @@ public interface IGame
     /// </summary>
     /// <returns>True when there are moves possible.</returns>
     bool HasPossibleMoves();
-    
+
     /// <summary>
     /// Moves the player to a new position.
     /// </summary>
