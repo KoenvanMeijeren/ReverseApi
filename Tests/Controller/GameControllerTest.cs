@@ -191,12 +191,16 @@ public class GameControllerTest
         var controller = new GameController(repository, playerRepository);
 
         // Act
+        var entity = repository.All().First();
+        entity.Game.PlayerTwo = new PlayerTwo();
+        entity.Game.Start();
+
         var response = controller.GetPossibleMoves(repository.All().First().Token);
         var json = response.ToJson();
 
         // Assert
         Assert.IsInstanceOf<OkObjectResult>(response.Result);
-        Assert.IsTrue(json.Contains("[[true,true,true,true,true,true,true,true],[true,true,true,true,true,true,true,true],[true,true,true,false,false,true,true,true],[true,true,false,true,true,false,true,true],[true,true,false,true,true,false,true,true],[true,true,true,false,false,true,true,true],[true,true,true,true,true,true,true,true],[true,true,true,true,true,true,true,true]]"));
+        Assert.IsTrue(json.Contains("[[false,false,false,false,false,false,false,false],[false,false,false,false,false,false,false,false],[false,false,false,false,true,false,false,false],[false,false,false,false,false,true,false,false],[false,false,true,false,false,false,false,false],[false,false,false,true,false,false,false,false],[false,false,false,false,false,false,false,false],[false,false,false,false,false,false,false,false]]"));
     }
 
     [Test]

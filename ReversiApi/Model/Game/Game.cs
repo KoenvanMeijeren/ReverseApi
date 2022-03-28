@@ -232,8 +232,7 @@ public class Game : IGame
         {
             for (var column = 0; column < IGame.BoardSize; column++)
             {
-                moves[row, column] = !(this.IsMovePossible(row, column, Color.Black)
-                                     || this.IsMovePossible(row, column, Color.White));
+                moves[row, column] = this.IsMovePossible(row, column);
             }
         }
 
