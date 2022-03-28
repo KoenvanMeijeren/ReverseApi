@@ -104,6 +104,12 @@ public interface IGame
     bool[,] GetPossibleMoves();
 
     /// <summary>
+    /// Determines if the game has possible moves.
+    /// </summary>
+    /// <returns>True when there are moves possible.</returns>
+    bool HasPossibleMoves();
+    
+    /// <summary>
     /// Moves the player to a new position.
     /// </summary>
     /// <param name="row">The row to move to.</param>
