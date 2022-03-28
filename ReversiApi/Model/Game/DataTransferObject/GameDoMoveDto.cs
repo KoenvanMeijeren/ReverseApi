@@ -14,9 +14,7 @@ public class GameDoMoveDto
     public bool ValidData()
     {
         return this.Token != null
-               && this.PlayerToken != null
-               && this.Row > 0
-               && this.Column > 0;
+               && this.PlayerToken != null;
     }
 
 }
