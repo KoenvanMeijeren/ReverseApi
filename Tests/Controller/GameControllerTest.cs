@@ -194,7 +194,7 @@ public class GameControllerTest
         var entity = repository.All().First();
         entity.Game.PlayerTwo = new PlayerTwo();
         entity.Game.Start();
-        
+
         var response = controller.GetPossibleMoves(repository.All().First().Token);
         var json = response.ToJson();
 
