@@ -13,8 +13,9 @@ public class GameInfoDto
     public string? Token => this._entity?.Token;
     public PlayerInfoDto PlayerOne => new PlayerInfoDto(this._entity?.Game.PlayerOne, this._entity?.PlayerOne);
     public PlayerInfoDto PlayerTwo => new PlayerInfoDto(this._entity?.Game.PlayerTwo, this._entity?.PlayerTwo);
-    public string Board => JsonConvert.SerializeObject(this._entity?.Board);
     public PlayerInfoDto CurrentPlayer => new PlayerInfoDto(this._entity?.Game.CurrentPlayer, this._entity?.CurrentPlayer);
+    public string Board => JsonConvert.SerializeObject(this._entity?.Board);
+    public string PossibleMoves => JsonConvert.SerializeObject(this._entity?.Game.GetPossibleMoves());
     public string? Status => this._entity?.Status.ToString();
 
     public GameInfoDto(GameEntity? entity)

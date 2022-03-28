@@ -24,7 +24,7 @@ public class Game : IGame
 
     public PlayerOne? PlayerOne { get; set; }
     public PlayerTwo? PlayerTwo { get; set; }
-    public IPlayer CurrentPlayer { get; set; }
+    public IPlayer? CurrentPlayer { get; set; }
     public Color[,] Board { get; set; }
     public Status Status { get; set; }
 
@@ -212,17 +212,14 @@ public class Game : IGame
     /// <inheritdoc/>
     public bool IsMovePossible(int row, int column)
     {
-        if (!this.IsPlaying())
-        {
-            throw new Exception("Game is nog niet gestart!");
-        }
-
         if (!Game.PositionInsideBoardBoundaries(row, column))
         {
             throw new Exception($"Zet ({row},{column}) ligt buiten het bord!");
         }
 
-        return this.IsMovePossible(row, column, this.CurrentPlayer.Color);
+        var color = this.CurrentPlayer?.Color ?? Color.None;
+
+        return this.IsMovePossible(row, column, color);
     }
 
     public bool[,] GetPossibleMoves()

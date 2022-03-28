@@ -34,7 +34,7 @@ public class GameEntityTests
     public void CreateGameEntity_NotEmpty_WithoutUpdatingToGameModel()
     {
         // Arrange
-        var entity = new GameEntity
+        var entity = new GameEntity()
         {
             Id = 12,
             Description = "test",
@@ -65,7 +65,7 @@ public class GameEntityTests
     public void CreateGameEntity_NotEmpty_WithUpdatingToGameModel()
     {
         // Arrange
-        var entity = new GameEntity
+        var entity = new GameEntity()
         {
             Id = 12,
             Description = "test",
@@ -99,7 +99,7 @@ public class GameEntityTests
     public void CreateGameEntity_NotEmpty_WithoutUpdatingToEntity()
     {
         // Arrange
-        var entity = new GameEntity
+        var entity = new GameEntity()
         {
             Id = 12,
             Description = "test",
@@ -128,7 +128,7 @@ public class GameEntityTests
     public void CreateGameEntity_NotEmpty_WithUpdatingToEntity()
     {
         // Arrange
-        var entity = new GameEntity
+        var entity = new GameEntity()
         {
             Id = 12,
             Description = "test",
@@ -158,7 +158,7 @@ public class GameEntityTests
     public void CreateGameEntity_NotEmpty_StatusChangesToPending()
     {
         // Arrange
-        var entity = new GameEntity
+        var entity = new GameEntity()
         {
             Id = 12,
             Description = "test",

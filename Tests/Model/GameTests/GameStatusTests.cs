@@ -134,21 +134,6 @@ public class GameStatusTests
     }
 
     [Test]
-    public void StartGame_CannotCheckIfMoveIsPossible()
-    {
-        // Arrange
-        IGame game = new Game();
-
-        // Act
-        var ex = Assert.Throws<Exception>(delegate { game.IsMovePossible(2, 3); });
-        Assert.That(ex.Message, Is.EqualTo("Game is nog niet gestart!"));
-
-        // Assert
-        Assert.AreNotEqual(Status.Playing, game.Status);
-        Assert.IsFalse(game.IsPlaying());
-    }
-
-    [Test]
     public void QuitGame()
     {
         // Arrange
