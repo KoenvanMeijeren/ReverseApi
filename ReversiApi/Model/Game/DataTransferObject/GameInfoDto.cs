@@ -18,6 +18,8 @@ public class GameInfoDto
     public string PossibleMoves => JsonConvert.SerializeObject(this._entity?.Game.GetPossibleMoves());
     public string? PredominantColor => this._entity?.Game.PredominantColor().ToString();
     public string? Status => this._entity?.Status.ToString();
+    public int ConqueredWhiteFiches => this._entity?.ConqueredWhiteFiches ?? 0;
+    public int ConqueredBlackFiches => this._entity?.ConqueredBlackFiches ?? 0;
 
     public GameInfoDto(GameEntity? entity)
     {

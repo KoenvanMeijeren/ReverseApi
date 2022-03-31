@@ -50,6 +50,8 @@ public class GameDtoTests
         Assert.AreEqual("abcdef", dto.PlayerOne.Token);
         Assert.AreEqual("Potje snel reveri, dus niet lang nadenken", dto.Description);
         Assert.AreEqual(Status.Playing.ToString(), dto.Status);
+        Assert.AreEqual(0, dto.ConqueredWhiteFiches);
+        Assert.AreEqual(0, dto.ConqueredBlackFiches);
     }
 
     [Test]
@@ -66,6 +68,8 @@ public class GameDtoTests
         Assert.IsNull(dto.Description);
         Assert.IsNull(dto.Token);
         Assert.IsNull(dto.Status);
+        Assert.AreEqual(0, dto.ConqueredWhiteFiches);
+        Assert.AreEqual(0, dto.ConqueredBlackFiches);
         Assert.IsNull(dto.PlayerOne.Color);
         Assert.IsNull(dto.PlayerOne.Token);
         Assert.IsNull(dto.PlayerTwo.Color);

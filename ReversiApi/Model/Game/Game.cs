@@ -27,7 +27,8 @@ public class Game : IGame
     public IPlayer? CurrentPlayer { get; set; }
     public Color[,] Board { get; set; }
     public Status Status { get; set; }
-
+    public int ConqueredWhiteFiches { get; set; }
+    public int ConqueredBlackFiches { get; set; }
     #endregion
 
     #region Construction
@@ -455,6 +456,15 @@ public class Game : IGame
             this.Board[currentRow, currentColumn] = colorPlayer;
             currentRow += rowDirection;
             currentColumn += columnDirection;
+
+            if (Color.White.Equals(this.CurrentPlayer?.Color))
+            {
+                this.ConqueredBlackFiches++;
+            }
+            else if (Color.Black.Equals(this.CurrentPlayer?.Color))
+            {
+                this.ConqueredWhiteFiches++;
+            }
         }
 
         return true;

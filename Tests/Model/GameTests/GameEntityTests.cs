@@ -176,4 +176,60 @@ public class GameEntityTests
         Assert.AreEqual(Status.Pending, entity.Status);
     }
 
+    [Test]
+    public void ConqueredFiches_PlayerOne_FromPlayerTwo()
+    {
+        // Arrange
+        IGame game = new Game();
+        //     0 1 2 3 4 5 6 7
+        //           v
+        // 0   0 0 0 0 0 0 0 0  
+        // 1   0 0 0 0 0 0 0 0
+        // 2   0 0 0 0 1 0 0 0  <
+        // 3   0 0 0 1 2 0 0 0
+        // 4   0 0 0 2 1 0 0 0
+        // 5   0 0 0 0 0 0 0 0
+        // 6   0 0 0 0 0 0 0 0
+        // 7   0 0 0 0 0 0 0 0
+
+        // Act
+        game.PlayerOne = new PlayerOne();
+        game.PlayerTwo = new PlayerTwo();
+        game.CurrentPlayer = game.PlayerOne;
+        game.Start();
+        game.DoMove(2, 4);
+
+        // Assert
+        Assert.AreEqual(0, game.ConqueredWhiteFiches);
+        Assert.AreEqual(1, game.ConqueredBlackFiches);
+    }
+
+    [Test]
+    public void ConqueredFiches_PlayerTwo_FromPlayerOne()
+    {
+        // Arrange
+        IGame game = new Game();
+        //     0 1 2 3 4 5 6 7
+        //           v
+        // 0   0 0 0 0 0 0 0 0  
+        // 1   0 0 0 0 0 0 0 0
+        // 2   0 0 0 2 0 0 0 0  <
+        // 3   0 0 0 1 2 0 0 0
+        // 4   0 0 0 2 1 0 0 0
+        // 5   0 0 0 0 0 0 0 0
+        // 6   0 0 0 0 0 0 0 0
+        // 7   0 0 0 0 0 0 0 0
+
+        // Act
+        game.PlayerOne = new PlayerOne();
+        game.PlayerTwo = new PlayerTwo();
+        game.CurrentPlayer = game.PlayerTwo;
+        game.Start();
+        game.DoMove(2, 3);
+
+        // Assert
+        Assert.AreEqual(1, game.ConqueredWhiteFiches);
+        Assert.AreEqual(0, game.ConqueredBlackFiches);
+    }
+
 }

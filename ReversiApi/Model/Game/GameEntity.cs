@@ -28,6 +28,10 @@ public class GameEntity : IEntity
     [Required]
     public Status Status { get; set; }
 
+    public int ConqueredWhiteFiches { get; set; }
+
+    public int ConqueredBlackFiches { get; set; }
+
     [NotMapped]
     public IGame Game { get; }
 
@@ -51,6 +55,8 @@ public class GameEntity : IEntity
     {
         this.Game.Board = JsonConvert.DeserializeObject<Color[,]>(this.Board);
         this.Game.Status = this.Status;
+        this.Game.ConqueredWhiteFiches = this.ConqueredWhiteFiches;
+        this.Game.ConqueredBlackFiches = this.ConqueredBlackFiches;
 
         if (this.PlayerOne != null)
         {
@@ -78,6 +84,8 @@ public class GameEntity : IEntity
     {
         this.Board = JsonConvert.SerializeObject(this.Game.Board);
         this.Status = this.Game.Status;
+        this.ConqueredWhiteFiches = this.Game.ConqueredWhiteFiches;
+        this.ConqueredBlackFiches = this.Game.ConqueredBlackFiches;
 
         if (this.Game.IsCreated() && this.PlayerOne != null && this.PlayerTwo != null)
         {

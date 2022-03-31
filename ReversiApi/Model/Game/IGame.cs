@@ -26,6 +26,8 @@ public interface IGame
     IPlayer CurrentPlayer { get; set; }
     Color[,] Board { get; set; }
     Status Status { get; set; }
+    int ConqueredWhiteFiches { get; set; }
+    int ConqueredBlackFiches { get; set; }
 
     /// <summary>
     /// Allows the player to skip his turn, if possible. Otherwise throws an exception if there are moves possible. 
