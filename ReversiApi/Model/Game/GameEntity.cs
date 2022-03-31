@@ -28,6 +28,10 @@ public class GameEntity : IEntity
     [Required]
     public Status Status { get; set; }
 
+    public int ConqueredWhiteFiches { get; set; }
+    
+    public int ConqueredBlackFiches { get; set; }
+
     [NotMapped]
     public IGame Game { get; }
 

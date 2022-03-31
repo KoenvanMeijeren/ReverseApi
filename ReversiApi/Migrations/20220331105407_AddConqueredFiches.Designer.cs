@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReversiApi.DataAccess;
 
@@ -11,9 +12,10 @@ using ReversiApi.DataAccess;
 namespace ReversiApi.Migrations;
 
 [DbContext(typeof(GamesDataAccess))]
-partial class GamesDataAccessModelSnapshot : ModelSnapshot
+[Migration("20220331105407_AddConqueredFiches")]
+partial class AddConqueredFiches
 {
-    protected override void BuildModel(ModelBuilder modelBuilder)
+    protected override void BuildTargetModel(ModelBuilder modelBuilder)
     {
 #pragma warning disable 612, 618
         modelBuilder
