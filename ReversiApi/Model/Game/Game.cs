@@ -460,7 +460,8 @@ public class Game : IGame
             if (Color.White.Equals(this.CurrentPlayer?.Color))
             {
                 this.ConqueredBlackFiches++;
-            } else if (Color.Black.Equals(this.CurrentPlayer?.Color))
+            }
+            else if (Color.Black.Equals(this.CurrentPlayer?.Color))
             {
                 this.ConqueredWhiteFiches++;
             }

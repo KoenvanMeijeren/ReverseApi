@@ -198,12 +198,12 @@ public class GameEntityTests
         game.CurrentPlayer = game.PlayerOne;
         game.Start();
         game.DoMove(2, 4);
-        
+
         // Assert
         Assert.AreEqual(0, game.ConqueredWhiteFiches);
         Assert.AreEqual(1, game.ConqueredBlackFiches);
     }
-    
+
     [Test]
     public void ConqueredFiches_PlayerTwo_FromPlayerOne()
     {
@@ -226,7 +226,7 @@ public class GameEntityTests
         game.CurrentPlayer = game.PlayerTwo;
         game.Start();
         game.DoMove(2, 3);
-        
+
         // Assert
         Assert.AreEqual(1, game.ConqueredWhiteFiches);
         Assert.AreEqual(0, game.ConqueredBlackFiches);

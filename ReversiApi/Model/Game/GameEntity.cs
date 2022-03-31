@@ -29,7 +29,7 @@ public class GameEntity : IEntity
     public Status Status { get; set; }
 
     public int ConqueredWhiteFiches { get; set; }
-    
+
     public int ConqueredBlackFiches { get; set; }
 
     [NotMapped]
