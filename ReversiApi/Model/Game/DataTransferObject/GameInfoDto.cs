@@ -23,7 +23,7 @@ public class GameInfoDto
 
     public GameInfoDto(GameEntity? entity)
     {
-        entity.UpdateGame();
+        entity?.UpdateGame();
 
         this._entity = entity;
     }
